@@ -38,16 +38,16 @@
                     </svg></span><span>Wellassa UniHUB</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-2">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link d-lg-flex align-items-lg-center" aria-expanded="false" data-bs-toggle="dropdown" href="Reservations.html" target="_blank">Services</a>
-                        <div class="dropdown-menu"><a class="dropdown-item" href="Reservations.html">Reservations</a><a class="dropdown-item" href="Shop.html">Order Products</a><a class="dropdown-item" href="Freelance.html">Freelance</a></div>
+                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link d-lg-flex align-items-lg-center" aria-expanded="false" data-bs-toggle="dropdown" href="Reservations.php" target="_blank">Services</a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="Reservations.php">Reservations</a><a class="dropdown-item" href="Shop.php">Order Products</a><a class="dropdown-item" href="Freelance.php">Freelance</a></div>
                     </li>
-                    <li class="nav-item"><a class="nav-link active" href="contacts.html">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="contacts.php">Contact Us</a></li>
                     <li class="nav-item"></li>
                     <li class="nav-item dropdown"><a class="dropdown-toggle nav-link d-lg-flex justify-content-lg-end align-items-lg-center" aria-expanded="false" data-bs-toggle="dropdown" href="#">Profile</a>
-                        <div class="dropdown-menu"><a class="dropdown-item" href="login.html">Log in</a></div>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="login.php">Log in</a></div>
                     </li>
-                </ul><a class="btn btn-primary shadow" role="button" href="signup.html">Sign up</a><a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right" role="button" href="shopping-cart.html" style="padding-left: 11px;margin-left: 7px;margin-right: 5px;margin-bottom: 3px;padding-bottom: 7px;padding-top: 7px;padding-right: 12px;margin-top: 1px;transform: translate(24px) rotate(1deg) scale(1);box-shadow: 0px 0px;"><i class="fa fa-shopping-cart"></i>&nbsp;Cart</a>
+                </ul><a class="btn btn-primary shadow" role="button" href="signup.php">Sign up</a><a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right" role="button" href="shopping-cart.php" style="padding-left: 11px;margin-left: 7px;margin-right: 5px;margin-bottom: 3px;padding-bottom: 7px;padding-top: 7px;padding-right: 12px;margin-top: 1px;transform: translate(24px) rotate(1deg) scale(1);box-shadow: 0px 0px;"><i class="fa fa-shopping-cart"></i>&nbsp;Cart</a>
             </div>
         </div>
     </nav>
