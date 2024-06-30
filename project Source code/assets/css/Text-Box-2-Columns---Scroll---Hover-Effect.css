@@ -1,0 +1,31 @@
+.exptext {
+  padding: 0 10px 0 10px;
+}
+
+.exptag {
+  border: solid 1.3px black;
+  padding: 5px;
+  margin: 15px 0px;
+  max-height: 150px;
+  overflow-y: overlay;
+  background-color: #ffffff;
+  text-align: justify;
+  color: #7d8285;
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-family: 'Cardo';
+}
+
+.exptitle {
+  font-family: 'Cinzel';
+  text-align: center;
+  color: #313437;
+  text-shadow: 1px 1px 1px #4b4c4d;
+}
+
+.expdate {
+  font-family: 'Cinzel';
+  text-align: center;
+  color: #4b4c4d;
+  text-shadow: 1px 1px 0.1px #4b4c4d;
+}
+
