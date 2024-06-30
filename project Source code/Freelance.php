@@ -4,28 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>wellassaUniHub</title>
+    <title>project</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/-Filterable-Cards--Filterable-Cards.css">
-    <link rel="stylesheet" href="assets/css/Account-setting-or-edit-profile.css">
     <link rel="stylesheet" href="assets/css/book-table.css">
-    <link rel="stylesheet" href="assets/css/Bootstrap-Chat.css">
     <link rel="stylesheet" href="assets/css/Bootstrap-Payment-Form.css">
     <link rel="stylesheet" href="assets/css/Bootstrap-Payment-Form-.css">
-    <link rel="stylesheet" href="assets/css/Box-panels-box-panel.css">
-    <link rel="stylesheet" href="assets/css/Box-panels.css">
-    <link rel="stylesheet" href="assets/css/Chat.css">
-    <link rel="stylesheet" href="assets/css/content_blocks_modernstyle.css">
-    <link rel="stylesheet" href="assets/css/Customizable-Background--Overlay.css">
     <link rel="stylesheet" href="assets/css/Dropdown-Login-with-Social-Logins-bootstrap-social.css">
     <link rel="stylesheet" href="assets/css/ebs-bootstrap-datepicker-bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="assets/css/ebs-bootstrap-datepicker-bootstrap-datepicker.standalone.min.css">
@@ -34,24 +20,15 @@
     <link rel="stylesheet" href="assets/css/ebs-bootstrap-datepicker.css">
     <link rel="stylesheet" href="assets/css/Form-Select---Full-Date---Month-Day-Year.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="assets/css/jQuery-Panel-styles.css">
-    <link rel="stylesheet" href="assets/css/jQuery-Panel.css">
-    <link rel="stylesheet" href="assets/css/LinkedIn-like-Profile-Box.css">
     <link rel="stylesheet" href="assets/css/Lista-Productos-Canito.css">
     <link rel="stylesheet" href="assets/css/NZ---TextboxLabel.css">
     <link rel="stylesheet" href="assets/css/opening-times-time-picker.css">
     <link rel="stylesheet" href="assets/css/project-footer.css">
     <link rel="stylesheet" href="assets/css/Project-Nav-cart.css">
     <link rel="stylesheet" href="assets/css/project-Nav.css">
-    <link rel="stylesheet" href="assets/css/Review-rating-Star-Review-Button-Review.css">
-    <link rel="stylesheet" href="assets/css/Review-rating-Star-Review-Button.css">
     <link rel="stylesheet" href="assets/css/Sign-Up-Form---Gabriela-Carvalho.css">
     <link rel="stylesheet" href="assets/css/Signup-page-with-overlay.css">
-    <link rel="stylesheet" href="assets/css/Single-Page-Contact-Us-Form.css">
     <link rel="stylesheet" href="assets/css/Steps-Progressbar.css">
-    <link rel="stylesheet" href="assets/css/testnavnow.css">
-    <link rel="stylesheet" href="assets/css/Text-Box-2-Columns---Scroll---Hover-Effect.css">
-    <link rel="stylesheet" href="assets/css/User-rating.css">
 </head>
 
 <body>
@@ -62,16 +39,16 @@
                     </svg></span><span>Wellassa UniHUB</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-2">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link d-lg-flex align-items-lg-center" aria-expanded="false" data-bs-toggle="dropdown" href="Reservations.html" target="_blank">Services</a>
-                        <div class="dropdown-menu"><a class="dropdown-item" href="Reservations.html">Reservations</a><a class="dropdown-item" href="Shop.html">Order Products</a><a class="dropdown-item" href="Freelance.html">Freelance</a></div>
+                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link d-lg-flex align-items-lg-center" aria-expanded="false" data-bs-toggle="dropdown" href="Reservations.php" target="_blank">Services</a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="Reservations.php">Reservations</a><a class="dropdown-item" href="Shop.php">Order Products</a><a class="dropdown-item" href="Freelance.php">Freelance</a></div>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="contacts.html">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacts.php">Contact Us</a></li>
                     <li class="nav-item"></li>
                     <li class="nav-item dropdown"><a class="dropdown-toggle nav-link d-lg-flex justify-content-lg-end align-items-lg-center" aria-expanded="false" data-bs-toggle="dropdown" href="#">Profile</a>
-                        <div class="dropdown-menu"><a class="dropdown-item" href="login.html">Log in</a></div>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="login.php">Log in</a></div>
                     </li>
-                </ul><a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right" role="button" href="shopping-cart.html" style="padding-left: 11px;margin-left: 7px;margin-right: 5px;margin-bottom: 3px;padding-bottom: 7px;padding-top: 7px;padding-right: 12px;margin-top: 1px;transform: translate(24px) rotate(1deg) scale(1);box-shadow: 0px 0px;"><i class="fa fa-shopping-cart"></i>&nbsp;Cart</a>
+                </ul><a class="btn btn-primary shadow" role="button" href="signup.php">Sign up</a><a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right" role="button" href="shopping-cart.php" style="padding-left: 11px;margin-left: 7px;margin-right: 5px;margin-bottom: 3px;padding-bottom: 7px;padding-top: 7px;padding-right: 12px;margin-top: 1px;transform: translate(24px) rotate(1deg) scale(1);box-shadow: 0px 0px;"><i class="fa fa-shopping-cart"></i>&nbsp;Cart</a>
             </div>
         </div>
     </nav>
@@ -109,6 +86,7 @@
     </section>
 <!--End displaying works-->
 <!--Begin footer-->
+
     <div class="container py-4 py-lg-5">
         <hr>
         <div class="text-muted d-flex justify-content-between align-items-center pt-3">
@@ -142,8 +120,6 @@
     <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="assets/js/jQuery-Panel-panel.js"></script>
-    <script src="assets/js/Review-rating-Star-Review-Button-Reviewbtn.js"></script>
 </body>
 
 </html>
