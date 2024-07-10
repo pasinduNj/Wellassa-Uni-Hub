@@ -1,8 +1,8 @@
 <?php
 function build_calender($month, $year)
 {
-    $mysqli = new mysqli('localhost', 'root', '', 'bookingcalender');
-    $stmt = $mysqli->prepare('select * from bbookings where MONTH(date)= ? AND YEAR(date)=?');
+    $mysqli = new mysqli('localhost', 'root', '', 'wellassaunihub');
+    $stmt = $mysqli->prepare('select * from reservation where MONTH(date)= ? AND YEAR(date)=?');
     $stmt->bind_param('ss', $month, $year);
     $bookings = array();
     if ($stmt->execute()) {
@@ -70,7 +70,7 @@ function build_calender($month, $year)
                 $calender .= "<td class='$today'><h4>$currentDay</h4><a href='#''.$date.''' class='btn btn-danger btn-xs'>All Booked</a></td>";
             } else {
                 $availableslots = 16 - $totalbookings;
-                $calender .= "<td class='$today'><h4>$currentDay</h4><a href='book.php?date=" . $date . "' class='btn btn-success btn-xs'>Book</a><small><li>$availableslots slots available</i></small></td>";
+                $calender .= "<td class='$today'><h4>$currentDay</h4><a href='book.php?date=" . $date . "' class='btn btn-success btn-xs'>Book</a></td>";
             }
         }
 
@@ -96,7 +96,7 @@ function build_calender($month, $year)
 
 function checkSlots($mysqli, $date)
 {
-    $stmt = $mysqli->prepare('select * from bbookings where date=?');
+    $stmt = $mysqli->prepare('select * from reservation where date=?');
     $stmt->bind_param('s', $date);
     $totalbookings = 0;
     if ($stmt->execute()) {
