@@ -1,0 +1,4 @@
+Use This folder only for save the images that user upload to database.
+Don't save images directly in database.
+save images in this folder and save the path in database to call images.
+If you want to use hard coded images then use img folder in assets.

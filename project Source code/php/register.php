@@ -80,7 +80,20 @@ if ($userType == 'serviceProvider') {
 
     $spId = generateServiceProviderId($conn);
     $query = "INSERT INTO service_providers (sp_id, first_name, last_name, email, contact_number, password, business_name, nic_number, whatsapp_number, service_address, service_type) VALUES ('$spId', '$firstName', '$lastName', '$email', '$contactNumber', '$password', '$businessName', '$nicNumber', '$whatsappNumber', '$serviceAddress', '$serviceType')";
-} else {
+}elseif ($userType == 'admin') {
+    // Check if email or contact number already exist for admin
+    $checkQuery = "SELECT * FROM admins WHERE email = '$email' OR contact_number = '$contactNumber'";
+    $checkResult = $conn->query($checkQuery);
+
+    if ($checkResult->num_rows > 0) {
+        echo "<script>alert('Email or contact number already exists for admin.'); window.history.back();</script>";
+        exit;
+    }
+
+    $adminId = generateAdminId($conn);
+    $query = "INSERT INTO admins (admin_id, email, password, contact_number) VALUES ('$adminId', '$email', '$password', '$contactNumber')";
+} 
+else {
     // Check if email or contact number already exist for customer
     $checkQuery = "SELECT * FROM customers WHERE email = '$email' OR contact_number = '$contactNumber'";
     $checkResult = $conn->query($checkQuery);
@@ -112,5 +125,10 @@ function generateServiceProviderId($conn) {
     $result = $conn->query("SELECT COUNT(*) AS count FROM service_providers");
     $row = $result->fetch_assoc();
     return 'SP-' . str_pad($row['count'] + 1, 3, '0', STR_PAD_LEFT);
+}
+function generateAdminId($conn) {
+    $result = $conn->query("SELECT COUNT(*) AS count FROM admins");
+    $row = $result->fetch_assoc();
+    return 'Admin-' . ($row['count'] + 1);
 }
 ?>
