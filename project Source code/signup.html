@@ -277,75 +277,122 @@
                   </svg>
                 </div>
                 <form
+                  id="signupForm"
                   method="post"
+                  action="php/signup.php"
                   data-bs-theme="light"
                   style="border-style: none"
                 >
-                  <div class="mb-3"></div>
                   <input
                     class="form-control"
+                    id="firstName"
                     type="text"
-                    placeholder="Name"
-                    name="name"
+                    placeholder="First Name"
+                    name="firstName"
+                    required
                   /><input
                     class="form-control"
+                    id="lastName"
                     type="text"
-                    name="nic"
-                    placeholder="NIC Number"
+                    placeholder="Last Name"
+                    name="lastName"
+                    required
                   /><input
                     class="form-control"
-                    type="tel"
-                    name="telephone1"
-                    placeholder="Contact Number"
-                  /><input
-                    class="form-control"
-                    type="tel"
-                    name="telephone2"
-                    placeholder="WhatsApp Number"
-                    style="margin: 20px 0px"
-                  /><input
-                    class="form-control"
+                    id="email"
                     type="email"
                     name="email"
                     placeholder="Email"
-                    style="margin: 20px 0px"
-                  /><input
+                    required
+                  />
+                  <div class="mb-3"></div>
+                  <input
                     class="form-control"
-                    type="text"
-                    name="address"
-                    placeholder="Address"
-                  /><select
+                    id="contactNumber"
+                    type="tel"
+                    name="contactNumber"
+                    placeholder="Contact Number"
+                    required
+                  />
+                  <div class="mb-3"></div>
+                  <select
+                    id="userType"
+                    name="userType"
                     class="form-select"
+                    required
                     style="border-radius: 5px; margin: 0px 0px 15px"
                   >
-                    <option value="undefined" selected="">
-                      Select User Type
-                    </option>
+                    <option value="NULL" selected="">Select User Type</option>
                     <option value="customer ">Customer</option>
-                    <option value="provider">Service Provider</option>
-                    <option value="assistant">System Assistant</option>
+                    <option value="serviceProvider">Service Provider</option>
                   </select>
-                  <div class="mb-3">
+                  <div id="serviceProviderFields" style="display: none">
                     <input
+                      id="businessName"
                       class="form-control"
-                      type="password"
-                      name="password1"
-                      placeholder="Password (At least 6 Characters)"
+                      type="text"
+                      name="businessName"
+                      placeholder="Business Name"
                     /><input
+                      id="nicNumber"
                       class="form-control"
-                      type="password"
-                      name="password2"
-                      placeholder="Re Enter Password"
+                      type="text"
+                      name="nicNumber"
+                      placeholder="NIC Number"
+                    /><input
+                      id="whatsappNumber"
+                      class="form-control"
+                      type="tel"
+                      name="whatsappNumber"
+                      placeholder="WhatsApp Number"
                     />
-                  </div>
-                  <div class="mb-3">
-                    <button
-                      class="btn btn-primary shadow d-block w-100"
-                      type="submit"
+                    <div class="mb-3"></div>
+                    <input
+                      id="serviceAddress"
+                      class="form-control"
+                      type="text"
+                      name="serviceAddress"
+                      placeholder="Service Address"
+                    />
+                    <select
+                      id="serviceType"
+                      name="serviceType"
+                      class="form-select"
+                      style="border-radius: 5px; margin: 0px 0px 15px"
                     >
-                      Sign up
-                    </button>
+                      <option value="NULL" selected="">
+                        Select Service Type
+                      </option>
+                      <option value="Reservation Provider">
+                        Reservation Provider
+                      </option>
+                      <option value="Product Seller">Product Seller</option>
+                      <option value="Freelancer">Freelancer</option>
+                    </select>
                   </div>
+
+                  <input
+                    id="password"
+                    class="form-control"
+                    type="password"
+                    name="password"
+                    placeholder="Password (Standard)"
+                    required
+                  /><input
+                    id="confirmPassword"
+                    class="form-control"
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Confirm Password"
+                    required
+                  />
+
+                  <button
+                    class="btn btn-primary shadow d-block w-100"
+                    type="submit"
+                  >
+                    Sign up
+                  </button>
                 </form>
                 <p class="text-muted">
                   Already have an account?&nbsp;<a href="login.html">Log in</a>

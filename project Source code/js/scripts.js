@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    const registerForm = document.getElementById("registerForm");
+    const registerForm = document.getElementById("signupForm");
     registerForm.addEventListener("submit", function(event) {
         const firstName = document.getElementById("firstName").value.trim();
         const lastName = document.getElementById("lastName").value.trim();
