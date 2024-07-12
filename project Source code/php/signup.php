@@ -1,11 +1,14 @@
 <?php
 include '.\classes\db_connection.php';
 
-function validate_and_sanitize_input($data) {
+function validate_and_sanitize_input($data)
+{
     $data = trim($data);
     $data = htmlspecialchars($data);
     return $data;
 }
+
+
 
 $firstName = validate_and_sanitize_input($_POST['firstName']);
 $lastName = validate_and_sanitize_input($_POST['lastName']);
@@ -14,6 +17,7 @@ $contactNumber = preg_replace('/\s+/', '', validate_and_sanitize_input($_POST['c
 $password = $_POST['password'];
 $confirmPassword = $_POST['confirmPassword'];
 $userType = validate_and_sanitize_input($_POST['userType']);
+$joined_date = date('Y-m-d');
 
 if (empty($firstName) || empty($lastName) || empty($email) || empty($contactNumber) || empty($password) || empty($confirmPassword)) {
     echo "<script>alert('Please fill in all the required fields.'); window.history.back();</script>";
@@ -47,7 +51,7 @@ if ($password !== $confirmPassword) {
 
 $password = password_hash($password, PASSWORD_DEFAULT);
 
-if ($userType == 'serviceProvider') {
+if (isset($_POST['userType']) && $_POST['userType'] == 'serviceProvider') {
     $businessName = validate_and_sanitize_input($_POST['businessName']);
     $nicNumber = preg_replace('/\s+/', '', validate_and_sanitize_input($_POST['nicNumber']));
     $whatsappNumber = preg_replace('/\s+/', '', validate_and_sanitize_input($_POST['whatsappNumber']));
@@ -79,8 +83,8 @@ if ($userType == 'serviceProvider') {
     }
 
     $spId = generateServiceProviderId($conn);
-    $query = "INSERT INTO service_providers (sp_id, first_name, last_name, email, contact_number, password, business_name, nic_number, whatsapp_number, service_address, service_type) VALUES ('$spId', '$firstName', '$lastName', '$email', '$contactNumber', '$password', '$businessName', '$nicNumber', '$whatsappNumber', '$serviceAddress', '$serviceType')";
-}elseif ($userType == 'admin') {
+    $query = "INSERT INTO service_providers (sp_id, first_name, last_name, email, contact_number, business_name, nic_number, whatsapp_number, service_address, service_type, password, joined_date) VALUES ('$spId', '$firstName', '$lastName', '$email', '$contactNumber', '$businessName', '$nicNumber', '$whatsappNumber', '$serviceAddress', '$serviceType', '$password', '$joined_date')";
+} elseif (isset($_POST['userType']) && $_POST['userType'] == 'admin') {
     // Check if email or contact number already exist for admin
     $checkQuery = "SELECT * FROM admins WHERE email = '$email' OR contact_number = '$contactNumber'";
     $checkResult = $conn->query($checkQuery);
@@ -91,9 +95,8 @@ if ($userType == 'serviceProvider') {
     }
 
     $adminId = generateAdminId($conn);
-    $query = "INSERT INTO admins (admin_id, email, password, contact_number) VALUES ('$adminId', '$email', '$password', '$contactNumber')";
-} 
-else {
+    $query = "INSERT INTO admins (admin_id, email, password, contact_number, joined_date) VALUES ('$adminId', '$email', '$password', '$contactNumber', '$joined_date')";
+} elseif (isset($_POST['userType']) && $_POST['userType'] == 'customer') {
     // Check if email or contact number already exist for customer
     $checkQuery = "SELECT * FROM customers WHERE email = '$email' OR contact_number = '$contactNumber'";
     $checkResult = $conn->query($checkQuery);
@@ -104,7 +107,7 @@ else {
     }
 
     $cusId = generateCustomerId($conn);
-    $query = "INSERT INTO customers (cus_id, first_name, last_name, email, contact_number, password) VALUES ('$cusId', '$firstName', '$lastName', '$email', '$contactNumber', '$password')";
+    $query = "INSERT INTO customers (cus_id, first_name, last_name, email, contact_number, password, joined_date) VALUES ('$cusId', '$firstName', '$lastName', '$email', '$contactNumber', '$password', '$joined_date')";
 }
 
 if ($conn->query($query) === TRUE) {
@@ -115,20 +118,22 @@ if ($conn->query($query) === TRUE) {
 
 $conn->close();
 
-function generateCustomerId($conn) {
+function generateCustomerId($conn)
+{
     $result = $conn->query("SELECT COUNT(*) AS count FROM customers");
     $row = $result->fetch_assoc();
     return 'CUS-' . str_pad($row['count'] + 1, 4, '0', STR_PAD_LEFT);
 }
 
-function generateServiceProviderId($conn) {
+function generateServiceProviderId($conn)
+{
     $result = $conn->query("SELECT COUNT(*) AS count FROM service_providers");
     $row = $result->fetch_assoc();
     return 'SP-' . str_pad($row['count'] + 1, 3, '0', STR_PAD_LEFT);
 }
-function generateAdminId($conn) {
+function generateAdminId($conn)
+{
     $result = $conn->query("SELECT COUNT(*) AS count FROM admins");
     $row = $result->fetch_assoc();
     return 'Admin-' . ($row['count'] + 1);
 }
-?>
