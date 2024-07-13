@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
     />
-    <title>Sign up</title>
+    <title>Register Assistant</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
     <link
       rel="stylesheet"
@@ -181,7 +181,7 @@
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="Reservations.html"
                   >Reservations</a
-                ><a class="dropdown-item" href="Shop.html">Order Products</a
+                ><a class="dropdown-item" href="product.html">Order Products</a
                 ><a class="dropdown-item" href="Freelance.html">Freelance</a>
               </div>
             </li>
@@ -200,7 +200,7 @@
           <a
             class="btn btn-primary shadow"
             role="button"
-            href="login.html"
+            href="php/logout.php"
             style="
               height: 35px;
               padding: 3px 10px;
@@ -208,7 +208,7 @@
               width: 78px;
               border-radius: 59px;
             "
-            >Login</a
+            >Logout</a
           ><a
             class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right"
             role="button"
@@ -250,8 +250,7 @@
       <div class="container py-5">
         <div class="row mb-4 mb-lg-5">
           <div class="col-md-8 col-xl-6 text-center mx-auto">
-            <p class="fw-bold text-success mb-2">Sign up</p>
-            <h2 class="fw-bold">Welcome</h2>
+            <p class="fw-bold text-success mb-2">Register Systam Assistant</p
           </div>
         </div>
         <div class="row d-flex justify-content-center">
@@ -277,12 +276,14 @@
                   </svg>
                 </div>
                 <form
-                  id="signupForm"
+                  id="registerForm"
                   method="POST"
                   action="php/signup.php"
                   data-bs-theme="light"
                   style="border-style: none"
                 >
+                <input type="hidden" name="userType" value="admin">
+
                   <input
                     class="form-control"
                     id="firstName"
