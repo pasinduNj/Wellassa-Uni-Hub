@@ -250,7 +250,7 @@
       <div class="container py-5">
         <div class="row mb-4 mb-lg-5">
           <div class="col-md-8 col-xl-6 text-center mx-auto">
-            <p class="fw-bold text-success mb-2">Register Systam Assistant</p
+            <p class="fw-bold text-success mb-2">Register Systam Assistant</p>
           </div>
         </div>
         <div class="row d-flex justify-content-center">
@@ -282,23 +282,9 @@
                   data-bs-theme="light"
                   style="border-style: none"
                 >
-                <input type="hidden" name="userType" value="admin">
+                  <input type="hidden" name="userType" value="admin" />
 
                   <input
-                    class="form-control"
-                    id="firstName"
-                    type="text"
-                    placeholder="First Name"
-                    name="firstName"
-                    required
-                  /><input
-                    class="form-control"
-                    id="lastName"
-                    type="text"
-                    placeholder="Last Name"
-                    name="lastName"
-                    required
-                  /><input
                     class="form-control"
                     id="email"
                     type="email"
@@ -316,61 +302,6 @@
                     required
                   />
                   <div class="mb-3"></div>
-                  <select
-                    id="userType"
-                    name="userType"
-                    class="form-select"
-                    required
-                    style="border-radius: 5px; margin: 0px 0px 15px"
-                  >
-                    <option value="NULL" selected="">Select User Type</option>
-                    <option value="customer ">Customer</option>
-                    <option value="serviceProvider">Service Provider</option>
-                  </select>
-                  <div id="serviceProviderFields" style="display: none">
-                    <input
-                      id="businessName"
-                      class="form-control"
-                      type="text"
-                      name="businessName"
-                      placeholder="Business Name"
-                    /><input
-                      id="nicNumber"
-                      class="form-control"
-                      type="text"
-                      name="nicNumber"
-                      placeholder="NIC Number"
-                    /><input
-                      id="whatsappNumber"
-                      class="form-control"
-                      type="tel"
-                      name="whatsappNumber"
-                      placeholder="WhatsApp Number"
-                    />
-                    <div class="mb-3"></div>
-                    <input
-                      id="serviceAddress"
-                      class="form-control"
-                      type="text"
-                      name="serviceAddress"
-                      placeholder="Service Address"
-                    />
-                    <select
-                      id="serviceType"
-                      name="serviceType"
-                      class="form-select"
-                      style="border-radius: 5px; margin: 0px 0px 15px"
-                    >
-                      <option value="NULL" selected="">
-                        Select Service Type
-                      </option>
-                      <option value="Reservation Provider">
-                        Reservation Provider
-                      </option>
-                      <option value="Product Seller">Product Seller</option>
-                      <option value="Freelancer">Freelancer</option>
-                    </select>
-                  </div>
 
                   <input
                     id="password"
@@ -392,12 +323,9 @@
                     class="btn btn-primary shadow d-block w-100"
                     type="submit"
                   >
-                    Sign up
+                    Register
                   </button>
                 </form>
-                <p class="text-muted">
-                  Already have an account?&nbsp;<a href="login.html">Log in</a>
-                </p>
               </div>
             </div>
           </div>
