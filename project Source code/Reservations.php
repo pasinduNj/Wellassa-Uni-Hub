@@ -67,7 +67,7 @@
                                     <p style="height: 26.2px;"><br>Done by : Sadun</p>
                                 </div>
                             </div>
-                            <div class="d-flex card-footer" style="height: 58.8px;padding: 93px 16px;"><a class="btn btn-dark btn-sm" role="button" href="Haircut%20reserve.php" style="height: 39.8px;width: 433.225px;"><span style="font-weight: normal !important;">Reserve</span></a></div>
+                            <div class="d-flex card-footer" style="height: 58.8px;padding: 93px 16px;"><a class="btn btn-dark btn-sm" role="button" href="index2.php" style="height: 39.8px;width: 433.225px;"><span style="font-weight: normal !important;">Reserve</span></a></div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 filtr-item" data-category="1,3">

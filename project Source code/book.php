@@ -1,18 +1,12 @@
 <?php
-
-$mysqli = new mysqli('localhost', 'root', '', 'wellassaunihub');
-
-// Check for connection errors
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
-}
+include '.\php\classes\db_connection.php'; // Include the dbconnector class
 
 // Initialize $date variable
 $date = isset($_GET['date']) ? $_GET['date'] : '';
 
 $bookings = array();
 if (!empty($date)) {
-    $stmt = $mysqli->prepare('SELECT * FROM reservation WHERE date=?');
+    $stmt = $conn->prepare('SELECT * FROM reservation WHERE date=?');
     $stmt->bind_param('s', $date);
     if ($stmt->execute()) {
         $result = $stmt->get_result();
@@ -27,14 +21,14 @@ if (!empty($date)) {
 
 if (isset($_POST['submit'])) {
     $timeslot = $_POST['timeslot'];
-    $stmt = $mysqli->prepare('SELECT * FROM reservation WHERE date=? AND timeslot=?');
+    $stmt = $conn->prepare('SELECT * FROM reservation WHERE date=? AND timeslot=?');
     $stmt->bind_param('ss', $date, $timeslot);
     if ($stmt->execute()) {
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $msg = "<div class='alert alert-danger'>Already Booked</div>";
         } else {
-            $stmt = $mysqli->prepare("INSERT INTO reservation(date, timeslot) VALUES(?, ?)");
+            $stmt = $conn->prepare("INSERT INTO reservation(date, timeslot) VALUES(?, ?)");
             $stmt->bind_param('ss', $date, $timeslot);
             $stmt->execute();
             $msg = "<div class='alert alert-success'>Booking Successful</div>";
@@ -45,7 +39,7 @@ if (isset($_POST['submit'])) {
 }
 
 // Retrieve timeslot settings for the selected date
-$stmt = $mysqli->prepare("SELECT * FROM timeslot_settings WHERE date=? ORDER BY id DESC LIMIT 1");
+$stmt = $conn->prepare("SELECT * FROM timeslot_settings WHERE date=? ORDER BY id DESC LIMIT 1");
 $stmt->bind_param('s', $date);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -63,7 +57,7 @@ if ($result->num_rows > 0) {
     $end_time = "20:00";
 }
 
-$mysqli->close();
+$conn->close();
 
 function timeslots($duration, $cleanup, $start, $end)
 {
@@ -84,7 +78,6 @@ function timeslots($duration, $cleanup, $start, $end)
 
     return $slots;
 }
-
 ?>
 <!DOCTYPE html>
 <html>

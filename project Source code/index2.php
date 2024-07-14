@@ -1,8 +1,9 @@
 <?php
-function build_calender($month, $year)
+include '.\php\classes\db_connection.php'; // Include the dbconnector class
+
+function build_calender($month, $year, $conn)
 {
-    $mysqli = new mysqli('localhost', 'root', '', 'wellassaunihub');
-    $stmt = $mysqli->prepare('select * from reservation where MONTH(date)= ? AND YEAR(date)=?');
+    $stmt = $conn->prepare('select * from reservation where MONTH(date)= ? AND YEAR(date)=?');
     $stmt->bind_param('ss', $month, $year);
     $bookings = array();
     if ($stmt->execute()) {
@@ -14,8 +15,6 @@ function build_calender($month, $year)
             $stmt->close();
         }
     }
-
-
 
     $daysOfWeek = array('sunday', 'Monday', 'Tuesday', 'wednesday', 'Thursday', 'Friday', 'Saturday');
     $firstDayOfMonth = mktime(0, 0, 0, $month, 1, $year);
@@ -29,11 +28,11 @@ function build_calender($month, $year)
     $prev_year = date('Y', mktime(0, 0, 0, $month - 1, 1, $year));
     $next_month = date('m', mktime(0, 0, 0, $month + 1, 1, $year));
     $next_year = date('Y', mktime(0, 0, 0, $month + 1, 1, $year));
-    $calender = "<center><h2>$monthName $year</h2>";
+    $calender = "<center>
+    <h2>$monthName $year</h2>";
     $calender .= "<a class='btn btn-primary btn-sm' href='?month=" . $prev_month . "&year=" . $prev_year . "'>Prev Month</a>";
-    $calender .= "<a class='btn btn-primary btn-sm' href='?month=" . date('m') . "&year=" . date('Y') . "'>Current Month</a>";
+    $calender .= "<a class='btn btn-primary btn-sm' href='?month=" . date(' m') . "&year=" . date('Y') . "'>Current Month</a>";
     $calender .= "<a class='btn btn-primary btn-sm' href='?month=" . $next_month . "&year=" . $next_year . "'>Next Month</a></center>";
-
     $calender .= "<br><table class='table table-bordered' width='100%'table border ='1px solid black'  >";
     $calender .= "<tr>";
     foreach ($daysOfWeek as $day) {
@@ -46,18 +45,12 @@ function build_calender($month, $year)
             $calender .= "<td class='empty'></td>";
         }
     }
-
-
     $month = str_pad($month, 2, "0", STR_PAD_LEFT);
-
     while ($currentDay <= $numberDays) {
-
-
         if ($dayOfWeek == 7) {
             $dayOfWeek = 0;
             $calender .= "</tr><tr>";
         }
-
         $currentDayRel = str_pad($currentDay, 2, "0", STR_PAD_LEFT);
         $date = "$year-$month-$currentDayRel";
         $dayName = strtolower(date('l', strtotime($date)));
@@ -65,7 +58,7 @@ function build_calender($month, $year)
         if ($date < date('Y-m-d')) {
             $calender .= "<td class='$today'><h4>$currentDay</h4><a class='btn btn-danger btn-xs'>N/A</a></td>";
         } else {
-            $totalbookings = checkSlots($mysqli, $date);
+            $totalbookings = checkSlots($conn, $date);
             if ($totalbookings == 16) {
                 $calender .= "<td class='$today'><h4>$currentDay</h4><a href='#''.$date.''' class='btn btn-danger btn-xs'>All Booked</a></td>";
             } else {
@@ -73,30 +66,22 @@ function build_calender($month, $year)
                 $calender .= "<td class='$today'><h4>$currentDay</h4><a href='book.php?date=" . $date . "' class='btn btn-success btn-xs'>Book</a></td>";
             }
         }
-
         $currentDay++;
         $dayOfWeek++;
     }
-
     if ($dayOfWeek != 7) {
         $remainingDays = 7 - $dayOfWeek;
         for ($i = 0; $i < $remainingDays; $i++) {
             $calender .= "<td></td>";
         }
     }
-
     $calender .= "</tr>";
     $calender .= "</table>";
-
-
-
-
     return $calender;
 }
-
-function checkSlots($mysqli, $date)
+function checkSlots($conn, $date)
 {
-    $stmt = $mysqli->prepare('select * from reservation where date=?');
+    $stmt = $conn->prepare('select * from reservation where date=?');
     $stmt->bind_param('s', $date);
     $totalbookings = 0;
     if ($stmt->execute()) {
@@ -229,9 +214,7 @@ function checkSlots($mysqli, $date)
                     $year = $dateComponents['year'];
                 }
 
-                echo build_calender($month, $year);
-
-
+                echo build_calender($month, $year, $conn);
                 ?>
             </div>
         </div>
