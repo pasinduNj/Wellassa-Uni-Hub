@@ -1,5 +1,5 @@
 <?php
-include '.\php\classes\db_connection.php'; // Include the dbconnector class
+include '.\classes\db_connection.php'; // Include the dbconnector class
 
 // Initialize $date variable
 $date = isset($_GET['date']) ? $_GET['date'] : '';

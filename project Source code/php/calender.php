@@ -1,5 +1,5 @@
 <?php
-include '.\php\classes\db_connection.php'; // Include the dbconnector class
+include '.\classes\db_connection.php'; // Include the dbconnector class
 
 function build_calender($month, $year, $conn)
 {
