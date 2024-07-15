@@ -23,6 +23,34 @@ document.addEventListener("DOMContentLoaded", function () {
     radio.addEventListener("change", handleUserTypeChange);
   });
 
+  const signupForm = document.getElementById("signupForm");
+
+  signupForm.addEventListener("submit", function (event) {
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    const passwordPattern = /^(?=.*\d)(?=.*[A-Z])(?=.*\W)(?!.*\s).{6,}$/;
+
+    if (!passwordPattern.test(password)) {
+      alert(
+        "Password must:\n" +
+          "1. Contain at least one digit.\n" +
+          "2. Contain at least one uppercase letter.\n" +
+          "3. Contain at least one special character.\n" +
+          "4. Not contain white spaces.\n" +
+          "5. Be at least 6 characters long."
+      );
+      event.preventDefault();
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      event.preventDefault();
+      alert("Passwords do not match.");
+      return;
+    }
+  });
+
   const registerForm = document.getElementById("signupForm");
   registerForm.addEventListener("submit", function (event) {
     const firstName = document.getElementById("firstName").value.trim();
@@ -35,10 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
       .getElementById("contactNumber")
       .value.trim()
       .replace(/\s+/g, "");
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
-    const userType = document.getElementById("userType").value;
-    const passwordPattern = /^(?=.*\d)(?=.*[A-Z])(?=.*\W)(?!.*\s).{6,}$/;
 
     if (
       firstName === "" ||
@@ -65,23 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    if (!passwordPattern.test(password)) {
-      alert(
-        "Password must:\n" +
-          "1. Contain at least one digit.\n" +
-          "2. Contain at least one uppercase letter.\n" +
-          "3. Contain at least one special character.\n" +
-          "4. Not contain white spaces.\n" +
-          "5. Be at least 6 characters long."
-      );
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      event.preventDefault();
-      alert("Passwords do not match.");
-      return;
-    }
+    // Additional validation for service provider fields
+    const userType = document.getElementById("userType").value;
 
     if (userType === "serviceProvider") {
       const businessName = document.getElementById("businessName").value.trim();
