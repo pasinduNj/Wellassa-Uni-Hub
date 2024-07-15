@@ -1,4 +1,4 @@
-// File: classes/db_connection.php
+
 <?php
 class DbConnection {
     private $servername = "localhost";
