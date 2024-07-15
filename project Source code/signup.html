@@ -315,17 +315,42 @@
                     required
                   />
                   <div class="mb-3"></div>
-                  <select
+
+                  <table>
+                    <tr>
+                      <td>
+                        <input
+                          type="radio"
+                          name="userType"
+                          value="customer"
+                          checked
+                        />
+                      </td>
+                      <td><label>&nbsp;&nbsp;Customer</label></td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                      <td>
+                        <input
+                          type="radio"
+                          name="userType"
+                          value="serviceProvider"
+                        />
+                      </td>
+                      <td><label>&nbsp;&nbsp;Service Provider</label></td>
+                    </tr>
+                  </table>
+                  
+
+                  <!-- <select
                     id="userType"
                     name="userType"
-                    class="form-select"
                     required
+                    class="form-select"
                     style="border-radius: 5px; margin: 0px 0px 15px"
                   >
                     <option>Select User Type</option>
                     <option value="customer ">Customer</option>
                     <option value="serviceProvider">Service Provider</option>
-                  </select>
+                  </select> -->
                   <div id="serviceProviderFields" style="display: none">
                     <input
                       id="businessName"

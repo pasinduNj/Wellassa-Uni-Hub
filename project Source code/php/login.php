@@ -1,5 +1,9 @@
 <?php
-include '.\classes\db_connection.php';
+include './classes/db_connection.php';
+
+$db = new DbConnection();
+$conn = $db->getConnection();
+
 if (isset($_POST['email']) && isset($_POST['password'])) {
 
 
@@ -63,5 +67,5 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     }
 
 
-    $conn->close();
+    $db->close();
 }
