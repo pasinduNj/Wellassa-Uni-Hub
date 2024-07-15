@@ -1,5 +1,8 @@
 <?php
-include '.\classes\db_connection.php'; // Include the dbconnector class
+include './classes/db_connection.php';
+
+$db = new DbConnection();
+$conn = $db->getConnection();
 
 // Initialize $date variable
 $date = isset($_GET['date']) ? $_GET['date'] : '';
@@ -57,7 +60,7 @@ if ($result->num_rows > 0) {
     $end_time = "20:00";
 }
 
-$conn->close();
+$db->close();
 
 function timeslots($duration, $cleanup, $start, $end)
 {

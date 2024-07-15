@@ -1,5 +1,8 @@
 <?php
-include '.\classes\db_connection.php'; // Include the dbconnector class
+include './classes/db_connection.php';
+
+$db = new DbConnection();
+$conn = $db->getConnection();
 
 function build_calender($month, $year, $conn)
 {
@@ -78,6 +81,7 @@ function build_calender($month, $year, $conn)
     $calender .= "</tr>";
     $calender .= "</table>";
     return $calender;
+
 }
 function checkSlots($conn, $date)
 {
