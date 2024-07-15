@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "unihub";
-$password = "Unihub@1234";
+$username = "root";
+$password = "";
 $dbname = "wellassaunihub";
 
 // Create connection
