@@ -1,0 +1,118 @@
+<?php
+// Include your database connection script
+include './classes/db_connection.php';
+
+$db = new DbConnection();
+$conn = $db->getConnection();
+
+
+// Hardcoded service provider ID for testing
+$sp_id = 'SP-001'; // Replace this with the actual service provider ID you want to test with
+
+function generateTimeslotID($conn)
+{
+    $sql = "SELECT timeslot_id FROM timeslots ORDER BY timeslot_id DESC LIMIT 1";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $last_id = $row['timeslot_id'];
+        $num = (int) substr($last_id, 3) + 1;
+        return 'TS-' . str_pad($num, 5, '0', STR_PAD_LEFT);
+    } else {
+        return 'TS-00001';
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $date = $_POST['date'];
+    $start_time = $_POST['start_time'];
+    $end_time = $_POST['end_time'];
+    $interval_duration = intval($_POST['interval_duration']); // Get interval duration in minutes
+
+    // Convert start and end times to DateTime objects
+    $start_datetime = new DateTime("$date $start_time");
+    $end_datetime = new DateTime("$date $end_time");
+
+    while ($start_datetime < $end_datetime) {
+        $timeslot_id = generateTimeslotID($conn);
+        $slot_start_time = $start_datetime->format('H:i:s');
+        $start_datetime->modify("+$interval_duration minutes");
+        $slot_end_time = $start_datetime->format('H:i:s');
+
+        $sql = "INSERT INTO timeslots (timeslot_id, sp_id, date, start_time, end_time, status) VALUES (?, ?, ?, ?, ?, 'free')";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssss", $timeslot_id, $sp_id, $date, $slot_start_time, $slot_end_time);
+        if (!$stmt->execute()) {
+            echo "Error: " . $stmt->error;
+        }
+    }
+
+    echo "Timeslots added successfully!";
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Timeslots</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Add Timeslots</h1>
+        <form action="add_timeslot.php" method="post">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="start_time">Start Time:</label>
+            <input type="time" id="start_time" name="start_time" required>
+
+            <label for="end_time">End Time:</label>
+            <input type="time" id="end_time" name="end_time" required>
+
+            <label for="interval_duration">Interval Duration (minutes):</label>
+            <input type="number" id="interval_duration" name="interval_duration" required min="1" value="30">
+
+            <input type="submit" value="Add Timeslots">
+        </form>
+    </div>
+</body>
+
+</html>
