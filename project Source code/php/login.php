@@ -13,11 +13,12 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     {
         $input = trim($input);
         $input = htmlspecialchars($input);
+        $input = preg_replace('/\s+/', '', $input);
         return $input;
     }
 
-    $email = preg_replace('/\s+/', '', validate_and_sanitize_input($_POST['email']));
-    $password = $_POST['password'];
+    $email = validate_and_sanitize_input($_POST['email']);
+    $password = trim($_POST['password']);
     $rememberMe = isset($_POST['rememberMe']);
 
     if (empty($email) || empty($password)) {
