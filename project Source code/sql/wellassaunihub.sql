@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 25, 2024 at 01:28 PM
+-- Generation Time: Jul 27, 2024 at 07:18 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,57 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `wellassaunihub`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admins`
---
-
-CREATE TABLE `admins` (
-  `admin_id` varchar(10) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `contact_number` varchar(10) NOT NULL,
-  `joined_date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `admins`
---
-
-INSERT INTO `admins` (`admin_id`, `email`, `password`, `contact_number`, `joined_date`) VALUES
-('Admin-1', 'unihub@gmail.com', '$2y$10$iPmKyUmej56ZAGekzKWM8uoEb0EMC4TRtr0H9Pp0X2N8/wjT.VxfS', '0777542066', '2024-07-15'),
-('Admin-2', 'raees@gmail.com', '$2y$10$kOR8boZBJX7rlEen1MT3PO0O5enY1w.DueUN3/sUSMnqjk2Sv4y8i', '0713987619', '2024-07-15'),
-('Admin-3', 'pasindu@gmail.com', '$2y$10$FxzcNYlZ9Sq7ipyQgpA1JeQ1fPLieD1UEPmD6at7buonMcHX8sMN.', '0745423014', '2024-07-15'),
-('Admin-4', 'kasun@gmail.com', '$2y$10$DFhYcnNlB1.xTFGrh0iP9.rJw4EMmxXUvbsMqFwtgXUDAuJ00wLf2', '0745632145', '2024-07-15'),
-('Admin-5', 'sdsds@gmail.com', '$2y$10$xwIISBIxZDyXON7HCT5t1unrebRF7BbgOPp3Af2lvrK6nNM0aFD/i', '0123456789', '2024-07-15');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `customers`
---
-
-CREATE TABLE `customers` (
-  `cus_id` varchar(8) NOT NULL,
-  `first_name` varchar(50) NOT NULL,
-  `last_name` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `contact_number` varchar(10) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `joined_date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `customers`
---
-
-INSERT INTO `customers` (`cus_id`, `first_name`, `last_name`, `email`, `contact_number`, `password`, `joined_date`) VALUES
-('CUS-0001', 'sarath', 'Kumar', 'sarath@gmail.com', '0773987619', '$2y$10$TvGgrhBd/r4D2kZ5psr9y.Eg1/TTA7d78b9k9c6lfRd5VXM18rer6', '2024-07-14'),
-('CUS-0002', 'Sajith', 'Ali', 'sajith@gmail.com', '0705853014', '$2y$10$FD1hA68hSwFXdrygDARXk.sTNiOjZvQya2GD5LyKeFwmIrOeHZlgG', '2024-07-15'),
-('CUS-0003', 'kasun', 'chamika', 'kasun@gmail.com', 'adasdasd', '$2y$10$Tx44MRpwGSjpZdpnqo/zp.TY4AL2qi1n6E.3CYu4kE1buuAd0I/0q', '2024-07-18'),
-('CUS-0004', 'Geeth', 'Hashan', 'geeth@gmail.com', '076495301', '$2y$10$LujPtM/oXuKWEil/A8a/6.7f3RchPtrY8wIwSvXu9cTRsDSay1X3K', '2024-07-18');
 
 -- --------------------------------------------------------
 
@@ -104,36 +53,6 @@ INSERT INTO `reservations` (`reservation_id`, `cus_id`, `timeslot_id`, `payment_
 ('RES-0011', 'CUS-001', 'TS-00005', 'pending', '2024-07-16'),
 ('RES-0012', 'CUS-001', 'TS-00006', 'pending', '2024-07-16'),
 ('RES-0013', 'CUS-001', 'TS-00007', 'pending', '2024-07-16');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `service_providers`
---
-
-CREATE TABLE `service_providers` (
-  `sp_id` varchar(6) NOT NULL,
-  `first_name` varchar(50) NOT NULL,
-  `last_name` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `contact_number` varchar(15) NOT NULL,
-  `business_name` varchar(100) NOT NULL,
-  `nic_number` varchar(20) NOT NULL,
-  `whatsapp_number` varchar(15) NOT NULL,
-  `service_address` varchar(255) NOT NULL,
-  `service_type` varchar(20) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `joined_date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `service_providers`
---
-
-INSERT INTO `service_providers` (`sp_id`, `first_name`, `last_name`, `email`, `contact_number`, `business_name`, `nic_number`, `whatsapp_number`, `service_address`, `service_type`, `password`, `joined_date`) VALUES
-('SP-001', 'Raees', 'Ahamed', 'raees@gmail.com', '0764953014', 'Saloon Rais', '200126001722', '0764953014', '135,Passra Road,Badulla', 'Reservation Provider', '$2y$10$OuzOQgHzVtSOyeGtzZbreuhafLZAuPWHMZdg4ezqZXJibQ8tMaqe2', '2024-07-12'),
-('SP-002', 'Kasun', 'Janith', 'janith@gmail.com', '0743562014', 'Kanja', '200225001486', '0745632015', 'Badulla', 'Freelancer', '$2y$10$dCET/2oImtZvH4FylWHk9uK.izvtJOlARKpW.IUuNDb9KIFedst/e', '2024-07-15'),
-('SP-003', 'Ahmedh', 'Raees', 'ahmedh@gmail.com', '0754953014', 'Gem', '200156001722', '0754953014', 'Badulla', 'Product Seller', '$2y$10$VTfDUhRsI9gFsAe8V/4uTuHFx2U0LhtUbgWxrMMxZsNK0Dx4dLeMK', '2024-07-18');
 
 -- --------------------------------------------------------
 
@@ -227,27 +146,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `email`, `contact_number`, `user_type`, `password`, `joined_date`, `profile_photo`, `business_name`, `nic_number`, `whatsapp_number`, `service_address`, `description`, `auth_key`, `auth_key_expires`) VALUES
-('Admin-Main', 'Wellassa', 'UniHub', 'wellassaunihub@gmail.com', '0774953014', 'admin', '$2y$10$B78rX7q6dpsG.1CJbOHpT.03j0TkNwDf7XGM9kD00Rg3lJSmyjM.S', '2024-07-25', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+('Admin-Main', 'Wellassa', 'UniHub', 'wellassaunihub@gmail.com', '0774953014', 'admin', '$2y$10$B78rX7q6dpsG.1CJbOHpT.03j0TkNwDf7XGM9kD00Rg3lJSmyjM.S', '2024-07-25', NULL, NULL, NULL, NULL, NULL, NULL, '134405e5d0a198fc1776bebc344ad0ab', '2024-08-24 19:16:40');
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `admins`
---
-ALTER TABLE `admins`
-  ADD PRIMARY KEY (`admin_id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `contact_number` (`contact_number`);
-
---
--- Indexes for table `customers`
---
-ALTER TABLE `customers`
-  ADD PRIMARY KEY (`cus_id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `contact_number` (`contact_number`);
 
 --
 -- Indexes for table `reservations`
@@ -256,16 +159,6 @@ ALTER TABLE `reservations`
   ADD PRIMARY KEY (`reservation_id`),
   ADD KEY `cus_id` (`cus_id`),
   ADD KEY `timeslot_id` (`timeslot_id`);
-
---
--- Indexes for table `service_providers`
---
-ALTER TABLE `service_providers`
-  ADD PRIMARY KEY (`sp_id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `contact_number` (`contact_number`),
-  ADD UNIQUE KEY `nic_number` (`nic_number`),
-  ADD UNIQUE KEY `whatsapp_number` (`whatsapp_number`);
 
 --
 -- Indexes for table `timeslots`
