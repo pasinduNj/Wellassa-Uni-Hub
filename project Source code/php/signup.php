@@ -78,9 +78,9 @@ if (isset($_POST['userType'])) {
         if ($run) {
             $userId = $id->generateServiceProviderId($conn);
             $query = "INSERT INTO user (user_id, first_name, last_name, email, contact_number, user_type, password, joined_date, 
-            business_name, nic_number, whatsapp_number, service_address) 
+            business_name, nic_number, whatsapp_number, service_address, status) 
             VALUES ('$userId', '$firstName', '$lastName', '$email', '$contactNumber', '$serviceType', '$hashPassword', '$joined_date' ,
-             '$businessName', '$nicNumber', '$whatsappNumber', '$serviceAddress')";
+             '$businessName', '$nicNumber', '$whatsappNumber', '$serviceAddress', 'active')";
 
             if ($conn->query($query) === TRUE) {
                 echo "<script>alert('Registration successful. Please log in.'); window.location.href = '../login.html';</script>";
@@ -100,8 +100,8 @@ if (isset($_POST['userType'])) {
 
             if ($run) {
                 $userId = $id->generateCustomerId($conn);
-                $query = "INSERT INTO user (user_id, first_name, last_name, email, contact_number, user_type, password, joined_date) 
-            VALUES ('$userId', '$firstName', '$lastName', '$email', '$contactNumber', '$userType', '$hashPassword', '$joined_date')";
+                $query = "INSERT INTO user (user_id, first_name, last_name, email, contact_number, user_type, password, joined_date, status) 
+            VALUES ('$userId', '$firstName', '$lastName', '$email', '$contactNumber', '$userType', '$hashPassword', '$joined_date', 'active')";
 
                 if ($conn->query($query) === TRUE) {
                     echo "<script>alert('Registration successful. Please log in.'); window.location.href = '../login.html';</script>";
@@ -115,8 +115,8 @@ if (isset($_POST['userType'])) {
 
             if ($run) {
                 $userId = $id->generateAdminId($conn);
-                $query = "INSERT INTO user (user_id, first_name, last_name, email, contact_number, user_type, password, joined_date) 
-            VALUES ('$userId', '$firstName', '$lastName', '$email', '$contactNumber', '$userType', '$hashPassword', '$joined_date')";
+                $query = "INSERT INTO user (user_id, first_name, last_name, email, contact_number, user_type, password, joined_date, status) 
+            VALUES ('$userId', '$firstName', '$lastName', '$email', '$contactNumber', '$userType', '$hashPassword', '$joined_date', 'active')";
 
                 if ($conn->query($query) === TRUE) {
                     echo "<script>alert('Registration successful. Please log in.'); window.location.href = '../login.html';</script>";
