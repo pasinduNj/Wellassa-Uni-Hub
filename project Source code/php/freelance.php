@@ -1,38 +1,42 @@
+<?php
+include './classes/db_connection.php';
+session_start();
+?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>project</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <title>Freelance | Get your works done here</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/-Filterable-Cards--Filterable-Cards.css">
-    <link rel="stylesheet" href="assets/css/book-table.css">
-    <link rel="stylesheet" href="assets/css/Bootstrap-Payment-Form.css">
-    <link rel="stylesheet" href="assets/css/Bootstrap-Payment-Form-.css">
-    <link rel="stylesheet" href="assets/css/Dropdown-Login-with-Social-Logins-bootstrap-social.css">
-    <link rel="stylesheet" href="assets/css/ebs-bootstrap-datepicker-bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="assets/css/ebs-bootstrap-datepicker-bootstrap-datepicker.standalone.min.css">
-    <link rel="stylesheet" href="assets/css/ebs-bootstrap-datepicker-bootstrap-datepicker3.standalone.min.css">
-    <link rel="stylesheet" href="assets/css/ebs-bootstrap-datepicker-styles.css">
-    <link rel="stylesheet" href="assets/css/ebs-bootstrap-datepicker.css">
-    <link rel="stylesheet" href="assets/css/Form-Select---Full-Date---Month-Day-Year.css">
+    <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/-Filterable-Cards--Filterable-Cards.css">
+    <link rel="stylesheet" href="/assets/css/book-table.css">
+    <link rel="stylesheet" href="/assets/css/Bootstrap-Payment-Form.css">
+    <link rel="stylesheet" href="/assets/css/Bootstrap-Payment-Form-.css">
+    <link rel="stylesheet" href="/assets/css/Dropdown-Login-with-Social-Logins-bootstrap-social.css">
+    <link rel="stylesheet" href="/assets/css/ebs-bootstrap-datepicker-bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="/assets/css/ebs-bootstrap-datepicker-bootstrap-datepicker.standalone.min.css">
+    <link rel="stylesheet" href="/assets/css/ebs-bootstrap-datepicker-bootstrap-datepicker3.standalone.min.css">
+    <link rel="stylesheet" href="/assets/css/ebs-bootstrap-datepicker-styles.css">
+    <link rel="stylesheet" href="/assets/css/ebs-bootstrap-datepicker.css">
+    <link rel="stylesheet" href="/assets/css/Form-Select---Full-Date---Month-Day-Year.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="assets/css/Lista-Productos-Canito.css">
-    <link rel="stylesheet" href="assets/css/NZ---TextboxLabel.css">
-    <link rel="stylesheet" href="assets/css/opening-times-time-picker.css">
-    <link rel="stylesheet" href="assets/css/project-footer.css">
-    <link rel="stylesheet" href="assets/css/Project-Nav-cart.css">
-    <link rel="stylesheet" href="assets/css/project-Nav.css">
-    <link rel="stylesheet" href="assets/css/Sign-Up-Form---Gabriela-Carvalho.css">
-    <link rel="stylesheet" href="assets/css/Signup-page-with-overlay.css">
-    <link rel="stylesheet" href="assets/css/Steps-Progressbar.css">
+    <link rel="stylesheet" href="/assets/css/Lista-Productos-Canito.css">
+    <link rel="stylesheet" href="/assets/css/NZ---TextboxLabel.css">
+    <link rel="stylesheet" href="/assets/css/opening-times-time-picker.css">
+    <link rel="stylesheet" href="/assets/css/project-footer.css">
+    <link rel="stylesheet" href="/assets/css/Project-Nav-cart.css">
+    <link rel="stylesheet" href="/assets/css/project-Nav.css">
+    <link rel="stylesheet" href="/assets/css/Sign-Up-Form---Gabriela-Carvalho.css">
+    <link rel="stylesheet" href="/assets/css/Signup-page-with-overlay.css">
+    <link rel="stylesheet" href="/assets/css/Steps-Progressbar.css">
 </head>
 
 <body>
-<!--Begin header & navbar-->
+    <!--Header & navbar-->
     <nav class="navbar navbar-expand-md sticky-top navbar-shrink py-3 navbar-light" id="mainNav">
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span class="bs-icon-sm bs-icon-circle bs-icon-primary shadow d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-gear-wide">
                         <path d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z"></path>
@@ -52,40 +56,80 @@
             </div>
         </div>
     </nav>
-<!--End header & navbar-->
-<!--Begin searching-->
-    <section>
-        <div class="container container-1140 px-3 px-md-5 pb-4 pb-md-0" style="margin-top:40px;">
-            <h1 class="fs-48 fw-700 text-center text-dark mb-4 mb-md-5">
-            Do your works <strong class="text-primary">Nice & Clean</strong><br>
-            with our <strong class="text-primary">FREE LANCERS</strong>.
-            </h1>
-            <div class=" ">
-                <div class="" >
-                    <h3 class="">
-                        Looking for a <strong class="text-primary">Free lancer</strong>?
-                    </h3>
 
-                    <form method="post" id="" class="">
-                        <div class="form-inline form-search form-search-home form-search-home-2 mt-3 mt-md-4 mb-4 mb-md-0" >
-                            <div class="form-search-wrap w-100 form-row align-items-row justify-content-between">
-                                <input type="text" name="keyword" class="form-control w-100 fs-16" placeholder="Search for a talent">
-                            </div>
-                            <button type="send" name="" class="btn btn btn-primary btn-rounded text-uppercase fs-16 fw-700">search</button>
-                        </div>
-                    </form>
-
-                </div>              
-            </div>
+    <!-- Search Bar Section -->
+    <!-- <section class="search-section py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-4">Search for Shops</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search for shops" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
         </div>
-    </section>
-<!--End searching-->
-<!--Begin displaying works-->
-    <section class="">
+      </div>
+    </div>
+  </section> -->
+
+
+    <!--Display freelancers as cards-->
+    <section class="store-section py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Our Freelancers</h2>
+
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <?php
+
+                    // SQL query to select data
+                    $dbconnector = new DbConnection();
+                    $conn = $dbconnector->getConnection();
+
+                    //sql query for getting data
+                    $sql = "SELECT * FROM user where user_type = 'sp_freelance'";
+
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        // Output data of each row
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<div class="col-md-4">';
+                            echo '<div class="card mb-4 glass-card">';
+                            //Put the formatted image link here
+                            echo '<img src="assets/img/team/avatar4.png" class="card-img-top" alt="Profile Picture">';
+                            echo '<div class="card-body">';
+                            echo '<h5 class="card-title">' . $row['business_name'] . '</h5>';
+                            //Here goes the description of the card
+                            echo '<p class="card-text">' . $row['description'] . '</p>';
+                            echo '</div>';
+                            
+                            //Guiding the button to affiliate page
+                            //Check the type of user before showing the button in database
+                            if ($_SESSION["type"] == null) {
+                                echo '<div class="d-flex justify-content-center">';
+                                echo '<a href="./signup.html" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
+                                echo '</div>';
+                            } elseif ($_SESSION["user_type"] == "customer" || $_SESSION["user_type"] == "admin" || $_SESSION["user_type"] == "sp_products" || $_SESSION["user_type"] == "sp_reservation" || $_SESSION["user_type"] == "sp_freelance") {
+                                echo '<div class="d-flex justify-content-center">';
+                                //Put the correct link here
+                                echo '<a href="/login.php" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
+                                echo '</div>';
+                            }
+                            echo '</div>';
+                            echo '</div>';
+                        }
+                    } else {
+                        die("No records found in Database");
+                    }
+                    $conn->close();
+                    ?>
+                </div>
+            </div>
+
 
     </section>
-<!--End displaying works-->
-<!--Begin footer-->
+    <!--Footer-->
 
     <div class="container py-4 py-lg-5">
         <hr>
@@ -104,7 +148,7 @@
             </ul>
         </div>
     </div>
-<!--End footer-->
+
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/-Filterable-Cards--Filterable-Cards.js"></script>
