@@ -4,10 +4,15 @@ include './classes/db_connection.php';
 $db = new DbConnection();
 $conn = $db->getConnection();
 
+// Get the current date
+$currentDate = date('Y-m-d');
 
-// Fetch available timeslots
-$sql = "SELECT timeslot_id, date, start_time, end_time FROM timeslots WHERE status = 'free'";
-$result = $conn->query($sql);
+// Fetch timeslots from the current date and future dates
+$sql = "SELECT timeslot_id, date, start_time, end_time, status FROM timeslots WHERE date >= ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $currentDate);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +55,16 @@ $result = $conn->query($sql);
             background-color: #f2f2f2;
         }
 
+        .booked {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .available {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
         input[type="submit"] {
             background-color: #4CAF50;
             color: white;
@@ -67,7 +82,7 @@ $result = $conn->query($sql);
 
 <body>
     <div class="container">
-        <h1>Available Timeslots</h1>
+        <h1>Available Timeslots from <?php echo $currentDate; ?> Onwards</h1>
         <?php if ($result->num_rows > 0) : ?>
             <form action="reserve.php" method="post">
                 <table>
@@ -76,22 +91,26 @@ $result = $conn->query($sql);
                         <th>Date</th>
                         <th>Start Time</th>
                         <th>End Time</th>
+                        <th>Status</th>
                     </tr>
                     <?php while ($row = $result->fetch_assoc()) : ?>
-                        <tr>
+                        <tr class="<?php echo $row['status'] === 'booked' ? 'booked' : 'available'; ?>">
                             <td>
-                                <input type="radio" name="timeslot_id" value="<?php echo $row['timeslot_id']; ?>" required>
+                                <?php if ($row['status'] === 'free') : ?>
+                                    <input type="radio" name="timeslot_id" value="<?php echo $row['timeslot_id']; ?>" required>
+                                <?php endif; ?>
                             </td>
                             <td><?php echo $row['date']; ?></td>
                             <td><?php echo $row['start_time']; ?></td>
                             <td><?php echo $row['end_time']; ?></td>
+                            <td><?php echo ucfirst($row['status']); ?></td>
                         </tr>
                     <?php endwhile; ?>
                 </table>
                 <input type="submit" value="Reserve">
             </form>
         <?php else : ?>
-            <p>No available timeslots.</p>
+            <p>No available timeslots from today onwards.</p>
         <?php endif; ?>
     </div>
 </body>
