@@ -1,5 +1,0 @@
-use this for your java script code.
-please make sure that your js file name already exist in this folder.
-if exist rename your js file.
-
-use asset/js folder for bootstap studio generated js files

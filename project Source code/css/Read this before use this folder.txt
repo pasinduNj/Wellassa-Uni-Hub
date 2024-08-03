@@ -1,5 +1,0 @@
-Use this folder only for you css files.
-please make sure your css file name already exist in this folder.
-if exist rename your css file
-
-use assets/css for bootsrat studio generated css
