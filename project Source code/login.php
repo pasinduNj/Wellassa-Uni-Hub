@@ -190,7 +190,7 @@ if (!empty($auth_key_cookie)) {
                   </button>
                 </div>
               </form>
-              <a class="text-muted" href="forot_password.html">Forgot your password?</a>
+              <a class="text-muted" href="forgot_password.html">Forgot your password?</a>
             </div>
           </div>
         </div>
