@@ -1,7 +1,7 @@
 <?php
 include './php/classes/db_connection.php';
 session_start();
-$_SESSION['user_type'] = '';
+$_SESSION['user_type'] = 'sp_freelance';
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -102,6 +102,7 @@ $_SESSION['user_type'] = '';
                             echo '<div class="card-body">';
                             echo '<h5 class="card-title">' . $row['business_name'] . '</h5>';
                             //Here goes the description of the card
+                    //*****put the rating also */
                             echo '<p class="card-text text-truncate" >' . $row['description'] . '</p>';
                             echo '</div>';
 
@@ -109,8 +110,8 @@ $_SESSION['user_type'] = '';
                             //Check the type of user before showing the button in database
                             if ($_SESSION["user_type"] == "customer" || $_SESSION["user_type"] == "admin" || $_SESSION["user_type"] == "sp_products" || $_SESSION["user_type"] == "sp_reservation" || $_SESSION["user_type"] == "sp_freelance") {
                                 echo '<div class="d-flex justify-content-center">';
-                                //Put the correct link here
-                                echo '<a href="freelance_details.php?id=' . $row['user_id'] . '" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
+                                //Put the correct link here, here i load the userId inthe link as hard coded . it should be dynamic
+                                echo '<a href="freelance_view.php?userId=' . $row['user_id'] . '" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
                                 echo '</div>';
                             } else {
                                 if ($_SESSION["user_type"] == null) {
