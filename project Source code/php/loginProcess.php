@@ -33,18 +33,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 if (!empty($email) && !empty($passwordInput)) {
-    $checkQuery = "SELECT user_id, user_type, password FROM user WHERE email = ?";
+    $checkQuery = "SELECT user_id,first_name, user_type, password, status FROM user WHERE email = ?";
     if ($stmt = $conn->prepare($checkQuery)) {
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($user_id, $user_type, $password);
+            $stmt->bind_result($user_id, $user_name, $user_type, $password, $status);
             $stmt->fetch();
-            if (password_verify($passwordInput, $password)) {
+            if (password_verify($passwordInput, $password) && $status == "active") {
                 $_SESSION['user_id'] = $user_id;
+                $_SESSION['user_name'] = $first_name;
                 $_SESSION['user_type'] = $user_type;
+
 
                 if ($rememberMe) {
                     $auth_key = generate_auth_key();
@@ -58,11 +60,11 @@ if (!empty($email) && !empty($passwordInput)) {
                     set_remember_me($auth_key);
                 }
                 if ($user_type == "admin") {
-                    header("Location: ../admin.php");
+                    header("Location: ./add_ad.php");
                     exit;
                 }
 
-                header("Location: ../index.html");
+                header("Location: ../index.php");
                 exit;
             } else {
                 echo "<script>alert('Invalid Email or Password.'); window.history.back();</script>";
