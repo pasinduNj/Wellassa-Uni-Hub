@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Jul 27, 2024 at 02:02 PM
+-- Host: 127.0.0.1
+-- Generation Time: Aug 03, 2024 at 11:39 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,46 @@ SET time_zone = "+00:00";
 --
 -- Database: `wellassaunihub`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `image`
+--
+
+CREATE TABLE `image` (
+  `image_id` varchar(10) NOT NULL,
+  `user_id` varchar(10) DEFAULT NULL,
+  `product_id` varchar(12) DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `modified_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product`
+--
+
+CREATE TABLE `product` (
+  `productid` varchar(50) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `price` double NOT NULL,
+  `description` text NOT NULL,
+  `category` text NOT NULL,
+  `providerid` varchar(50) NOT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `image_name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`productid`, `name`, `price`, `description`, `category`, `providerid`, `image_path`, `image_name`) VALUES
+('6698a33b473e7', 'camping tent', 500, 'Description:\nEnjoy a perfect family getaway with our spacious and comfortable family camping tents. Designed to accommodate up to 6 people, this tent provides ample room for everyone. The tent features multiple rooms and a central living area, making it ideal for families or groups of friends.\n\nFeatures:\n\nCapacity: Up to 6 people\nDimensions: 16 x 12 feet\nRooms: 3 separate rooms for privacy\nMaterial: Waterproof and UV-resistant polyester\nVentilation: Mesh windows and roof for excellent airflow\nSetup: Easy-to-assemble with color-coded poles\nAdditional: Electrical cord access port, internal storage pockets, and a carrying bag\nRental Price: LKR 500 per night', 'camping', '123', 'uploads/camping.jpg', 'camping.jpg'),
+('6698cb2fd2dcd', 'chocolate ', 1500, 'We offer chocolate gifts with arrangements sweetheart on any grand occasion like a birthday, anniversary, New Year, or Valentine’s Day. (Assorted chocolates as per availability', 'gift', '343434', 'uploads/birth.jpg', 'birth.jpg'),
+('66ab276a0fac0', 'wallter', 500, 'leather wallet', 'other', 'asd123', 'uploads/wallet.jpg', 'wallet.jpg');
 
 -- --------------------------------------------------------
 
@@ -136,22 +176,41 @@ CREATE TABLE `user` (
   `nic_number` varchar(16) DEFAULT NULL,
   `whatsapp_number` varchar(15) DEFAULT NULL,
   `service_address` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
   `auth_key` varchar(255) DEFAULT NULL,
   `auth_key_expires` datetime DEFAULT NULL,
-  `status` enum('active','disabled') DEFAULT NULL
+  `status` enum('active','disabled') DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `amount_per` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `email`, `contact_number`, `user_type`, `password`, `joined_date`, `profile_photo`, `business_name`, `nic_number`, `whatsapp_number`, `service_address`, `description`, `auth_key`, `auth_key_expires`, `status`) VALUES
-('Admin-Main', 'Wellassa', 'UniHub', 'wellassaunihub@gmail.com', '0774953014', 'admin', '$2y$10$B78rX7q6dpsG.1CJbOHpT.03j0TkNwDf7XGM9kD00Rg3lJSmyjM.S', '2024-07-25', NULL, NULL, NULL, NULL, NULL, NULL, '134405e5d0a198fc1776bebc344ad0ab', '2024-08-24 19:16:40', NULL);
+INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `email`, `contact_number`, `user_type`, `password`, `joined_date`, `profile_photo`, `business_name`, `nic_number`, `whatsapp_number`, `service_address`, `auth_key`, `auth_key_expires`, `status`, `description`, `amount_per`) VALUES
+('Admin-Main', 'Wellassa', 'UniHub', 'wellassaunihub@gmail.com', '0774953014', 'admin', '$2y$10$B78rX7q6dpsG.1CJbOHpT.03j0TkNwDf7XGM9kD00Rg3lJSmyjM.S', '2024-07-25', NULL, NULL, NULL, NULL, NULL, '134405e5d0a198fc1776bebc344ad0ab', '2024-08-24 19:16:40', NULL, NULL, NULL),
+('CUS-0001', 'Mohammed', 'SajithAli', 'saj@gmail.com', '0780784565', 'customer', '$2y$10$wKihgSmOD1EvALzsSoaoW.SSFkx0YtW8pXBAOkhyditzJf1EdftyK', '2024-08-03', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL, NULL),
+('SP-001', 'Mohammed', 'Sajith', 'sajith@gmail.com', '0760784568', 'sp_freelance', '$2y$10$F0UwafG3u388LFydq4mf9.9Nf/5IigTVxYTztaMrtpKYd30ggxAYm', '2024-08-03', '/assets/img/profile_photo/SP-001.jpg', 'Bayers', '200023202970', '0760784568', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', 'I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.', NULL),
+('SP-002', 'Mohammed', 'SajithAli', 'sajithali@gmail.com', '0750784568', 'sp_freelance', '$2y$10$qpYRZYSLUjx8S6ZLSw6AcezWy33ml2UAYsVb3T1NfXaRyY40l6wNy', '2024-08-03', '/assets/img/profile_photo/SP-002.jpg', 'Techers', '200023202974', '0750784568', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', 'I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable.', NULL),
+('SP-003', 'Mohammed', 'SajithAli', 'sajitha@gmail.com', '0770784568', 'sp_freelance', '$2y$10$lahmslvy8zzyQ1r.H2y8SeCPP7vb9Y3NRSiMmaNotHmLc7skQ7ZJu', '2024-08-03', '/assets/img/profile_photo/SP-003.jpg', 'Hechers', '200023202975', '0770784568', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', 'I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.', NULL),
+('SP-004', 'Mohammed', 'SajithAli', 'sajit@gmail.com', '0770784569', 'sp_freelance', '$2y$10$bcqC76et2wi9OD23DQOXHOsJtRHeYt7DDZ6cvapX.Mbu4g9mthWXy', '2024-08-03', '/assets/img/profile_photo/SP-004.jpg', 'Rechers', '200023202985', '0770784569', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', 'I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.\nI am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.', NULL),
+('SP-005', 'Mohammed', 'SajithAli', 'saji@gmail.com', '0770784565', 'sp_freelance', '$2y$10$FnLUPX2JK.V57ITbQtQvPOc8ewyfE/SRfjoE4XQJ.IzsFdJ8DzcBS', '2024-08-03', '/assets/img/profile_photo/SP-005.jpg', 'Slechers', '200023202984', '0770784565', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', NULL, NULL);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `image`
+--
+ALTER TABLE `image`
+  ADD PRIMARY KEY (`image_id`);
+
+--
+-- Indexes for table `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`productid`);
 
 --
 -- Indexes for table `reservations`

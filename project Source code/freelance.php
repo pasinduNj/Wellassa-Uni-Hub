@@ -1,6 +1,7 @@
 <?php
-include './classes/db_connection.php';
+include './php/classes/db_connection.php';
 session_start();
+$_SESSION['user_type'] = 'sp_freelance';
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -87,7 +88,7 @@ session_start();
                     $conn = $dbconnector->getConnection();
 
                     //sql query for getting data
-                    $sql = "SELECT * FROM user where user_type = 'sp_freelance'";
+                    $sql = "SELECT * FROM user where user_type = 'sp_freelance' AND status = 'active'";
 
                     $result = $conn->query($sql);
 
@@ -96,31 +97,34 @@ session_start();
                         while ($row = $result->fetch_assoc()) {
                             echo '<div class="col-md-4">';
                             echo '<div class="card mb-4 glass-card">';
-                            //Put the formatted image link here
-                            echo '<img src="assets/img/team/avatar4.png" class="card-img-top" alt="Profile Picture">';
+                            //formatted image link here
+                            echo '<img src="' . $row['profile_photo'] . '" class="card-img-top img-fluid" alt="Profile Picture of ' . $row['business_name'] . '" style="height: 300px; object-fit: cover;">';
                             echo '<div class="card-body">';
                             echo '<h5 class="card-title">' . $row['business_name'] . '</h5>';
                             //Here goes the description of the card
-                            echo '<p class="card-text">' . $row['description'] . '</p>';
+                    //*****put the rating also */
+                            echo '<p class="card-text text-truncate" >' . $row['description'] . '</p>';
                             echo '</div>';
-                            
+
                             //Guiding the button to affiliate page
                             //Check the type of user before showing the button in database
-                            if ($_SESSION["type"] == null) {
+                            if ($_SESSION["user_type"] == "customer" || $_SESSION["user_type"] == "admin" || $_SESSION["user_type"] == "sp_products" || $_SESSION["user_type"] == "sp_reservation" || $_SESSION["user_type"] == "sp_freelance") {
                                 echo '<div class="d-flex justify-content-center">';
-                                echo '<a href="./signup.html" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
+                                //Put the correct link here, here i load the userId inthe link as hard coded . it should be dynamic
+                                echo '<a href="freelance_view.php?userId=' . $row['user_id'] . '" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
                                 echo '</div>';
-                            } elseif ($_SESSION["user_type"] == "customer" || $_SESSION["user_type"] == "admin" || $_SESSION["user_type"] == "sp_products" || $_SESSION["user_type"] == "sp_reservation" || $_SESSION["user_type"] == "sp_freelance") {
-                                echo '<div class="d-flex justify-content-center">';
-                                //Put the correct link here
-                                echo '<a href="/login.php" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
-                                echo '</div>';
+                            } else {
+                                if ($_SESSION["user_type"] == null) {
+                                    echo '<div class="d-flex justify-content-center">';
+                                    echo '<a href="./signup.html" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
+                                    echo '</div>';
+                                }
                             }
                             echo '</div>';
                             echo '</div>';
                         }
                     } else {
-                        die("No records found in Database");
+                        die("No records of freelancers in the database");
                     }
                     $conn->close();
                     ?>
