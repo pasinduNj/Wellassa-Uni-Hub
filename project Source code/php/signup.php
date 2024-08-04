@@ -83,7 +83,7 @@ if (isset($_POST['userType'])) {
              '$businessName', '$nicNumber', '$whatsappNumber', '$serviceAddress', 'active')";
 
             if ($conn->query($query) === TRUE) {
-                echo "<script>alert('Registration successful. Please log in.'); window.location.href = '../login.html';</script>";
+                echo "<script>alert('Registration successful. Please log in.'); window.location.href = '../login.php';</script>";
             } else {
                 echo "<script>alert('Error: " . $query . "<br>" . $conn->error . "'); window.history.back();</script>";
             }
@@ -104,7 +104,7 @@ if (isset($_POST['userType'])) {
             VALUES ('$userId', '$firstName', '$lastName', '$email', '$contactNumber', '$userType', '$hashPassword', '$joined_date', 'active')";
 
                 if ($conn->query($query) === TRUE) {
-                    echo "<script>alert('Registration successful. Please log in.'); window.location.href = '../login.html';</script>";
+                    echo "<script>alert('Registration successful. Please log in.'); window.location.href = '../login.php';</script>";
                 } else {
                     echo "<script>alert('Error: " . $query . "<br>" . $conn->error . "'); window.history.back();</script>";
                 }
@@ -119,7 +119,7 @@ if (isset($_POST['userType'])) {
             VALUES ('$userId', '$firstName', '$lastName', '$email', '$contactNumber', '$userType', '$hashPassword', '$joined_date', 'active')";
 
                 if ($conn->query($query) === TRUE) {
-                    echo "<script>alert('Registration successful. Please log in.'); window.location.href = '../login.html';</script>";
+                    echo "<script>alert('Registration successful. Please log in.'); window.location.href = '../login.php';</script>";
                 } else {
                     echo "<script>alert('Error: " . $query . "<br>" . $conn->error . "'); window.history.back();</script>";
                 }
