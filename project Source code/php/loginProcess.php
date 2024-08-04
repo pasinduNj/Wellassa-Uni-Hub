@@ -57,8 +57,12 @@ if (!empty($email) && !empty($passwordInput)) {
                     }
                     set_remember_me($auth_key);
                 }
+                if ($user_type == "admin") {
+                    header("Location: ../admin.php");
+                    exit;
+                }
 
-                echo "<script>alert('Login successful.'); window.location.href = '../index.html';</script>";
+                header("Location: ../index.html");
                 exit;
             } else {
                 echo "<script>alert('Invalid Email or Password.'); window.history.back();</script>";
