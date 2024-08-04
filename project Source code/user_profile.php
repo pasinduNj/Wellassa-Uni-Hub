@@ -2,9 +2,6 @@
 include_once('./php/classes/db_connection.php');
 include_once('./php/classes/UserClass.php');
 session_start();
-//remember this
-$_SESSION['user_id'] = "CUS-0001";//"SP-002";
-$_SESSION['user_type'] = "customer";//"sp_freelance";
 
 $db = new DBConnection();
 $userId = $_SESSION['user_id']; //$_GET['userId'];
@@ -121,7 +118,7 @@ if ($_SESSION['user_type'] == "customer") {
                     echo '<h1 class="col-md-3 mb-3">' . $user->getFirstName() . ' ' . $user->getLastName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>' . $user->getEmail() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span> <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</a></p>';
-                    echo '<button class="btn btn-primary"><a href="edit_profile.php?userId=' . $userId . '">Edit Profile</a></button>';
+                    echo '<a href="/php/edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
                 } else {
                     echo '<h1 class="col-md-3 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>' . $user->getEmail() . '</p>';
@@ -130,8 +127,8 @@ if ($_SESSION['user_type'] == "customer") {
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>' . $user->getAddress() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>' . $user->getDescription() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>Reserve advance Rs.' . $user->getAmountPer() . '</p>';
-                    echo '<button class="btn btn-primary"><a href="edit_profile.php" style="text-decoration: none;">Edit Profile</a></button>';
                     echo '<p class="mb-2"><span class="mr-2">Reviews :</span><span class="rating"><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span></span></p>'; //empty star for illustration
+                    echo '<a href="/php/edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
                 }
                 ?>
             </div>

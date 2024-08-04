@@ -1,7 +1,7 @@
 <?php
 include './php/classes/db_connection.php';
 session_start();
-$_SESSION['user_type'] = 'sp_freelance';
+//$_SESSION['user_type'] = 'sp_freelance';
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
