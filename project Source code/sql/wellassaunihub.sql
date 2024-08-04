@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Aug 03, 2024 at 11:39 AM
+-- Host: 127.0.0.1:3306
+-- Generation Time: Aug 04, 2024 at 11:43 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,6 +31,7 @@ CREATE TABLE `image` (
   `user_id` varchar(10) DEFAULT NULL,
   `product_id` varchar(12) DEFAULT NULL,
   `image_path` varchar(255) DEFAULT NULL,
+  `image_name` varchar(32) NOT NULL,
   `modified_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -41,24 +42,15 @@ CREATE TABLE `image` (
 --
 
 CREATE TABLE `product` (
-  `productid` varchar(50) NOT NULL,
+  `product_id` int(50) NOT NULL,
   `name` varchar(255) NOT NULL,
   `price` double NOT NULL,
   `description` text NOT NULL,
   `category` text NOT NULL,
-  `providerid` varchar(50) NOT NULL,
+  `provider_id` varchar(50) NOT NULL,
   `image_path` varchar(255) DEFAULT NULL,
   `image_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `product`
---
-
-INSERT INTO `product` (`productid`, `name`, `price`, `description`, `category`, `providerid`, `image_path`, `image_name`) VALUES
-('6698a33b473e7', 'camping tent', 500, 'Description:\nEnjoy a perfect family getaway with our spacious and comfortable family camping tents. Designed to accommodate up to 6 people, this tent provides ample room for everyone. The tent features multiple rooms and a central living area, making it ideal for families or groups of friends.\n\nFeatures:\n\nCapacity: Up to 6 people\nDimensions: 16 x 12 feet\nRooms: 3 separate rooms for privacy\nMaterial: Waterproof and UV-resistant polyester\nVentilation: Mesh windows and roof for excellent airflow\nSetup: Easy-to-assemble with color-coded poles\nAdditional: Electrical cord access port, internal storage pockets, and a carrying bag\nRental Price: LKR 500 per night', 'camping', '123', 'uploads/camping.jpg', 'camping.jpg'),
-('6698cb2fd2dcd', 'chocolate ', 1500, 'We offer chocolate gifts with arrangements sweetheart on any grand occasion like a birthday, anniversary, New Year, or Valentine’s Day. (Assorted chocolates as per availability', 'gift', '343434', 'uploads/birth.jpg', 'birth.jpg'),
-('66ab276a0fac0', 'wallter', 500, 'leather wallet', 'other', 'asd123', 'uploads/wallet.jpg', 'wallet.jpg');
 
 -- --------------------------------------------------------
 
@@ -209,7 +201,7 @@ ALTER TABLE `image`
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
-  ADD PRIMARY KEY (`productid`);
+  ADD PRIMARY KEY (`product_id`);
 
 --
 -- Indexes for table `reservations`
@@ -235,6 +227,16 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `contact_number` (`contact_number`),
   ADD UNIQUE KEY `nic` (`nic_number`),
   ADD UNIQUE KEY `whatsapp_number` (`whatsapp_number`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
+  MODIFY `product_id` int(50) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
