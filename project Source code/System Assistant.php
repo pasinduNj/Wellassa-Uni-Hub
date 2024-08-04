@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
 
@@ -15,6 +18,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
     <link rel="stylesheet" href="assets/css/-Filterable-Cards--Filterable-Cards.css">
     <link rel="stylesheet" href="assets/css/Account-setting-or-edit-profile.css">
     <link rel="stylesheet" href="assets/css/book-table.css">
@@ -36,7 +40,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
     <link rel="stylesheet" href="assets/css/jQuery-Panel-styles.css">
     <link rel="stylesheet" href="assets/css/jQuery-Panel.css">
-    <link rel="stylesheet" href="assets/css/Latest-Blog.css">
     <link rel="stylesheet" href="assets/css/LinkedIn-like-Profile-Box.css">
     <link rel="stylesheet" href="assets/css/Lista-Productos-Canito.css">
     <link rel="stylesheet" href="assets/css/NZ---TextboxLabel.css">
@@ -72,69 +75,79 @@
             </div><button data-bs-target="#navcol-1" data-bs-toggle="collapse" class="navbar-toggler"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         </div>
     </nav>
-    <h1 class="display-1 text-uppercase text-center text-primary border rounded-0" style="padding: 10px 0px;padding-top: 10px;font-size: 27.52px;font-weight: bold;">ADVERTISMENTS&nbsp;</h1><div class="blog-home3 py-5">
-  <div class="container">
-    <!-- Row  -->
-    <div class="row justify-content-center">
-      <!-- Column -->
-      <div class="col-md-8 text-center">
-        
-      </div>
-      <!-- Column -->
-      <!-- Column -->
-    </div>
-    <div class="row mt-4">
-      <!-- Column -->
-      <div class="col-lg-6">
-        <div class="card border-0 mb-4">
-          <a href="#"><img class="card-img-top" src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/blog/blog-home/img4.jpg" alt="wrappixel kit"></a>
-          <div class="date-pos text-center text-white p-3 bg-success-gradiant">JOHN DOE &nbsp; &nbsp; SEPT 15, 2017</div>
-          <h5 class="font-weight-medium mt-3"><a href="#" class="link text-decoration-none">Techonologies started to change Drastically</a></h5>
-          <p class="m-t-20">You can relay on our amazing features list and also our customer services will be great experience. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+    <h1 class="display-1 text-uppercase text-center text-primary border rounded-0" style="padding: 10px 0px;padding-top: 10px;font-size: 27.52px;font-weight: bold;">System assistant dashboard</h1>
+    <div style="margin: 33px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6" style="background-color: rgb(241,247,252);">
+                    <div class="form-group mb-3">
+                        <div class="text-center border rounded-0 shadow-sm profile-box" style="width: 288px;height: 310px;background-color: #ffffff;margin: 5px;padding-right: 0px;margin-right: 4px;">
+                            <div style="height: 50px;background-image: url(&quot;assets/img/bg-pattern.png&quot;);background-color: rgba(54,162,177,0);"></div>
+                            <div><img class="rounded-circle" src="assets/img/bg-cta.jpg" width="119" height="119" style="background-color: rgb(255,255,255);padding: 2px;"></div>
+                            <div style="height: 80px;">
+                                <h4 style="height: 24.275px;font-size: 19.568px;margin: 22px;">Profile Name</h4><button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal1" style="width: 191.4px;margin: 21px;">Edit Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" style="padding-left: 20px;padding-right: 20px;background-color: rgb(241,247,252);">
+                    <fieldset></fieldset>
+                    <legend><strong>Notifications</strong></legend>
+                    <p></p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td style="height: 46.2px;margin: 1px;"><i class="fa fa-star" style="height: 24px;width: 24px;"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr></tr>
+                                <tr>
+                                    <td><i class="fa fa-star" style="width: 24px;height: 24px;"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-star" style="width: 24px;height: 24px;"></i></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <!-- Column -->
-      <div class="col-lg-6">
-        <div class="row">
-          <!-- Column -->
-          <div class="col-md-6">
-            <div class="card border-0 mb-4">
-              <a href="#"><img class="card-img-top" src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/blog/blog-home/img5.jpg" alt="wrappixel kit"></a>
-              <div class="date-pos text-center text-white p-3 bg-success-gradiant">JOHN DOE &nbsp; &nbsp; SEPT 15, 2017</div>
-              <h6 class="font-weight-medium mt-3"><a href="#" class="link text-decoration-none">New Seminar on Newest Food Recipe</a></h6>
-            </div>
-          </div>
-          <!-- Column -->
-          <div class="col-md-6">
-            <div class="card border-0 mb-4">
-              <a href="#"><img class="card-img-top" src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/blog/blog-home/img6.jpg" alt="wrappixel kit"></a>
-              <div class="date-pos text-center text-white p-3 bg-success-gradiant">JOHN DOE &nbsp; &nbsp; SEPT 15, 2017</div>
-              <h6 class="font-weight-medium mt-3"><a href="#" class="link text-decoration-none">New Seminar on Newest Food Recipe</a></h6>
-            </div>
-          </div>
-          <!-- Column -->
-          <div class="col-md-6">
-            <div class="card border-0 mb-4">
-              <a href="#"><img class="card-img-top" src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/blog/blog-home/img7.jpg" alt="wrappixel kit"></a>
-              <div class="date-pos text-center text-white p-3 bg-success-gradiant">JOHN DOE &nbsp; &nbsp; SEPT 15, 2017</div>
-              <h6 class="font-weight-medium mt-3"><a href="#" class="link text-decoration-none">New Seminar on Newest Food Recipe</a></h6>
-            </div>
-          </div>
-          <!-- Column -->
-          <div class="col-md-6">
-            <div class="card border-0 mb-4">
-              <a href="#"><img class="card-img-top" src="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/blog/blog-home/img8.jpg" alt="wrappixel kit"></a>
-              <div class="date-pos text-center text-white p-3 bg-success-gradiant">JOHN DOE &nbsp; &nbsp; SEPT 15, 2017</div>
-              <h6 class="font-weight-medium mt-3"><a href="#" class="link text-decoration-none">New Seminar on Newest Food Recipe</a></h6>
-            </div>
-          </div>
-          <!-- Column -->
-        </div>
-      </div>
-      <!-- Column -->
     </div>
-  </div>
-</div>
+    <div class="features-boxed">
+        <div class="container">
+            <div class="row justify-content-center features">
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <div class="box"><i class="la la-users icon"></i>
+                        <h3 class="name" style="height: 37.6px;">Registered Users</h3><a class="learn-more" href="#">Manage »</a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <div class="box"><i class="la la-share-alt-square icon"></i>
+                        <h3 class="name" style="height: 37.6px;">Service Providers</h3><a class="learn-more" href="#">Manage »</a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <div class="box"><i class="la la-tripadvisor icon"></i>
+                        <h3 class="name" style="height: 37.6px;">Advertisement&nbsp;</h3><a class="learn-more" href="#">Manage »</a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <div class="box"><i class="fa fa-hand-paper-o icon"></i>
+                        <h3 class="name" style="height: 37.6px;">Appointment</h3><a class="learn-more" href="#">Manage »</a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-5 col-lg-4 item">
+                    <div class="box"><i class="la la-wechat icon"></i>
+                        <h3 class="name" style="height: 37.6px;">Chat</h3><a class="learn-more" href="#">Manage »</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="bg-primary-gradient" style="height: 160.2px;margin: 0px;padding: 2px;">
         <div class="container py-4 py-lg-5" style="height: 160px;padding: 0px;width: 720px;">
             <div class="row justify-content-center">

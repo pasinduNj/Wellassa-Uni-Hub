@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
   <head>
@@ -6,7 +9,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
     />
-    <title>Reset Password</title>
+    <title>Register Assistant</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
     <link
       rel="stylesheet"
@@ -120,7 +123,7 @@
       href="assets/css/Text-Box-2-Columns---Scroll---Hover-Effect.css"
     />
     <link rel="stylesheet" href="assets/css/User-rating.css" />
-    <script src="assets/js/scripts.js" defer></script>
+    <script src="/assets/js/scripts.js" defer></script>
   </head>
 
   <body>
@@ -181,7 +184,7 @@
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="Reservations.html"
                   >Reservations</a
-                ><a class="dropdown-item" href="producthtml">Order Products</a
+                ><a class="dropdown-item" href="product.html">Order Products</a
                 ><a class="dropdown-item" href="Freelance.html">Freelance</a>
               </div>
             </li>
@@ -200,7 +203,7 @@
           <a
             class="btn btn-primary shadow"
             role="button"
-            href="signup.html"
+            href="php/logout.php"
             style="
               height: 35px;
               padding: 3px 10px;
@@ -208,7 +211,7 @@
               width: 78px;
               border-radius: 59px;
             "
-            >Sign Up</a
+            >Logout</a
           ><a
             class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right"
             role="button"
@@ -250,7 +253,7 @@
       <div class="container py-5">
         <div class="row mb-4 mb-lg-5">
           <div class="col-md-8 col-xl-6 text-center mx-auto">
-            <p class="fw-bold text-success mb-2">Reset Password</p>
+            <p class="fw-bold text-success mb-2">Register Systam Assistant</p>
           </div>
         </div>
         <div class="row d-flex justify-content-center">
@@ -277,11 +280,12 @@
                 </div>
                 <form
                   id="signupForm"
+                  action="php/signup.php"
                   method="post"
-                  action="php/reset_password.php"
                   data-bs-theme="light"
                   style="border-style: none"
                 >
+                  <input type="hidden" name="userType" value="admin" />
                   <input
                     class="form-control"
                     id="firstName"
@@ -296,7 +300,8 @@
                     placeholder="Last Name"
                     name="lastName"
                     required
-                  /><input
+                  />
+                  <input
                     class="form-control"
                     id="email"
                     type="email"
@@ -320,7 +325,7 @@
                     class="form-control"
                     type="password"
                     name="password"
-                    placeholder="New Password (Standard)"
+                    placeholder="Password (Standard)"
                     required
                   /><input
                     id="confirmPassword"
@@ -335,7 +340,7 @@
                     class="btn btn-primary shadow d-block w-100"
                     type="submit"
                   >
-                    Reset Password
+                    Register
                   </button>
                 </form>
               </div>

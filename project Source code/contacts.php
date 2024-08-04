@@ -1,10 +1,13 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>wellassaUniHub</title>
+    <title>Contacts - Brand</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee">
@@ -15,7 +18,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
     <link rel="stylesheet" href="assets/css/-Filterable-Cards--Filterable-Cards.css">
     <link rel="stylesheet" href="assets/css/Account-setting-or-edit-profile.css">
     <link rel="stylesheet" href="assets/css/book-table.css">
@@ -56,95 +58,75 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md sticky-top text-nowrap shadow visible navbar-shrink py-3 navbar-light" id="mainNav-1" style="background: url(&quot;https://cdn.bootstrapstudio.io/placeholders/1400x800.png&quot;), var(--bs-secondary-bg);height: 73.2px;" data-bs-smooth-scroll="true">
+    <nav class="navbar navbar-expand-md sticky-top text-nowrap shadow visible navbar-shrink py-3 navbar-light" id="mainNav" style="background: url(&quot;https://cdn.bootstrapstudio.io/placeholders/1400x800.png&quot;), var(--bs-secondary-bg);height: 73.2px;" data-bs-smooth-scroll="true">
         <div class="container"><span class="bs-icon-sm bs-icon-circle bs-icon-primary shadow d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-gear-wide">
                     <path d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z"></path>
-                </svg></span><a class="navbar-brand d-flex align-items-center" href="/"><span>Wellassa UniHUB</span></a>
+                </svg></span><a class="navbar-brand d-flex align-items-center" href="/"><span>Wellassa UniHUB</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link d-lg-flex align-items-lg-center" aria-expanded="false" data-bs-toggle="dropdown" href="Reservations.html" target="_blank">Services</a>
+                    <li class="nav-item dropdown" style="margin: 0px;padding: -1px;"><a class="dropdown-toggle nav-link d-lg-flex align-items-lg-center" aria-expanded="false" data-bs-toggle="dropdown" href="Reservations.html" target="_blank" style="margin: -1px;padding: 9px;font-weight: bold;color: rgba(0,0,0,0.65);">Services</a>
                         <div class="dropdown-menu"><a class="dropdown-item" href="Reservations.html">Reservations</a><a class="dropdown-item" href="Shop.html">Order Products</a><a class="dropdown-item" href="Freelance.html">Freelance</a></div>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="index.html/#contact">Contact Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="Service%20Provider.html">Profile</a></li>
-                </ul><a class="btn btn-primary shadow" role="button" href="#" style="width: 88.7px;margin: -9px -16px -9px;padding: 3px 0px;">Log out</a><a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right" role="button" href="shopping-cart.html" style="padding: 24px;padding-left: 11px;margin: 46px;margin-left: 7px;margin-right: 5px;margin-bottom: 3px;padding-bottom: 7px;padding-top: 7px;padding-right: 12px;margin-top: 1px;transform: translate(24px) rotate(1deg) scale(1);box-shadow: 0px 0px;height: 0px;width: 20.2px;text-align: left;position: static;display: block;"><i class="fa fa-shopping-cart" style="width: 25.2px;height: 34px;margin: -22px;padding: 6px;font-size: 25px;display: block;"></i>&nbsp;Cart</a>
-            </div><button data-bs-target="#navcol-1" data-bs-toggle="collapse" class="navbar-toggler"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <li class="nav-item"><a class="nav-link" href="Service%20Provider.html" style="margin: 0px;padding: 8px;height: 36.6px;">Profile</a></li>
+                </ul><a class="btn btn-primary shadow" role="button" href="signup.html" style="height: 35px;padding: 3px 10px;margin: 10px -10px 10px 10px;width: 78px;border-radius: 59px;">Sign Up</a><a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right" role="button" href="shopping-cart.html" style="padding: 1px;padding-left: 11px;margin: 0px;margin-left: 7px;margin-right: 5px;margin-bottom: 3px;padding-bottom: 7px;padding-top: 7px;padding-right: 12px;margin-top: 1px;transform: translate(24px) rotate(1deg) scale(1);box-shadow: 0px 0px;height: 31.6px;width: 63.2px;text-align: left;position: static;"><i class="fa fa-shopping-cart" style="width: 27.2px;height: 33px;margin: -9px;padding: 2px;font-size: 25px;"></i>&nbsp;Cart</a>
+            </div>
         </div>
     </nav>
-    <h1 class="display-1 text-uppercase text-center text-primary border rounded-0" style="padding: 10px 0px;padding-top: 10px;font-size: 27.52px;font-weight: bold;">System assistant dashboard</h1>
-    <div style="margin: 33px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6" style="background-color: rgb(241,247,252);">
-                    <div class="form-group mb-3">
-                        <div class="text-center border rounded-0 shadow-sm profile-box" style="width: 288px;height: 310px;background-color: #ffffff;margin: 5px;padding-right: 0px;margin-right: 4px;">
-                            <div style="height: 50px;background-image: url(&quot;assets/img/bg-pattern.png&quot;);background-color: rgba(54,162,177,0);"></div>
-                            <div><img class="rounded-circle" src="assets/img/bg-cta.jpg" width="119" height="119" style="background-color: rgb(255,255,255);padding: 2px;"></div>
-                            <div style="height: 80px;">
-                                <h4 style="height: 24.275px;font-size: 19.568px;margin: 22px;">Profile Name</h4><button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal1" style="width: 191.4px;margin: 21px;">Edit Profile</button>
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="row mb-5">
+                <div class="col-md-8 col-xl-6 text-center mx-auto">
+                    <p class="fw-bold text-success mb-2">Contacts</p>
+                    <h2 class="fw-bold">How you can reach us</h2>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-6 col-xl-4">
+                    <div>
+                        <form class="p-3 p-xl-4" method="post" data-bs-theme="light">
+                            <div class="mb-3"><input class="form-control" type="text" id="name-1" name="name" placeholder="Name"></div>
+                            <div class="mb-3"><input class="form-control" type="email" id="email-1" name="email" placeholder="Email"></div>
+                            <div class="mb-3"><textarea class="form-control" id="message-1" name="message" rows="6" placeholder="Message"></textarea></div>
+                            <div><button class="btn btn-primary shadow d-block w-100" type="submit">Send </button></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xl-4 d-flex justify-content-center justify-content-xl-start">
+                    <div class="d-flex flex-wrap flex-md-column justify-content-md-start align-items-md-start h-100">
+                        <div class="d-flex align-items-center p-3">
+                            <div class="bs-icon-md bs-icon-circle bs-icon-primary shadow d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block bs-icon bs-icon-md"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-telephone">
+                                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"></path>
+                                </svg></div>
+                            <div class="px-2">
+                                <h6 class="fw-bold mb-0">Phone</h6>
+                                <p class="text-muted mb-0">+123456789</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center p-3">
+                            <div class="bs-icon-md bs-icon-circle bs-icon-primary shadow d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block bs-icon bs-icon-md"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-envelope">
+                                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                                </svg></div>
+                            <div class="px-2">
+                                <h6 class="fw-bold mb-0">Email</h6>
+                                <p class="text-muted mb-0">info@example.com</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center p-3">
+                            <div class="bs-icon-md bs-icon-circle bs-icon-primary shadow d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block bs-icon bs-icon-md"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-pin">
+                                    <path d="M4.146.146A.5.5 0 0 1 4.5 0h7a.5.5 0 0 1 .5.5c0 .68-.342 1.174-.646 1.479-.126.125-.25.224-.354.298v4.431l.078.048c.203.127.476.314.751.555C12.36 7.775 13 8.527 13 9.5a.5.5 0 0 1-.5.5h-4v4.5c0 .276-.224 1.5-.5 1.5s-.5-1.224-.5-1.5V10h-4a.5.5 0 0 1-.5-.5c0-.973.64-1.725 1.17-2.189A5.921 5.921 0 0 1 5 6.708V2.277a2.77 2.77 0 0 1-.354-.298C4.342 1.674 4 1.179 4 .5a.5.5 0 0 1 .146-.354zm1.58 1.408-.002-.001.002.001m-.002-.001.002.001A.5.5 0 0 1 6 2v5a.5.5 0 0 1-.276.447h-.002l-.012.007-.054.03a4.922 4.922 0 0 0-.827.58c-.318.278-.585.596-.725.936h7.792c-.14-.34-.407-.658-.725-.936a4.915 4.915 0 0 0-.881-.61l-.012-.006h-.002A.5.5 0 0 1 10 7V2a.5.5 0 0 1 .295-.458 1.775 1.775 0 0 0 .351-.271c.08-.08.155-.17.214-.271H5.14c.06.1.133.191.214.271a1.78 1.78 0 0 0 .37.282"></path>
+                                </svg></div>
+                            <div class="px-2">
+                                <h6 class="fw-bold mb-0">Location</h6>
+                                <p class="text-muted mb-0">12 Example Street</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6" style="padding-left: 20px;padding-right: 20px;background-color: rgb(241,247,252);">
-                    <fieldset></fieldset>
-                    <legend><strong>Notifications</strong></legend>
-                    <p></p>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td style="height: 46.2px;margin: 1px;"><i class="fa fa-star" style="height: 24px;width: 24px;"></i></td>
-                                    <td></td>
-                                </tr>
-                                <tr></tr>
-                                <tr>
-                                    <td><i class="fa fa-star" style="width: 24px;height: 24px;"></i></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fa fa-star" style="width: 24px;height: 24px;"></i></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
         </div>
-    </div>
-    <div class="features-boxed">
-        <div class="container">
-            <div class="row justify-content-center features">
-                <div class="col-sm-6 col-md-5 col-lg-4 item">
-                    <div class="box"><i class="la la-users icon"></i>
-                        <h3 class="name" style="height: 37.6px;">Registered Users</h3><a class="learn-more" href="#">Manage »</a>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-5 col-lg-4 item">
-                    <div class="box"><i class="la la-share-alt-square icon"></i>
-                        <h3 class="name" style="height: 37.6px;">Service Providers</h3><a class="learn-more" href="#">Manage »</a>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-5 col-lg-4 item">
-                    <div class="box"><i class="la la-tripadvisor icon"></i>
-                        <h3 class="name" style="height: 37.6px;">Advertisement&nbsp;</h3><a class="learn-more" href="#">Manage »</a>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-5 col-lg-4 item">
-                    <div class="box"><i class="fa fa-hand-paper-o icon"></i>
-                        <h3 class="name" style="height: 37.6px;">Appointment</h3><a class="learn-more" href="#">Manage »</a>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-5 col-lg-4 item">
-                    <div class="box"><i class="la la-wechat icon"></i>
-                        <h3 class="name" style="height: 37.6px;">Chat</h3><a class="learn-more" href="#">Manage »</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </section>
     <footer class="bg-primary-gradient" style="height: 160.2px;margin: 0px;padding: 2px;">
         <div class="container py-4 py-lg-5" style="height: 160px;padding: 0px;width: 720px;">
             <div class="row justify-content-center">
