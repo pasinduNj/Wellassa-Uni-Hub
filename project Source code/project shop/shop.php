@@ -1,41 +1,60 @@
 <?php
-// Include the database connection
-include_once('./productsdbconnector.php');
+include_once('./Untitled/project Source code/php/classes/db_connection.php'); // Include the database connection
 
 // Initialize filter variables
 $filterCategory = isset($_GET['category']) ? $_GET['category'] : '';
 $filterMinPrice = isset($_GET['min_price']) ? $_GET['min_price'] : '';
 $filterMaxPrice = isset($_GET['max_price']) ? $_GET['max_price'] : '';
 
-// Fetch products from database based on filters
+// Establish database connection
+$db = new DbConnection();
+$conn = $db->getConnection();
+
+// Prepare SQL query for filtering products
 $sql = "SELECT * FROM product WHERE 1=1";
 $params = [];
+$types = '';
 
 if (!empty($filterCategory)) {
     $sql .= " AND category = ?";
     $params[] = $filterCategory;
+    $types .= 's'; // type for string
 }
 
 if (!empty($filterMinPrice)) {
     $sql .= " AND price >= ?";
     $params[] = $filterMinPrice;
+    $types .= 'd'; // type for double
 }
 
 if (!empty($filterMaxPrice)) {
     $sql .= " AND price <= ?";
     $params[] = $filterMaxPrice;
+    $types .= 'd'; // type for double
 }
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute($params);
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Prepare statement
+$stmt = $conn->prepare($sql);
+
+// Bind parameters dynamically
+if ($types) {
+    $stmt->bind_param($types, ...$params);
+}
+
+// Execute the query
+$stmt->execute();
+$products = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
 // Fetch distinct categories for the filter dropdown
 $categorySql = "SELECT DISTINCT category FROM product";
-$categoryStmt = $pdo->prepare($categorySql);
+$categoryStmt = $conn->prepare($categorySql);
 $categoryStmt->execute();
-$categories = $categoryStmt->fetchAll(PDO::FETCH_ASSOC);
+$categories = $categoryStmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+// Close database connection
+$db->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -161,7 +180,7 @@ $categories = $categoryStmt->fetchAll(PDO::FETCH_ASSOC);
                     </button>
                     <div class="collapse navbar-collapse" id="navcol-1">
                         <ul class="navbar-nav mx-auto">
-                            <li class="nav-item"><a class="nav-link active" href="">Home</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="http://localhost/Wellassa%20uni%20hub%20clone%20now/Untitled/project%20Source%20code/index.html">Home</a></li>
                             <li class="nav-item dropdown" style="margin: 0px;padding: -1px;">
                                 <a class="dropdown-toggle nav-link d-lg-flex align-items-lg-center" aria-expanded="false" data-bs-toggle="dropdown" href="Reservations.html" target="_blank" style="margin: -1px;padding: 9px;font-weight: bold;color: rgba(0,0,0,0.65);">Services</a>
                                 <div class="dropdown-menu">
@@ -183,8 +202,7 @@ $categories = $categoryStmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
     
-
-    <div class="container">
+        <div class="container">
         <div class="row">
             <div class="col-md-3">
                 <form method="GET" action="shop.php" class="filter-form">
@@ -223,7 +241,8 @@ $categories = $categoryStmt->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="product-card">
                                     <img src="<?= htmlspecialchars($product['image_path']) ?>" class="card-img-top" alt="<?= htmlspecialchars($product['name']) ?>">
                                     <div class="card-body">
-                                        <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5> <p class="card-text"><strong>Price:</strong> LKR <?= htmlspecialchars($product['price']) ?></p>
+                                        <h5 class="card-title"><?= htmlspecialchars($product['name']) ?></h5>
+                                        <p class="card-text"><strong>Price:</strong> LKR <?= htmlspecialchars($product['price']) ?></p>
                                         <a href="viewproduct.php?id=<?= htmlspecialchars($product['product_id']) ?>" class="btn btn-primary">View Details</a>
                                     </div>
                                 </div>

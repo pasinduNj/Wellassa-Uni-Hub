@@ -1,5 +1,5 @@
 <?php
-include_once('./productsdbconnector.php'); // Include the database connection
+include_once('./Untitled/project Source code/php/classes/db_connection.php'); // Include the database connection
 
 if (isset($_GET['id'])) {
     $productId = $_GET['id'];
