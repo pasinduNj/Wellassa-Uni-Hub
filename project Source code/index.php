@@ -191,7 +191,7 @@ session_start();
             <div class="row d-flex justify-content-center">
                 <div class="col-md-6 col-xl-4">
                     <div>
-                        <form class="p-3 p-xl-4" method="post" data-bs-theme="light">
+                        <form class="p-3 p-xl-4" method="post" data-bs-theme="light" action="send_email.php">
                             <div class="mb-3"><input class="form-control" type="text" id="name-1" name="name"
                                     placeholder="Name"></div>
                             <div class="mb-3"><input class="form-control" type="email" id="email-1" name="email"

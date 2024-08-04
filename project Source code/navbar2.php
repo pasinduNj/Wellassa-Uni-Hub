@@ -21,7 +21,7 @@ $user_name = $_SESSION['user_name'];
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="./Reservations.php">Reservations</a>
                         <a class="dropdown-item" href="shop.php">OrderProducts</a>
-                        <a class="dropdown-item" href="./Freelance.php">Freelance</a>
+                        <a class="dropdown-item" href="./freelance.php">Freelance</a>
                     </div>
                 </li>
                 <li class="nav-item">
