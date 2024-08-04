@@ -100,7 +100,7 @@ if ($_SESSION['user_type'] == "customer") {
         echo '</button>';
         echo '</div>';
         echo '<div class="modal-body">';
-        echo '<form action="" method="post" enctype="multipart/form-data">';
+        echo '<form action="/php/edit_user.php" method="post" enctype="multipart/form-data">';
         echo '<div class="form-group">';
         echo '<label for="image">Select to upload</label>';
         echo '<input type="file" class="form-control-file" name="image" required>';
