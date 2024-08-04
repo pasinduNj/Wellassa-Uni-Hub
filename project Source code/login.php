@@ -248,7 +248,7 @@ if (!empty($auth_key_cookie)) {
       </div>
     </div>
   </footer>
-  
+
   <script src="assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="assets/js/bs-init.js"></script>
   <script src="assets/js/-Filterable-Cards--Filterable-Cards.js"></script>

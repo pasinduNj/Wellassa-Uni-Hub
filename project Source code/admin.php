@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Add Advertisement</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container mt-5">
         <h2>Add New Advertisement</h2>
-        <form action="process_ad.php" method="POST" enctype="multipart/form-data">
+        <form action="./php/process_ad.php" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="description" class="form-label">Advertisement Description</label>
                 <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
@@ -31,4 +33,5 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
