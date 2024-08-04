@@ -104,7 +104,7 @@ $_SESSION['user_type'] = 'sp_freelance';
                             } else {
                                 if ($_SESSION["user_type"] == null) {
                                     echo '<div class="d-flex justify-content-center">';
-                                    echo '<a href="./signup.html" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
+                                    echo '<a href="./signup.php" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
                                     echo '</div>';
                                 }
                             }

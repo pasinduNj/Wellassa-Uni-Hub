@@ -1,5 +1,5 @@
 <?php
-
+// it should recinsider to be used
 class Image{
     private $imageId;
     private $userId;

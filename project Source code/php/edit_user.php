@@ -1,4 +1,6 @@
 <?php
+
+//it should comfirm to be used
 include_once 'classes/db_connection.php';
 include_once 'classes/UserClass.php';
 

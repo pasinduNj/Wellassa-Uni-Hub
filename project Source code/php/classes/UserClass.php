@@ -13,6 +13,7 @@ class User
     private $description;
     private $profileImage;
     private $productId;
+    private $amountPer;
     private $dbconn;
 
     public function __construct()
@@ -76,6 +77,7 @@ class User
         $this->email = $user['email'];
         $this->address = $user['service_address'];
         $this->description = $user['description'];
+        $this->amountPer = $user['amount_per'];
         $this->profileImage = $user['profile_photo'];
     }
 
@@ -121,6 +123,9 @@ class User
     {
         return $this->description;
     }
+
+    public function getAmountPer(){
+        return $this->amountPer;}
 
     public function setFirstName()
     {

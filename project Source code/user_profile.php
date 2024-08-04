@@ -3,11 +3,11 @@ include_once('./php/classes/db_connection.php');
 include_once('./php/classes/UserClass.php');
 session_start();
 //remember this
-$_SESSION['user_id'] = "SP-002";
-$_SESSION['user_type'] = "sp_freelance";
+$_SESSION['user_id'] = "CUS-0001";//"SP-002";
+$_SESSION['user_type'] = "customer";//"sp_freelance";
 
 $db = new DBConnection();
-$userId = "SP-001"; //"$_GET['userId'];
+$userId = $_SESSION['user_id']; //$_GET['userId'];
 if (!empty($_GET['productId'])) {
     $productId = $_GET['productId'];
 }
@@ -115,21 +115,22 @@ if ($_SESSION['user_type'] == "customer") {
                 <?php
                 //phone: should be in icon
                 //whatsapp icon leads to the whatsapp chat
-                //https://wa.me/94765907934  this link should be merge from the database
+                //https://wa.me/944  this link should be merge from the database
                 //buttons needs to be added
                 if ($_SESSION['user_type'] == "customer") {
                     echo '<h1 class="col-md-3 mb-3">' . $user->getFirstName() . ' ' . $user->getLastName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>' . $user->getEmail() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span> <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</a></p>';
-                    echo '<button class="btn btn-primary">Edit</button>';
+                    echo '<button class="btn btn-primary"><a href="edit_profile.php?userId=' . $userId . '">Edit Profile</a></button>';
                 } else {
                     echo '<h1 class="col-md-3 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>' . $user->getEmail() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span><a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</a></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-whatsapp mr-2"></i></span><a href="https://wa.me/94' . $user->getWphone() . '">' . $user->getWphone() . '</a></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>' . $user->getAddress() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>' . $user->getDescription() . '"</p>';
-                    echo '<button class="btn btn-primary">Edit</button>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>' . $user->getDescription() . '</p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>Reserve advance Rs.' . $user->getAmountPer() . '</p>';
+                    echo '<button class="btn btn-primary"><a href="edit_profile.php" style="text-decoration: none;">Edit Profile</a></button>';
                     echo '<p class="mb-2"><span class="mr-2">Reviews :</span><span class="rating"><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span></span></p>'; //empty star for illustration
                 }
                 ?>
@@ -146,7 +147,7 @@ if ($_SESSION['user_type'] == "customer") {
         echo '<button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#uploadPopup">Add Photo</button>';
 
         //The popup prompt for upload image
-        echo '<div class="modal fade" id="uploadPopup" tabindex="-1" aria-labelledby="uploadWindow" aria-hidden="true">';
+        /*echo '<div class="modal fade" id="uploadPopup" tabindex="-1" aria-labelledby="uploadWindow" aria-hidden="true">';
         echo '<div class="modal-dialog">';
         echo '<div class="modal-content">';
         echo '<div class="modal-header">';
@@ -156,19 +157,19 @@ if ($_SESSION['user_type'] == "customer") {
         echo '</button>';
         echo '</div>';
         echo '<div class="modal-body">';
-        echo '<form action="/php/edit_user.php" method="post" enctype="multipart/form-data">';
-        echo '<div class="form-group">';
-        echo '<label for="image">Select to upload</label>';
-        echo '<input type="file" class="form-control-file" name="image" required>';
-        echo '</div>';
-        echo '<button type="submit" class="btn btn-primary" name="submit">Upload</button>';
-        echo '</form>';
-        echo '</div>';
-        echo '</div>';
+            echo '<form action="/php/edit_user.php" method="post" enctype="multipart/form-data">';
+            echo '<div class="form-group">';
+            echo '<label for="image">Select to upload</label>';
+            echo '<input type="file" class="form-control-file" name="image" required>';
+            echo '</div>';
+            echo '<button type="submit" class="btn btn-primary" name="submit">Upload</button>';
+            echo '</form>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
-
+        echo '</div>';
+        echo '</div>';
+*/
 
         echo '<div class="d-flex flex-wrap">';
         echo '<div class="card m-2" style="width: 18rem;">';
