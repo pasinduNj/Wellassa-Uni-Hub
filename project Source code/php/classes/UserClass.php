@@ -256,9 +256,10 @@ class User
 
     public function addPhoto($photoPath)
     {
-        $stmt = $this->dbconn->prepare("INSERT INTO image image_path) VALUES (?) WHERE user_id = ?");
-        $stmt->bind_param("ss", $photoPath, $this->userId);
+        $stmt = $this->dbconn->prepare("UPDATE image SET image_path = ?, modified_date =CURRENT_TIMESTAMP WHERE user_id =".$this->userId."");
+        $stmt->bind_param("s", $photoPath);
         $stmt->execute();
+
     }
 
     public function deletePhoto($photoPath)
