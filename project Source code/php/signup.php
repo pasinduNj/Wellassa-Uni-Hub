@@ -35,7 +35,7 @@ if (isset($_POST['userType'])) {
     $confirmPassword = trim($_POST['confirmPassword']);
     $firstName = sanitize_input($_POST['firstName']);
     $lastName = sanitize_input($_POST['lastName']);
-    $businessName = sanitize_input($_POST['businessName']);
+    $businessName = trim($_POST['businessName']);
     $nicNumber = sanitize_input($_POST['nicNumber']);
     $whatsappNumber = sanitize_input($_POST['whatsappNumber']);
     $serviceAddress = trim($_POST['serviceAddress']);
