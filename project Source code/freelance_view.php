@@ -1,6 +1,6 @@
 <?php
 include_once('./php/classes/db_connection.php');
-include_once('./php/classes/user.php');
+include_once('./php/classes/UserClass.php');
 session_start();
 
 $db = new DBConnection();
@@ -36,7 +36,6 @@ if (isset($productId)) {
         <div class="row">
             <div class="col-md-3">
                 <img src="<?= $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getFirstName() ?>" class="img-fluid rounded-circle">
-                <i class="bi bi-pencil-square position-absolute top-0 start-0 translate-middle bg-white rounded-circle p-2"></i>
             </div>
             <div class="col-md-9">
                 <!-- dont forget to put other usertypes' differentdata here -->
@@ -45,7 +44,6 @@ if (isset($productId)) {
                 //whatsapp icon leads to the whatsapp chat
                 //https://wa.me/94765907934  this link should be merge from the database
                 ?>
-                <h1 class="col-md-3 mb-3"><?= $user->getFirstName() ?> <?= $user->getLastName() ?></h1>
                 <h1 class="col-md-3 mb-3"><?= $user->getBusinessName() ?></h1>
                 <p class="mb-2"><span class="mr-2">
                         <i class="bi bi-envelope mr-2"></i>
@@ -71,6 +69,7 @@ if (isset($productId)) {
                     <?= $user->getDescription() ?>
                 </p>
                 <p class="mb-2">
+                    <!-- add rating here -->
                     <span class="mr-2">
                         Reviews :
                     </span>
@@ -82,7 +81,6 @@ if (isset($productId)) {
                         <span class="text-warning">&#9734;</span> <!-- empty star for illustration -->
                     </span>
                 </p>
-                <button class="btn btn-primary">Edit</button>
             </div>
         </div>
         <hr>

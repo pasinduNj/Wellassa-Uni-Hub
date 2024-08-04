@@ -256,8 +256,8 @@ class User
 
     public function addPhoto($photoPath)
     {
-        $stmt = $this->dbconn->prepare("INSERT INTO image (user_id, image_path) VALUES (?, ?)");
-        $stmt->bind_param("ss", $this->userId, $photoPath);
+        $stmt = $this->dbconn->prepare("INSERT INTO image image_path) VALUES (?) WHERE user_id = ?");
+        $stmt->bind_param("ss", $photoPath, $this->userId);
         $stmt->execute();
     }
 
