@@ -4,8 +4,25 @@ include './classes/db_connection.php';
 include './classes/UserClass.php';
 $db = new DbConnection();
 $dbconn = $db->getConnection();
-$user = new User($dbconn);
 $userId = $_SESSION['user_id'];
+$userType = $_SESSION['user_type'];
+
+if ($userType == "customer") {
+    $dbconn = $db->getConnection();
+    $user = User::constructCUSWithUserId($dbconn, $userId);
+   
+
+    $dbconn = $db->getConnection();
+    $user = User::constructSPWithUserId($dbconn, $userId);
+    
+
+    //$dbconn = $db->getConnection();
+    //$user = User::constructSPWithProductId($dbconn, $userId, $productId);
+    //$photos = $user->getProductPhotos();
+} else {
+    
+}
+
 
 if (isset($_POST['firstName'])){
     $user->setFirstName($_POST['firstName']);
@@ -44,8 +61,8 @@ if (isset($_POST['description'])){
 }
 
 
-$stmt = $this->dbconn->prepare("UPDATE users SET first_name=?, last_name=?, business_name=?, whatsapp_number=?, address=?, description=?, profileImage=?, amount_per=? WHERE userId=?");
-$stmt->bind_param("sssssssds", $this->firstName, $this->lastName, $this->businessName, $this->wphone, $this->address, $this->description, $this->profileImage,$this->amountPer, $this->userId);
+$stmt = $dbconn->prepare("UPDATE users SET first_name=?, last_name=?, business_name=?, whatsapp_number=?, address=?, description=?, profileImage=?, amount_per=? WHERE userId=?");
+$stmt->bind_param("sssssssds", $user->firstName, $user->lastName, $user->businessName, $user->wphone, $user->address, $user->description, $user->profileImage,$user->amountPer, $user->userId);
 $stmt->execute();
 
 $conn->close();
