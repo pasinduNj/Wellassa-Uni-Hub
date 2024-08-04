@@ -12,7 +12,7 @@ $user_name = $_SESSION['user_name'];
         <a class="navbar-brand d-flex align-items-center">
             <span>WellassaUniHUB</span>
         </a>
-
+        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
@@ -38,6 +38,9 @@ $user_name = $_SESSION['user_name'];
             style="padding: 1px;padding-left: 11px;margin: 0px;margin-left: 7px;margin-right: 5px;margin-bottom: 3px;padding-bottom: 7px;padding-top: 7px;padding-right: 12px;margin-top: 1px;transform: translate(24px) rotate(1deg) scale(1);box-shadow: 0px 0px;height: 31.6px;width: 63.2px;text-align: left;position: static;">
             <i class="fa fa-shopping-cart" style="width: 27.2px;height: 33px;margin: -9px;padding: 2px;font-size: 25px;"></i>&nbsp;Cart
             </a>
+
+            <a class="btn btn-primary shadow" role="button" href="logout.php" 
+            style="height: 35px;padding: 3px 10px;margin: 10px -10px 10px 30px;width: 78px;border-radius: 59px;">Logout</a>
         </div>
     </div>
 </nav>
