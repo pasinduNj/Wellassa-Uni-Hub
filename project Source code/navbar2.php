@@ -39,7 +39,7 @@ $user_name = $_SESSION['user_name'];
             <i class="fa fa-shopping-cart" style="width: 27.2px;height: 33px;margin: -9px;padding: 2px;font-size: 25px;"></i>&nbsp;Cart
             </a>
 
-            <a class="btn btn-primary shadow" role="button" href="logout.php" 
+            <a class="btn btn-primary shadow" role="button" href="./php/logout.php" 
             style="height: 35px;padding: 3px 10px;margin: 10px -10px 10px 30px;width: 78px;border-radius: 59px;">Logout</a>
         </div>
     </div>

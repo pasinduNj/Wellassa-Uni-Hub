@@ -6,14 +6,14 @@
                     <ul class="list-unstyled">
                         <li><a href="Reservations.php">Reservation&nbsp;</a></li>
                         <li><a href="shop.php">Order Productssss</a></li>
-                        <li><a href="Freelance.html">Free Lancing</a></li>
+                        <li><a href="freelance.html">Free Lancing</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column" style="height: 106px;">
                     <h3 class="fs-6 fw-bold">About</h3>
                     <ul class="list-unstyled">
                         <li><a href="#">Company&nbsp;</a></li>
-                        <li><a href="index.html/#Testimonials"></a></li>
+                        <li><a href="index.php#Testimonials"></a></li>
                         <li><a href="#">Legacy&nbsp; &nbsp;</a></li>
                     </ul>
                 </div>
@@ -21,7 +21,7 @@
                     <h3 class="fs-6 fw-bold">Shortcut Links</h3>
                     <ul class="list-unstyled">
                         <li><a href="Chat.html">Chat</a></li>
-                        <li><a href="Service%20Provider.html">View Your Profile</a></li>
+                        <li><a href="user_profile.php">View Your Profile</a></li>
                         <li><a href="#">Benefits</a></li>
                     </ul>
                 </div>
