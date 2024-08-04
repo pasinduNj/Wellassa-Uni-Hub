@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 if (!empty($email) && !empty($passwordInput)) {
-    $checkQuery = "SELECT user_id,first_name, user_type, password, status FROM user WHERE email = ?";
+    $checkQuery = "SELECT user_id, first_name, user_type, password, status FROM user WHERE email = ?";
     if ($stmt = $conn->prepare($checkQuery)) {
         $stmt->bind_param('s', $email);
         $stmt->execute();

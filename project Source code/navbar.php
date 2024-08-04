@@ -9,6 +9,7 @@
         <a class="navbar-brand d-flex align-items-center">
             <span>WellassaUniHUB</span>
         </a>
+        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav mx-auto">
@@ -18,7 +19,7 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="./Reservations.php">Reservations</a>
                         <a class="dropdown-item" href="shop.php">OrderProducts</a>
-                        <a class="dropdown-item" href="./Freelance.php">Freelance</a>
+                        <a class="dropdown-item" href="./freelance.php">Freelance</a>
                     </div>
                 </li>
                 <li class="nav-item">

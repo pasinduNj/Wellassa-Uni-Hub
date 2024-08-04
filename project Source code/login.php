@@ -99,7 +99,7 @@ if (!empty($auth_key_cookie)) {
       </span>
       <a class="navbar-brand d-flex align-items-center"><span>Wellassa UniHUB</span>
     </a>
-
+    <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="navcol-1">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
