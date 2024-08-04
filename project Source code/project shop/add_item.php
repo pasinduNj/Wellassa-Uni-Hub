@@ -4,65 +4,78 @@ include_once('./productsdbconnector.php'); // Include the database connection
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $price = $_POST['price'];
+    $quantity = $_POST['quantity'];
     $description = $_POST['description'];
     $category = $_POST['category'];
-    $providerid = $_POST['providerid'];
+    $provider_id = $_POST['provider_id'];
 
+    $product_id = uniqid(); // Generate a unique product ID
     $targetDir = "uploads/";
-    $imageName = basename($_FILES["item_image"]["name"]);
-    $targetFilePath = $targetDir . $imageName;
+
     $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+    $imagePaths = []; // Array to store paths of successfully uploaded images
 
-    // Check if file already exists
-    if (file_exists($targetFilePath)) {
-        echo "Sorry, file already exists.";
-        $uploadOk = 0;
-    }
+    foreach ($_FILES['item_image']['name'] as $key => $imageName) {
+        $targetFilePath = $targetDir . basename($imageName);
+        $imageFileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
 
-    // Check file size (limit to 5MB)
-    if ($_FILES["item_image"]["size"] > 5000000) {
-        echo "Sorry, your file is too large.";
-        $uploadOk = 0;
-    }
+        // Check if file already exists
+        if (file_exists($targetFilePath)) {
+            echo "Sorry, file {$imageName} already exists.<br>";
+            $uploadOk = 0;
+        }
 
-    // Allow certain file formats
-    $allowedTypes = array('jpg', 'jpeg', 'png', 'gif');
-    if (!in_array($imageFileType, $allowedTypes)) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        $uploadOk = 0;
-    }
+        // Check file size (limit to 5MB)
+        if ($_FILES['item_image']['size'][$key] > 5000000) {
+            echo "Sorry, your file {$imageName} is too large.<br>";
+            $uploadOk = 0;
+        }
 
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-    } else {
-        if (move_uploaded_file($_FILES["item_image"]["tmp_name"], $targetFilePath)) {
-            // Generate a unique product ID (you can use UUID or any other method based on your preference)
-            $productid = uniqid();
+        // Allow certain file formats
+        $allowedTypes = array('jpg', 'jpeg', 'png', 'gif');
+        if (!in_array($imageFileType, $allowedTypes)) {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed. {$imageName} is not allowed.<br>";
+            $uploadOk = 0;
+        }
 
-            // Insert product into database
-            $stmt = $pdo->prepare("INSERT INTO product (productid, name, price, description, category, providerid, image_path, image_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bindParam(1, $productid);
-            $stmt->bindParam(2, $name);
-            $stmt->bindParam(3, $price);
-            $stmt->bindParam(4, $description);
-            $stmt->bindParam(5, $category);
-            $stmt->bindParam(6, $providerid);
-            $stmt->bindParam(7, $targetFilePath);
-            $stmt->bindParam(8, $imageName);
-
-            if ($stmt->execute()) {
-                echo "The file " . htmlspecialchars($imageName) . " has been uploaded and the product has been added to the database.";
-                // Redirect to shop.php after successful addition
-                header("Location: shop.php");
-                exit();
-            } else {
-                echo "Error: " . $stmt->error;
-            }
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "Sorry, your file {$imageName} was not uploaded.<br>";
         } else {
-            echo "Sorry, there was an error uploading your file.";
+            if (move_uploaded_file($_FILES['item_image']['tmp_name'][$key], $targetFilePath)) {
+                $imagePaths[] = $targetFilePath;
+            } else {
+                echo "Sorry, there was an error uploading your file {$imageName}.<br>";
+            }
         }
     }
+
+    if ($uploadOk == 1 && !empty($imagePaths)) {
+        // Convert the array of image paths to a JSON string
+        $imagePathsJson = json_encode($imagePaths);
+
+        // Insert product into database
+        $stmt = $pdo->prepare("INSERT INTO product (product_id, name, price, quantity, description, category, provider_id, image_paths) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bindParam(1, $product_id);
+        $stmt->bindParam(2, $name);
+        $stmt->bindParam(3, $price);
+        $stmt->bindParam(4, $quantity);
+        $stmt->bindParam(5, $description);
+        $stmt->bindParam(6, $category);
+        $stmt->bindParam(7, $provider_id);
+        $stmt->bindParam(8, $imagePathsJson);
+
+        if ($stmt->execute()) {
+            // Redirect to shop.php after successful addition
+            header("Location: shop.php");
+            exit();
+        } else {
+            echo "Error: " . $stmt->errorInfo()[2] . "<br>";
+        }
+    } else {
+        echo "Sorry, your files were not uploaded.<br>";
+    }
+} else {
+    echo "Invalid request method.";
 }
 ?>
