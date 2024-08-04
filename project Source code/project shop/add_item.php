@@ -7,9 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $quantity = $_POST['quantity'];
     $description = $_POST['description'];
     $category = $_POST['category'];
-    $provider_id = $_POST['provider_id'];
-
-    $product_id = uniqid(); // Generate a unique product ID
+    $provider_id = "SP-004";
+ // Generate a unique product ID
     $targetDir = "uploads/";
 
     $uploadOk = 1;
@@ -55,15 +54,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $imagePathsJson = json_encode($imagePaths);
 
         // Insert product into database
-        $stmt = $pdo->prepare("INSERT INTO product (product_id, name, price, quantity, description, category, provider_id, image_paths) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bindParam(1, $product_id);
-        $stmt->bindParam(2, $name);
-        $stmt->bindParam(3, $price);
-        $stmt->bindParam(4, $quantity);
-        $stmt->bindParam(5, $description);
-        $stmt->bindParam(6, $category);
-        $stmt->bindParam(7, $provider_id);
-        $stmt->bindParam(8, $imagePathsJson);
+        $stmt = $pdo->prepare("INSERT INTO product (name, price, quantity, description, category, provider_id, image_paths) VALUES (?, ?, ?, ?, ?, ?, ?)");
+       
+        $stmt->bindParam(1, $name);
+        $stmt->bindParam(2, $price);
+        $stmt->bindParam(3, $quantity);
+        $stmt->bindParam(4, $description);
+        $stmt->bindParam(5, $category);
+        $stmt->bindParam(6, $provider_id);
+        $stmt->bindParam(7, $imagePathsJson);
 
         if ($stmt->execute()) {
             // Redirect to shop.php after successful addition
