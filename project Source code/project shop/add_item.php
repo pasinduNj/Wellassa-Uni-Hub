@@ -7,11 +7,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $quantity = $_POST['quantity'];
     $description = $_POST['description'];
     $category = $_POST['category'];
+<<<<<<< HEAD
 
     // For now, we use a static provider_id. Adjust this as per your needs.
     $provider_id = "static_provider_id";
 
     $product_id = uniqid(); 
+=======
+    $provider_id = "SP-004";
+ // Generate a unique product ID
+>>>>>>> a4f7642b36192fb32cdcfc48a9e76c4da6d731b7
     $targetDir = "uploads/";
     $uploadOk = 1;
     $imagePath = "";
@@ -57,9 +62,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $db = new DbConnection();
         $conn = $db->getConnection();
 
+<<<<<<< HEAD
         // Create SQL query
         $sql = "INSERT INTO product (product_id, name, price, quantity, description, category, provider_id, image_path) 
                 VALUES ('$product_id', '$name', '$price', '$quantity', '$description', '$category', '$provider_id', '$imagePath')";
+=======
+        // Insert product into database
+        $stmt = $pdo->prepare("INSERT INTO product (name, price, quantity, description, category, provider_id, image_paths) VALUES (?, ?, ?, ?, ?, ?, ?)");
+       
+        $stmt->bindParam(1, $name);
+        $stmt->bindParam(2, $price);
+        $stmt->bindParam(3, $quantity);
+        $stmt->bindParam(4, $description);
+        $stmt->bindParam(5, $category);
+        $stmt->bindParam(6, $provider_id);
+        $stmt->bindParam(7, $imagePathsJson);
+>>>>>>> a4f7642b36192fb32cdcfc48a9e76c4da6d731b7
 
         // Execute the query
         if ($conn->query($sql) === TRUE) {
