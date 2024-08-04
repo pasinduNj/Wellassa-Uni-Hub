@@ -40,7 +40,7 @@ if (!empty($email) && !empty($passwordInput)) {
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($user_id, $user_name, $user_type, $password, $status);
+            $stmt->bind_result($user_id, $first_name, $user_type, $password, $status);
             $stmt->fetch();
             if (password_verify($passwordInput, $password) && $status == "active") {
                 $_SESSION['user_id'] = $user_id;
