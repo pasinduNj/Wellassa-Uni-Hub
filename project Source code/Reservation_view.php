@@ -25,7 +25,7 @@ if (isset($productId)) {
 
 <head>
     <meta charset="UTF-8">
-    <title><?php echo "Profile | " . $user->getBusinessName(); ?>
+    <title><?php echo "Reservation | " . $user->getBusinessName(); ?>
     </title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -101,7 +101,7 @@ if (isset($productId)) {
                 //https://wa.me/94765907934  this link should be merge from the database
                 ?>
                 <h1 class="col-md-3 mb-3"><?= $user->getFirstName() ?> <?= $user->getLastName() ?></h1>
-                <h1 class="col-md-3 mb-3"><?= $user->getBusinessName() ?></h1>
+                <h1 class="col-md-6 mb-3"><?= $user->getBusinessName() ?></h1>
                 <p class="mb-2"><span class="mr-2">
                         <i class="bi bi-envelope mr-2"></i>
                     </span> <?= $user->getEmail() ?></p>
@@ -158,6 +158,25 @@ if (isset($productId)) {
     <?php
     include './footer.php';
     ?>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/-Filterable-Cards--Filterable-Cards.js"></script>
+    <script src="assets/js/bold-and-bright.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker-amoment.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker-bootstrap-datetimepicker.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker-datetimepicker-helper.js"></script>
+    <script src="assets/js/Date-Range-Picker-style.js"></script>
+    <script src="assets/js/DateRangePicker-My-Date-Picker.js"></script>
+    <script src="assets/js/ebs-bootstrap-datepicker-bootstrap-datepicker.min.js"></script>
+    <script src="assets/js/ebs-bootstrap-datepicker-calendar.js"></script>
+    <script src="assets/js/HoverText-Plugin-V1-hovertext.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="assets/js/jQuery-Panel-panel.js"></script>
+    <script src="assets/js/Review-rating-Star-Review-Button-Reviewbtn.js"></script>
+    <script src="assets/js/advertisement.js"></script>
+
 </body>
 
 </html>

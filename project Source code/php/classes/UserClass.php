@@ -127,59 +127,59 @@ class User
     public function getAmountPer(){
         return $this->amountPer;}
 
-    public function setFirstName()
+    public function setFirstName($firstName)
     {
         $stmt = $this->dbconn->prepare("UPDATE user SET first_name=? WHERE user_id=?");
-        $stmt->bind_param("ss", $this->firstName, $this->userId);
+        $stmt->bind_param("ss", $firstName, $this->userId);
         $stmt->execute();
     }
 
-    public function setLastName()
+    public function setLastName($lastName)
     {
         $stmt = $this->dbconn->prepare("UPDATE user SET last_name=? WHERE user_id=?");
-        $stmt->bind_param("ss", $this->lastName, $this->userId);
+        $stmt->bind_param("ss", $lastName, $this->userId);
         $stmt->execute();
     }
 
-    public function setBusinessName()
+    public function setBusinessName($businessName)
     {
         $stmt = $this->dbconn->prepare("UPDATE user SET business_name=? WHERE user_id=?");
-        $stmt->bind_param("ss", $this->businessName, $this->userId);
+        $stmt->bind_param("ss", $businessName, $this->userId);
         $stmt->execute();
     }
 
-    public function setPhone()
+    /*public function setPhone($phone)
     {
         $stmt = $this->dbconn->prepare("UPDATE user SET contact_number=? WHERE user_id=?");
-        $stmt->bind_param("ss", $this->phone, $this->userId);
+        $stmt->bind_param("ss", $phone, $this->userId);
         $stmt->execute();
-    }
+    }*/
 
-    public function setWphone()
+    public function setWphone($wphone)
     {
         $stmt = $this->dbconn->prepare("UPDATE user SET whatsapp_number=? WHERE user_id=?");
-        $stmt->bind_param("ss", $this->wphone, $this->userId);
+        $stmt->bind_param("ss", $wphone, $this->userId);
         $stmt->execute();
     }
 
-    public function setEmail()
+    /*public function setEmail()
     {
         $stmt = $this->dbconn->prepare("UPDATE user SET email=? WHERE user_id=?");
         $stmt->bind_param("ss", $this->email, $this->userId);
         $stmt->execute();
-    }
+    }*/
 
-    public function setAddress()
+    public function setAddress($address)
     {
         $stmt = $this->dbconn->prepare("UPDATE user SET service_address=? WHERE user_id=?");
-        $stmt->bind_param("ss", $this->address, $this->userId);
+        $stmt->bind_param("ss", $address, $this->userId);
         $stmt->execute();
     }
 
-    public function setDescription()
+    public function setDescription($description)
     {
         $stmt = $this->dbconn->prepare("UPDATE user SET description=? WHERE user_id=?");
-        $stmt->bind_param("ss", $this->description, $this->userId);
+        $stmt->bind_param("ss", $description, $this->userId);
         $stmt->execute();
     }
     //remember we need to dynamically change the image url to a specific path

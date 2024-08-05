@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 
 require './php/classes/db_connection.php';
@@ -26,8 +25,9 @@ if ($result->num_rows > 0) {
 }
 
 $db->close();
-
+session_start();
 ?>
+
 
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -84,23 +84,7 @@ $db->close();
     <link rel="stylesheet" href="assets/css/testnavnow.css">
     <link rel="stylesheet" href="assets/css/Text-Box-2-Columns---Scroll---Hover-Effect.css">
     <link rel="stylesheet" href="assets/css/User-rating.css">
-    <style>
-    .slideshow-container {
-        max-width: 800px;
-        position: relative;
-        margin: auto;
-    }
-
-    .mySlides {
-        display: none;
-    }
-
-    .mySlides img {
-        width: 100%;
-    }
-
-    /* Add the rest of the CSS from the first document here */
-</style>
+    <link rel="stylesheet" href="assets/css/advertisements.css">
 </head>
 
 <body>
@@ -109,8 +93,7 @@ $db->close();
         include './navbar2.php';
     } else {
         include './navbar.php';
-    }
-    
+    }  
     ?>
     <div
         style="background-image:url(&quot;assets/img/pexels-photo-160107.jpeg&quot;);height:500px;background-position:center;background-size:cover;background-repeat:no-repeat;">
@@ -134,27 +117,7 @@ $db->close();
     <header class="bg-primary-gradient"></header>
     <section class="py-5"></section>
     <section></section>
-    <section>
-    <div class="slideshow-container">
-        <?php foreach ($ads as $index => $ad) : ?>
-            <div class="mySlides fade">
-                <div class="numbertext"><?= $index + 1 ?> / <?= count($ads) ?></div>
-                <img src="<?= htmlspecialchars($ad['image_path']) ?>" alt="<?= htmlspecialchars($ad['title']) ?>">
-                <div class="text"><?= htmlspecialchars($ad['title']) ?><br><?= htmlspecialchars($ad['description']) ?><br>Expires on: <?= $ad['until_date'] ?></div>
-            </div>
-        <?php endforeach; ?>
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
-    </div>
-
-    <br>
-
-    <div style="text-align:center">
-        <?php for ($i = 1; $i <= count($ads); $i++) : ?>
-            <span class="dot" onclick="currentSlide(<?= $i ?>)"></span>
-        <?php endfor; ?>
-    </div>
-</section>
+  
     <section>
         <div class="container py-5">
             <div class="mx-auto" style="max-width: 900px;">
@@ -192,6 +155,27 @@ $db->close();
                 </div>
             </div>
         </div>
+    </section>
+    <section>
+    <div class="slideshow-container">
+        <?php foreach ($ads as $index => $ad) : ?>
+            <div class="mySlides fade">
+                <div class="numbertext"><?= $index + 1 ?> / <?= count($ads) ?></div>
+                <img src="./php/<?= htmlspecialchars($ad['image_path']) ?>" alt="<?= htmlspecialchars($ad['title']) ?>">
+                <div class="text"><?= htmlspecialchars($ad['title']) ?><br><?= htmlspecialchars($ad['description']) ?><br>Expires on: <?= $ad['until_date'] ?></div>
+            </div>
+        <?php endforeach; ?>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <br>
+
+    <div style="text-align:center">
+        <?php for ($i = 1; $i <= count($ads); $i++) : ?>
+            <span class="dot" onclick="currentSlide(<?= $i ?>)"></span>
+        <?php endfor; ?>
+    </div>
     </section>
     <section class="py-5 mt-5">
         <div class="container py-5" id="Testimonials">
@@ -310,13 +294,9 @@ $db->close();
                                 </svg>
                             </div>
                             <div class="px-2">
-    <h6 class="fw-bold mb-0">Location</h6>
-    <p class="text-muted mb-0">
-        <a href="https://maps.app.goo.gl/xNEvir6GKQr9KYKC6" target="_blank" rel="noopener noreferrer">
-         Uwa wellassa University
-        </a>
-    </p>
-</div>
+                                <h6 class="fw-bold mb-0">Location</h6>
+                                <p class="text-muted mb-0">12 Example Street</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -343,42 +323,8 @@ $db->close();
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="assets/js/jQuery-Panel-panel.js"></script>
     <script src="assets/js/Review-rating-Star-Review-Button-Reviewbtn.js"></script>
-    <script>
-let slideIndex = 0;
-showSlides();
-
-function showSlides() {
-    let slides = document.getElementsByClassName("mySlides");
-    let dots = document.getElementsByClassName("dot");
+    <script src="assets/js/advertisement.js"></script>
     
-    if (slides.length === 0) {
-        console.log("No slides found");
-        return;
-    }
-
-    for (let i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) {
-        slideIndex = 1;
-    }
-    for (let i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-    setTimeout(showSlides, 5000);
-}
-
-function plusSlides(n) {
-    showSlides(slideIndex += n);
-}
-
-function currentSlide(n) {
-    showSlides(slideIndex = n);
-}
-</script>
 </body>
 
 </html>

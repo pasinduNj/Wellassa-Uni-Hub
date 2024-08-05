@@ -1,6 +1,6 @@
 <?php
-include_once('./php/classes/db_connection.php');
-include_once('./php/classes/UserClass.php');
+require './php/classes/db_connection.php';
+require './php/classes/UserClass.php';
 session_start();
 
 $db = new DBConnection();
@@ -30,6 +30,7 @@ if ($_SESSION['user_type'] == "customer") {
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>
         <?php
         if ($_SESSION['user_type'] == "customer") {
@@ -39,8 +40,6 @@ if ($_SESSION['user_type'] == "customer") {
         }
         ?>
     </title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
@@ -89,9 +88,9 @@ if ($_SESSION['user_type'] == "customer") {
     <link rel="stylesheet" href="assets/css/testnavnow.css">
     <link rel="stylesheet" href="assets/css/Text-Box-2-Columns---Scroll---Hover-Effect.css">
     <link rel="stylesheet" href="assets/css/User-rating.css">
-
+    
+    
 </head>
-
 <body>
 <?php
     if (isset($_SESSION['user_name'])) {
@@ -99,7 +98,6 @@ if ($_SESSION['user_type'] == "customer") {
     } else {
         include './navbar.php';
     }
-    
     ?>
     <!--<div class="container mt-5" style="font-size: 1.1rem;">-->
     <div class="container mt-5">
@@ -120,7 +118,7 @@ if ($_SESSION['user_type'] == "customer") {
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span> <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</a></p>';
                     echo '<a href="/php/edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
                 } else {
-                    echo '<h1 class="col-md-3 mb-3">' . $user->getBusinessName() . '</h1>';
+                    echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>' . $user->getEmail() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span><a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</a></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-whatsapp mr-2"></i></span><a href="https://wa.me/94' . $user->getWphone() . '">' . $user->getWphone() . '</a></p>';
@@ -128,7 +126,9 @@ if ($_SESSION['user_type'] == "customer") {
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>' . $user->getDescription() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>Reserve advance Rs.' . $user->getAmountPer() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2">Reviews :</span><span class="rating"><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span></span></p>'; //empty star for illustration
-                    echo '<a href="/php/edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
+                    echo '<a href="./php/edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
+                    echo '<a href="./php/add_timeslot.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Add Time Slot</button></a>';
+                    echo '<a href="./add_product.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Add Product</button></a>';
                 }
                 ?>
             </div>
@@ -184,8 +184,30 @@ if ($_SESSION['user_type'] == "customer") {
         echo '</div>';
     }
     ?>
+    <br>
+    <?php
+    include './footer.php';
+    ?>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/-Filterable-Cards--Filterable-Cards.js"></script>
+    <script src="assets/js/bold-and-bright.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker-amoment.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker-bootstrap-datetimepicker.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker-datetimepicker-helper.js"></script>
+    <script src="assets/js/Date-Range-Picker-style.js"></script>
+    <script src="assets/js/DateRangePicker-My-Date-Picker.js"></script>
+    <script src="assets/js/ebs-bootstrap-datepicker-bootstrap-datepicker.min.js"></script>
+    <script src="assets/js/ebs-bootstrap-datepicker-calendar.js"></script>
+    <script src="assets/js/HoverText-Plugin-V1-hovertext.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="assets/js/jQuery-Panel-panel.js"></script>
+    <script src="assets/js/Review-rating-Star-Review-Button-Reviewbtn.js"></script>
+    <script src="assets/js/advertisement.js"></script>
 </html>
