@@ -129,6 +129,8 @@ if ($_SESSION['user_type'] == "customer") {
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>Reserve advance Rs.' . $user->getAmountPer() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2">Reviews :</span><span class="rating"><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span></span></p>'; //empty star for illustration
                     echo '<a href="/php/edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
+                    echo '<a href="./php/add_timeslot.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Add Time Slot</button></a>';
+                    echo '<a href="./add_product.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Add Product</button></a>';
                 }
                 ?>
             </div>

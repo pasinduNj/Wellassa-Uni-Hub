@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,7 +48,6 @@
                     <label for="quantity" class="form-label">Stock Quantity:</label>
                     <input type="number" class="form-control" id="quantity" name="quantity" min="0" required>
                 </div>
-
 
                 <div class="mb-3">
                     <label for="description" class="form-label">Description:</label>

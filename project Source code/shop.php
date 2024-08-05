@@ -105,10 +105,9 @@ $products = $product->getProducts($category, $min_price, $max_price);
                         <label for="category" class="form-label">Category</label>
                         <select class="form-select" id="category" name="category">
                             <option value="">All</option>
-                            <!-- Add more categories as options here -->
-                            <option value="Electronics">Electronics</option>
-                            <option value="Camping">Camping</option>
-                            <option value="gifts">Gifts</option>
+                            <option value="camping">Camping</option>
+                            <option value="gift">Gift</option>
+                            <option value="electronics">Electronics</option>
                             <option value="others">Others</option>
                         </select>
                     </div>

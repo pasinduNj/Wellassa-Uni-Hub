@@ -1,5 +1,6 @@
 <?php
 require_once './php/classes/db_connection.php';
+session_start();
 
 // Create a class for handling individual product retrieval
 class Product
@@ -84,8 +85,8 @@ $productDetails = $product->getProductById($id);
                     <p><strong>Category:</strong> <?php echo htmlspecialchars($productDetails['category']); ?></p>
                     <div class="btn-row">
                         <a href="shop.php" class="btn btn-secondary">Back to Shop</a>
-                        <form action="add_cart.php" method="POST" class="d-inline">
-                            <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($productDetails['product_id']); ?>">
+                        <form action="./add_cart.php" method="POST" class="d-inline">
+                            <input type="hidden" name="product_id" value="<?php echo $id?>">
                             <input type="hidden" name="name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
                             <input type="hidden" name="price" value="<?php echo htmlspecialchars($productDetails['price']); ?>">
                             <input type="hidden" name="image_path" value="<?php echo htmlspecialchars($productDetails['image_path']); ?>"> <!-- Add this line -->
