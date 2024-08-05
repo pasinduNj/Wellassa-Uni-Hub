@@ -4,7 +4,6 @@ include './classes/UserClass.php';
 session_start();
 
 $db = new DbConnection();
-$dbconn = $db->getConnection();
 $userId = $_GET['id'];//$_SESSION['user_id'];
 $userType = $_SESSION['user_type'];
 

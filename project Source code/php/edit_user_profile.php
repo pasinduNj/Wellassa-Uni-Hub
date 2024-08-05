@@ -1,7 +1,19 @@
 <?php
+include_once('./php/classes/db_connection.php');
+include_once('./php/classes/UserClass.php');
 session_start();
+$userId = $_SESSION['user_id'];
 $userType=$_SESSION['user_type'];
 
+if ($userType == "customer") {
+    $dbconn = $db->getConnection();
+    $user = User::constructCUSWithUserId($dbconn, $userId);
+    
+} else {
+    $dbconn = $db->getConnection();
+    $user = User::constructSPWithUserId($dbconn, $userId);
+    
+}
 
 ?>
 
@@ -10,7 +22,7 @@ $userType=$_SESSION['user_type'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit User Data</title>
+    <title>Update user info</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
