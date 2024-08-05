@@ -74,7 +74,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="#">Admin Dashboard</a>
-            <a class="btn btn-primary shadow" role="button" href="./php/logout.php" 
+            <a class="btn btn-primary shadow" role="button" href="./logout.php" 
             style="height: 35px;padding: 3px 10px;margin: 10px -10px 10px 30px;width: 78px;border-radius: 59px;">Logout</a>
         </div>
     </nav>

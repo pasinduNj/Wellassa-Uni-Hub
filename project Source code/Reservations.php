@@ -2,9 +2,9 @@
 include './php/classes/db_connection.php';
 session_start();
 if(!isset($_SESSION['user_type'])){
-    $utype = $_SESSION['user_type']; //'sp_reservation';
+    $utype = "sp_reservation"; //$_SESSION['user_type'];
 }else{
-    $utype = "";
+    $utype = "sp_reservation";
 }
 
 ?>
