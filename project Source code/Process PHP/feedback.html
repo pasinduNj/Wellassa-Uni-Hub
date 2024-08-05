@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback and Rating</title>
+    <link rel="stylesheet" href="feedback.css">
+</head>
+<body>
+    <div class="feedback-container">
+        <h2>Feedback & Rating</h2>
+        <form id="feedbackForm" action="submit_feedback.php" method="POST">
+            <label for="rating">Rating:</label>
+            <div class="stars">
+                <input type="radio" name="rating" value="5" id="5"><label for="5">★</label>
+                <input type="radio" name="rating" value="4" id="4"><label for="4">★</label>
+                <input type="radio" name="rating" value="3" id="3"><label for="3">★</label>
+                <input type="radio" name="rating" value="2" id="2"><label for="2">★</label>
+                <input type="radio" name="rating" value="1" id="1"><label for="1">★</label>
+            </div>
+            <label for="feedback">Feedback:</label>
+            <textarea id="feedback" name="feedback" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script src="feedback.js"></script>
+</body>
+</html>
