@@ -145,6 +145,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
+                <a href="feedback.php"><button class="btn btn-primary">Review</button></a>
             </div>
         </div>
     </div>
