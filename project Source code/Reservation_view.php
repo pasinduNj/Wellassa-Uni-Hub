@@ -158,6 +158,25 @@ if (isset($productId)) {
     <?php
     include './footer.php';
     ?>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/-Filterable-Cards--Filterable-Cards.js"></script>
+    <script src="assets/js/bold-and-bright.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker-amoment.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker-bootstrap-datetimepicker.js"></script>
+    <script src="assets/js/Bootstrap-DateTime-Picker-datetimepicker-helper.js"></script>
+    <script src="assets/js/Date-Range-Picker-style.js"></script>
+    <script src="assets/js/DateRangePicker-My-Date-Picker.js"></script>
+    <script src="assets/js/ebs-bootstrap-datepicker-bootstrap-datepicker.min.js"></script>
+    <script src="assets/js/ebs-bootstrap-datepicker-calendar.js"></script>
+    <script src="assets/js/HoverText-Plugin-V1-hovertext.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="assets/js/jQuery-Panel-panel.js"></script>
+    <script src="assets/js/Review-rating-Star-Review-Button-Reviewbtn.js"></script>
+    <script src="assets/js/advertisement.js"></script>
+
 </body>
 
 </html>
