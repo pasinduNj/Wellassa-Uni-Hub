@@ -2,12 +2,11 @@
 include './php/classes/db_connection.php';
 session_start();
 
-if(!isset($_SESSION['user_type'])){
+if(!isset($_SESSION['user_name'])){
 $utype = $_SESSION['user_type'];// 'sp_freelance';
 }else{
-    $utype = "";
+$utype = "";
 }
-
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
