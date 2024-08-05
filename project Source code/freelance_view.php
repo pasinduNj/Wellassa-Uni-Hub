@@ -25,38 +25,7 @@ if (isset($productId)) {
 
 <head>
     <meta charset="UTF-8">
-<<<<<<< Updated upstream
-    <title><?php echo "Profile | " . $user->getBusinessName(); ?></title>
-=======
-    <title><?php echo "Freelancer | " . $user->getBusinessName(); ?>
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
-    <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/-Filterable-Cards--Filterable-Cards.css">
-    <link rel="stylesheet" href="/assets/css/book-table.css">
-    <link rel="stylesheet" href="/assets/css/Bootstrap-Payment-Form.css">
-    <link rel="stylesheet" href="/assets/css/Bootstrap-Payment-Form-.css">
-    <link rel="stylesheet" href="/assets/css/Dropdown-Login-with-Social-Logins-bootstrap-social.css">
-    <link rel="stylesheet" href="/assets/css/ebs-bootstrap-datepicker-bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="/assets/css/ebs-bootstrap-datepicker-bootstrap-datepicker.standalone.min.css">
-    <link rel="stylesheet" href="/assets/css/ebs-bootstrap-datepicker-bootstrap-datepicker3.standalone.min.css">
-    <link rel="stylesheet" href="/assets/css/ebs-bootstrap-datepicker-styles.css">
-    <link rel="stylesheet" href="/assets/css/ebs-bootstrap-datepicker.css">
-    <link rel="stylesheet" href="/assets/css/Form-Select---Full-Date---Month-Day-Year.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="/assets/css/Lista-Productos-Canito.css">
-    <link rel="stylesheet" href="/assets/css/NZ---TextboxLabel.css">
-    <link rel="stylesheet" href="/assets/css/opening-times-time-picker.css">
-    <link rel="stylesheet" href="/assets/css/project-footer.css">
-    <link rel="stylesheet" href="/assets/css/Project-Nav-cart.css">
-    <link rel="stylesheet" href="/assets/css/project-Nav.css">
-    <link rel="stylesheet" href="/assets/css/Sign-Up-Form---Gabriela-Carvalho.css">
-    <link rel="stylesheet" href="/assets/css/Signup-page-with-overlay.css">
-    <link rel="stylesheet" href="/assets/css/Steps-Progressbar.css">
-
->>>>>>> Stashed changes
+    <title><?php echo "Freelancer | " . $user->getBusinessName(); ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -118,58 +87,7 @@ if (isset($productId)) {
     }
     
     ?>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-3">
-                <img src="<?= $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getFirstName() ?>" class="img-fluid rounded-circle">
-            </div>
-            <div class="col-md-9">
-                <!-- dont forget to put other usertypes' differentdata here -->
-                <?php
-                //phone: should be in icon
-                //whatsapp icon leads to the whatsapp chat
-                //https://wa.me/94765907934  this link should be merge from the database
-                ?>
-                <h1 class="col-md-3 mb-3"><?= $user->getBusinessName() ?></h1>
-                <p class="mb-2"><span class="mr-2">
-                        <i class="bi bi-envelope mr-2"></i>
-                    </span> <?= $user->getEmail() ?></p>
-                <p class="mb-2"><span class="mr-2">
-                        <i class="bi bi-telephone mr-2"></i>
-                    </span> <a href="tel:+94'.$user->getPhone().'" target="_blank"><?= $user->getPhone() ?></a></p>
-                <p class="mb-2">
-                    <span class="mr-2">
-                        <i class="bi bi-whatsapp mr-2"></i>
-                    </span>
-                    <!-- check digits if need trim -->
-                    <a href="https://wa.me/'.$user->getWPhone().'" target="_blank"><?= $user->getWPhone() ?></a>
-                </p>
-                <p class="mb-2">
-                    <i class="bi bi-geo-alt mr-2"></i>
-                    <?= $user->getAddress() ?>
-                </p>
-                <p class="mb-2">
-                    <span class="mr-2">
-                        <i class="bi bi-info-circle mr-2"></i>
-                    </span>
-                    <?= $user->getDescription() ?>
-                </p>
-                <p class="mb-2">
-                    <!-- add rating here -->
-                    <span class="mr-2">
-                        Reviews :
-                    </span>
-                    <span class="rating">
-                        <span class="text-warning">&#9733;</span>
-                        <span class="text-warning">&#9733;</span>
-                        <span class="text-warning">&#9733;</span>
-                        <span class="text-warning">&#9733;</span>
-                        <span class="text-warning">&#9734;</span> <!-- empty star for illustration -->
-                    </span>
-                </p>
-            </div>
-        </div>
-    </nav>
+   
     <main>
         <div class="container mt-5">
             <div class="row">
@@ -265,11 +183,11 @@ if (isset($productId)) {
             </ul>
         </div>
     </div>
-<<<<<<< Updated upstream
+
     <?php
     include './footer.php';
     ?>
-=======
+
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
@@ -287,7 +205,6 @@ if (isset($productId)) {
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
->>>>>>> Stashed changes
 </body>
 
 </html>
