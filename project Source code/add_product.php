@@ -59,7 +59,7 @@ session_start();
     <link rel="stylesheet" href="assets/css/advertisements.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
+    <!-- <style>
         body {
             background-color: #f8f9fa;
         }
@@ -75,7 +75,7 @@ session_start();
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-    </style>
+    </style> -->
 </head>
 
 <body>
