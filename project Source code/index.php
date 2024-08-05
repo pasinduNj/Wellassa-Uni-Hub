@@ -93,8 +93,7 @@ session_start();
         include './navbar2.php';
     } else {
         include './navbar.php';
-    }
-    
+    }  
     ?>
     <div
         style="background-image:url(&quot;assets/img/pexels-photo-160107.jpeg&quot;);height:500px;background-position:center;background-size:cover;background-repeat:no-repeat;">
@@ -325,7 +324,7 @@ session_start();
     <script src="assets/js/jQuery-Panel-panel.js"></script>
     <script src="assets/js/Review-rating-Star-Review-Button-Reviewbtn.js"></script>
     <script src="assets/js/advertisement.js"></script>
-    <
+    
 </body>
 
 </html>
