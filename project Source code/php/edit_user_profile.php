@@ -1,16 +1,17 @@
 <?php
-include_once('./php/classes/db_connection.php');
-include_once('./php/classes/UserClass.php');
+require './classes/db_connection.php';
+require './classes/UserClass.php';
 session_start();
 $userId = $_SESSION['user_id'];
 $userType=$_SESSION['user_type'];
 
+$db = new DbConnection();
+$dbconn = $db->getConnection();
+
 if ($userType == "customer") {
-    $dbconn = $db->getConnection();
     $user = User::constructCUSWithUserId($dbconn, $userId);
     
 } else {
-    $dbconn = $db->getConnection();
     $user = User::constructSPWithUserId($dbconn, $userId);
     
 }
@@ -28,7 +29,7 @@ if ($userType == "customer") {
 <body>
     <div class="container mt-5">
         <h2>Update User Information</h2>
-        <form action="/php/edit_process_user_profile.php?id=$_SESSION['user_id']" method="POST">
+        <form action="edit_process_user_profile.php" method="POST">
           <?php if($userType=="customer"){
 	 
             echo '<div class="form-group">
