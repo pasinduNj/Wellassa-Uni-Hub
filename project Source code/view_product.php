@@ -115,13 +115,7 @@ $productDetails = $product->getProductById($id);
 </head>
 
 <body>
-<?php
-    if (isset($_SESSION['user_name'])) {
-        include './navbar2.php';
-    } else {
-        include './navbar.php';
-    }  
-    ?>
+
     <div class="container mt-5">
         <h2 class="text-center">Product Details</h2>
 
@@ -157,9 +151,7 @@ $productDetails = $product->getProductById($id);
             <p>Product not found.</p>
         <?php endif; ?>
     </div>
-    <?php
-    include './footer.php';
-    ?>
+    
     
     <!-- Bootstrap JS (optional, for additional components) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

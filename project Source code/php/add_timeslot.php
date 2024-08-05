@@ -146,13 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-<?php
-    if (isset($_SESSION['user_name'])) {
-        include './navbar2.php';
-    } else {
-        include './navbar.php';
-    }  
-    ?>
+
     <div class="container">
         <h1>Add Timeslots</h1>
         <form action="add_timeslot.php" method="post">
@@ -171,9 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="submit" value="Add Timeslots">
         </form>
     </div>
-    <?php
-    include './footer.php';
-    ?>
+   
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/-Filterable-Cards--Filterable-Cards.js"></script>
