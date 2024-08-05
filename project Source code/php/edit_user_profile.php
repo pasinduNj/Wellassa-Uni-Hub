@@ -28,45 +28,45 @@ if ($userType == "customer") {
 <body>
     <div class="container mt-5">
         <h2>Update User Information</h2>
-        <form action="/php/edit_process_user_profile.php?id=<?php echo $_SESSION['user_id']; ?>" method="POST">
+        <form action="/php/edit_process_user_profile.php?id=$_SESSION['user_id']" method="POST">
           <?php if($userType=="customer"){
 	 
             echo '<div class="form-group">
               <label for="firstName">First Name</label>
-                <input type="text" class="form-control"  name="firstName" >
+                <input type="text" class="form-control"  name="firstName" value="'.$user->getFirstName().'">
             </div>';
             echo '<div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input type="text" class="form-control"  name="lastName">
+                <input type="text" class="form-control"  name="lastName" value="'.$user->getLastName().'">
             </div>';	
           }else{
             echo '<div class="form-group">
             <label for="firstName">First Name</label>
-              <input type="text" class="form-control"  name="firstName" >
+              <input type="text" class="form-control"  name="firstName" value="'.$user->getFirstName().'" >
           </div>';
           echo '<div class="form-group">
               <label for="lastName">Last Name</label>
-              <input type="text" class="form-control"  name="lastName">
+              <input type="text" class="form-control"  name="lastName" value="'.$user->getLastName().'">
           </div>';	
             echo '<div class="form-group">
                 <label for="businessName">Business Name</label>
-                <input type="text" class="form-control" name="businessName">
+                <input type="text" class="form-control" name="businessName" value="'.$user->getBusinessName().'">
             </div>';
              echo '<div class="form-group">
                 <label for="wphone">Whatsapp number</label>
-                <input type="text" class="form-control" name="wphone">
+                <input type="text" class="form-control" name="wphone" value="'.$user->getWphone().'">
             </div>';
              echo '<div class="form-group">             
                 <label for="address">Address</label>
-                <input type="text" class="form-control" name="address" >
+                <input type="text" class="form-control" name="address" value="'.$user->getAddress().'">
             </div>';
              echo '<div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" name="description" rows="3" ></textarea>
+                <textarea class="form-control" name="description" rows="3" value="'.$user->getDescription().'"></textarea>
             </div>';
             echo '<div class="form-group">             
                 <label for="amountPer">Advance Amount</label>
-                <input type="number" class="form-control" name="amountPer" >
+                <input type="number" class="form-control" name="amountPer" value="'.$user->getAmountPer().'">
             </div>';
           }
              

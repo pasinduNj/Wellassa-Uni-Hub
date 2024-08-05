@@ -3,9 +3,9 @@ include './php/classes/db_connection.php';
 session_start();
 
 if(!isset($_SESSION['user_name'])){
-$utype = $_SESSION['user_type'];// 'sp_freelance';
+$utype = "sp_freelance";//$_SESSION['user_type'];
 }else{
-$utype = "";
+$utype = "sp_freelance";
 }
 ?>
 <!DOCTYPE html>
