@@ -101,7 +101,7 @@ if (isset($productId)) {
                 //https://wa.me/94765907934  this link should be merge from the database
                 ?>
                 <h1 class="col-md-3 mb-3"><?= $user->getFirstName() ?> <?= $user->getLastName() ?></h1>
-                <h1 class="col-md-3 mb-3"><?= $user->getBusinessName() ?></h1>
+                <h1 class="col-md-6 mb-3"><?= $user->getBusinessName() ?></h1>
                 <p class="mb-2"><span class="mr-2">
                         <i class="bi bi-envelope mr-2"></i>
                     </span> <?= $user->getEmail() ?></p>
