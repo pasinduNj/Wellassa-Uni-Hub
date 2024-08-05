@@ -1,7 +1,12 @@
 <?php
 include './php/classes/db_connection.php';
 session_start();
-$_SESSION['user_type'] = 'sp_reservation';
+if(!isset($_SESSION['user_type'])){
+    $utype = $_SESSION['user_type']; //'sp_reservation';
+}else{
+    $utype = "";
+}
+
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -103,17 +108,16 @@ $_SESSION['user_type'] = 'sp_reservation';
 
                                 //Guiding the button to affiliate page
                                 //Check the type of user before showing the button in database
-                                if ($_SESSION["user_type"] == "customer" || $_SESSION["user_type"] == "admin" || $_SESSION["user_type"] == "sp_products" || $_SESSION["user_type"] == "sp_reservation" || $_SESSION["user_type"] == "sp_freelance") {
+                                if ($utype == "") {
+                                    echo '<div class="d-flex justify-content-center">';
+                                        echo '<a href="./signup.php" class="btn btn-primary rounded-pill mt-auto mb-3">login for More</a>';
+                                        echo '</div>';
+                                    
+                                } else {
                                     echo '<div class="d-flex justify-content-center">';
                                     //Put the correct link here, here i load the userId inthe link as hard coded . it should be dynamic
                                     echo '<a href="Reservation_view.php?userId=' . $row['user_id'] . '" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
                                     echo '</div>';
-                                } else {
-                                    if ($_SESSION["user_type"] == null) {
-                                        echo '<div class="d-flex justify-content-center">';
-                                        echo '<a href="./signup.html" class="btn btn-primary rounded-pill mt-auto mb-3">More Info</a>';
-                                        echo '</div>';
-                                    }
                                 }
                                 echo '</div>';
                                 echo '</div>';

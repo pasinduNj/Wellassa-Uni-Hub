@@ -2,6 +2,7 @@
 session_start();
 $userType=$_SESSION['user_type'];
 
+
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +16,7 @@ $userType=$_SESSION['user_type'];
 <body>
     <div class="container mt-5">
         <h2>Update User Information</h2>
-        <form action="/php/edit_process_user_profile.php" method="POST">
+        <form action="/php/edit_process_user_profile.php?id=<?php echo $_SESSION['user_id']; ?>" method="POST">
           <?php if($userType=="customer"){
 	 
             echo '<div class="form-group">
@@ -43,13 +44,17 @@ $userType=$_SESSION['user_type'];
                 <label for="wphone">Whatsapp number</label>
                 <input type="text" class="form-control" name="wphone">
             </div>';
-             echo '<div class="form-group">
+             echo '<div class="form-group">             
                 <label for="address">Address</label>
                 <input type="text" class="form-control" name="address" >
             </div>';
              echo '<div class="form-group">
                 <label for="description">Description</label>
                 <textarea class="form-control" name="description" rows="3" ></textarea>
+            </div>';
+            echo '<div class="form-group">             
+                <label for="amountPer">Advance Amount</label>
+                <input type="number" class="form-control" name="amountPer" >
             </div>';
           }
              

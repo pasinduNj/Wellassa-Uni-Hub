@@ -25,7 +25,7 @@ if (isset($productId)) {
 
 <head>
     <meta charset="UTF-8">
-    <title><?php echo "Profile | " . $user->getBusinessName(); ?>
+    <title><?php echo "Reservation | " . $user->getBusinessName(); ?>
     </title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
