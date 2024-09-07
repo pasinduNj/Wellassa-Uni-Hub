@@ -1,16 +1,22 @@
 <?php
-// Include your database connection script
+// Include your database connection script and start the session
 include './classes/db_connection.php';
+include './classes/UserClass.php';
+session_start();
+
 $db = new DbConnection();
 $conn = $db->getConnection();
 
 // Get the current date
 $currentDate = date('Y-m-d');
 
-// Fetch timeslots from the current date and future dates
-$sql = "SELECT timeslot_id, date, start_time, end_time, status FROM timeslots WHERE date >= ?";
+// Get the service provider ID from the session
+$userId = $_GET['userId'];
+
+// Fetch timeslots for the specific service provider from the current date and future dates
+$sql = "SELECT timeslot_id, date, start_time, end_time, status FROM timeslots WHERE date >= ? AND sp_id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $currentDate);
+$stmt->bind_param("ss", $currentDate, $userId);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -82,6 +88,7 @@ $result = $stmt->get_result();
 
 <body>
     <div class="container">
+
         <h1>Available Timeslots from <?php echo $currentDate; ?> Onwards</h1>
         <?php if ($result->num_rows > 0) : ?>
             <form action="reserve.php" method="post">
@@ -110,7 +117,7 @@ $result = $stmt->get_result();
                 <input type="submit" value="Reserve">
             </form>
         <?php else : ?>
-            <p>No available timeslots from today onwards.</p>
+            <p>No available timeslots for this service provider from today onwards.</p>
         <?php endif; ?>
     </div>
 </body>

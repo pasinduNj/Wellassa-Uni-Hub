@@ -8,7 +8,7 @@ $conn = $db->getConnection();
 
 
 // Hardcoded service provider ID for testing
-$sp_id = 'SP-009'; // Replace this with the actual service provider ID you want to test with
+//$sp_id = 'SP-001'; // Replace this with the actual service provider ID you want to test with
 $sp_id = $_SESSION['user_id'];
 
 function generateTimeslotID($conn)

@@ -78,14 +78,15 @@ if (isset($productId)) {
     <link rel="stylesheet" href="assets/css/Text-Box-2-Columns---Scroll---Hover-Effect.css">
     <link rel="stylesheet" href="assets/css/User-rating.css">
 </head>
+
 <body>
-<?php
+    <?php
     if (isset($_SESSION['user_name'])) {
         include './navbar2.php';
     } else {
         include './navbar.php';
     }
-    
+
     ?>
     <div class="container mt-5">
         <div class="row">
@@ -100,6 +101,7 @@ if (isset($productId)) {
                 //whatsapp icon leads to the whatsapp chat
                 //https://wa.me/94765907934  this link should be merge from the database
                 ?>
+
                 <h1 class="col-md-3 mb-3"><?= $user->getFirstName() ?> <?= $user->getLastName() ?></h1>
                 <h1 class="col-md-6 mb-3"><?= $user->getBusinessName() ?></h1>
                 <p class="mb-2"><span class="mr-2">
@@ -137,7 +139,7 @@ if (isset($productId)) {
                         <span class="text-warning">&#9734;</span> <!-- empty star for illustration -->
                     </span>
                 </p>
-                <button class="btn btn-primary" onclick="window.location.href='php/Bindex.php'">Book</button>
+                <button class="btn btn-primary" onclick="bookService()">Book</button>
             </div>
         </div>
         <hr>
@@ -176,6 +178,12 @@ if (isset($productId)) {
     <script src="assets/js/jQuery-Panel-panel.js"></script>
     <script src="assets/js/Review-rating-Star-Review-Button-Reviewbtn.js"></script>
     <script src="assets/js/advertisement.js"></script>
+    <script>
+        function bookService() {
+            var userId = '<?php echo $userId; ?>';
+            window.location.href = 'php/Bindex.php?userId=' + encodeURIComponent(userId);
+        }
+    </script>
 
 </body>
 
