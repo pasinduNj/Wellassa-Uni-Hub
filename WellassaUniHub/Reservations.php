@@ -1,9 +1,9 @@
 <?php
 include './php/classes/db_connection.php';
 session_start();
-if(!isset($_SESSION['user_type'])){
+if (!isset($_SESSION['user_type'])) {
     $utype = "sp_reservation"; //$_SESSION['user_type'];
-}else{
+} else {
     $utype = "sp_reservation";
 }
 
@@ -67,13 +67,13 @@ if(!isset($_SESSION['user_type'])){
 
 
 <body>
-<?php
+    <?php
     if (isset($_SESSION['user_name'])) {
         include './navbar2.php';
     } else {
         include './navbar.php';
     }
-    
+
     ?>
     <div class="container">
         <section class="py-5">
@@ -110,9 +110,8 @@ if(!isset($_SESSION['user_type'])){
                                 //Check the type of user before showing the button in database
                                 if ($utype == "") {
                                     echo '<div class="d-flex justify-content-center">';
-                                        echo '<a href="./signup.php" class="btn btn-primary rounded-pill mt-auto mb-3">login for More</a>';
-                                        echo '</div>';
-                                    
+                                    echo '<a href="./signup.php" class="btn btn-primary rounded-pill mt-auto mb-3">login for More</a>';
+                                    echo '</div>';
                                 } else {
                                     echo '<div class="d-flex justify-content-center">';
                                     //Put the correct link here, here i load the userId inthe link as hard coded . it should be dynamic

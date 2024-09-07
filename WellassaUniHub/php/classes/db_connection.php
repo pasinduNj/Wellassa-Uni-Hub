@@ -2,8 +2,8 @@
 class DbConnection
 {
     private $servername = "localhost";
-    private $username = "unihub";
-    private $password = "Unihub@1234";
+    private $username = "root";
+    private $password = "";
     private $dbname = "wellassaunihub";
     private $conn;
 
@@ -35,4 +35,3 @@ class DbConnection
         }
     }
 }
-?>

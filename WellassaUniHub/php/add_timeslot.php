@@ -8,7 +8,7 @@ $conn = $db->getConnection();
 
 
 // Hardcoded service provider ID for testing
-//$sp_id = 'SP-001'; // Replace this with the actual service provider ID you want to test with
+$sp_id = 'SP-009'; // Replace this with the actual service provider ID you want to test with
 $sp_id = $_SESSION['user_id'];
 
 function generateTimeslotID($conn)
@@ -165,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="submit" value="Add Timeslots">
         </form>
     </div>
-   
+
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/-Filterable-Cards--Filterable-Cards.js"></script>
