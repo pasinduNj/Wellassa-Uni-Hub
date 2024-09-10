@@ -56,8 +56,8 @@ if (!isset($_SESSION['user_type'])) {
                             while ($row = $result->fetch_assoc()) {
                                 echo '<div class="col-md-4">';
                                 echo '<div class="card mb-4 glass-card">';
-                                //formatted image link here
-                                echo '<img src="' . $row['profile_photo'] . '" class="card-img-top img-fluid" alt="Profile Picture of ' . $row['business_name'] . '" style="height: 300px; object-fit: cover;">';
+                                //formatted image link here 
+                                echo '<img src="' . htmlspecialchars($row['profile_photo']) . '" class="card-img-top img-fluid" alt="Profile Picture of ' . $row['business_name'] . '" style="height: 300px; object-fit: cover;">';
                                 echo '<div class="card-body">';
                                 echo '<h5 class="card-title">' . $row['business_name'] . '</h5>';
                                 //Here goes the description of the card

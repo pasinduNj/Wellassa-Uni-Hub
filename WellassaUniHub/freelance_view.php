@@ -51,7 +51,7 @@ if (isset($productId)) {
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-3">
-                    <img src="<?= $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getBusinessName() ?>" class="img-fluid rounded-circle">
+                    <img src=".<?= $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getBusinessName() ?>" class="img-fluid rounded-circle">
                 </div>
                 <div class="col-md-9">
                     <!-- dont forget to put other usertypes' differentdata here -->
