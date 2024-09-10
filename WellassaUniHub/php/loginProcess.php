@@ -14,7 +14,7 @@ function generate_auth_key()
 
 function set_remember_me($auth_key)
 {
-    $cookie_time = time() + (86400 * 30); // 30 days
+    $cookie_time = time() + (86400 * 7); // 7 days
     setcookie('auth_key', $auth_key, $cookie_time, "/");
 }
 
@@ -50,7 +50,7 @@ if (!empty($email) && !empty($passwordInput)) {
 
                 if ($rememberMe) {
                     $auth_key = generate_auth_key();
-                    $auth_key_expires = date('Y-m-d H:i:s', time() + (86400 * 30)); // 30 days
+                    $auth_key_expires = date('Y-m-d H:i:s', time() + (86400 * 7)); // 7 days
                     $updateQuery = "UPDATE user SET auth_key = ?, auth_key_expires = ? WHERE user_id = ?";
                     if ($updateStmt = $conn->prepare($updateQuery)) {
                         $updateStmt->bind_param('sss', $auth_key, $auth_key_expires, $user_id);
