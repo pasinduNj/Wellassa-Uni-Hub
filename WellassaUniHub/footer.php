@@ -1,7 +1,7 @@
-<footer class="bg-primary-gradient">
-    <div class="container py-4 py-lg-5">
+<footer class="bg-primary-gradient" style="height: auto; margin: 0px; padding: 2px;">
+    <div class="container py-4 py-lg-5" style="height: auto; padding: 0px;">
         <div class="row justify-content-center">
-            <div class="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column">
+            <div class="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column" style="height: auto; margin: 0px; padding: 0px;" >
                 <h3 class="fs-6 fw-bold">Services</h3>
                 <ul class="list-unstyled">
                     <li><a href="Reservations.php">Reservation</a></li><br>
@@ -9,7 +9,7 @@
                     <li><a href="freelance.php">Freelancing</a></li>
                 </ul>
             </div>
-            <div class="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column">
+            <div class="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column" style="height: auto; margin: 0px; padding: 0px;">
                 <h3 class="fs-6 fw-bold">About</h3>
                 <ul class="list-unstyled">
                     <li><a href="#">Company</a></li><br>
@@ -17,7 +17,7 @@
                     <li><a href="#">Legacy</a></li>
                 </ul>
             </div>
-            <div class="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column">
+            <div class="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column" style="height: auto; margin: 0px; padding: 0px;">
                 <h3 class="fs-6 fw-bold">Shortcut Links</h3>
                 <ul class="list-unstyled">
                     <li><a href="Chat.html">Chat</a></li><br>
@@ -27,7 +27,7 @@
             </div>
         </div>
         <hr>
-        <div class="text-muted d-flex justify-content-between align-items-center pt-3">
+        <div class="text-muted d-flex justify-content-between align-items-center pt-3" style="height: auto; margin: 0px; padding: 0px;">
             <p class="mb-0">Copyright © 2024 Wellassa UniHub</p>
             <ul class="list-inline mb-0">
                 <li class="list-inline-item">

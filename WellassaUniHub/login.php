@@ -122,6 +122,11 @@ if (!empty($auth_key_cookie)) {
         <div class="col-md-8 col-xl-6 text-center mx-auto">
           <p class="fw-bold text-success mb-2">Login</p>
           <h2 class="fw-bold">Welcome back</h2>
+          <?php
+            if (isset($_GET['S']) && $_GET['S'] == '1') {
+                echo '<div class="alert alert-success" role="alert">Password updated successfully. Please log in with your new password.</div>';
+            }
+            ?>
         </div>
       </div>
       <div class="row d-flex justify-content-center">
@@ -153,7 +158,7 @@ if (!empty($auth_key_cookie)) {
                   </button>
                 </div>
               </form>
-              <a class="text-muted" href="forgot_password.html">Forgot your password?</a>
+              <a class="text-muted" href="forgot_password.php">Forgot your password?</a>
               <p class="text-muted">
                 Don't have an account?&nbsp;<a href="signup.php">Sign up</a>
               </p>

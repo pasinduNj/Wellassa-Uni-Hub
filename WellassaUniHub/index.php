@@ -1,31 +1,33 @@
 <?php
+session_start();
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-
+// 1. Check if ads are in the database
 require './php/classes/db_connection.php';
-
 $db = new DbConnection();
 $conn = $db->getConnection();
-
-// Delete expired advertisements
-$today = date('Y-m-d');
-$delete_sql = "DELETE FROM advertisements WHERE until_date < ?";
-$delete_stmt = $conn->prepare($delete_sql);
-$delete_stmt->bind_param("s", $today);
-$delete_stmt->execute();
-$delete_stmt->close();
 
 $sql = "SELECT * FROM advertisements ORDER BY upload_date DESC";
 $result = $conn->query($sql);
 
-$ads = [];
-if ($result->num_rows > 0) {
+$ads = [];  // Initialize the $ads array
+
+if ($result && $result->num_rows > 0) {
+    // 2. Fetch each ad and store it in the $ads array
     while ($row = $result->fetch_assoc()) {
-        $ads[] = $row;
+        $ads[] = $row;  // Add each row to the $ads array
+
+        // 3. Check if the image file exists
+        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $row['image_path'])) {
+            // Handle missing image files, e.g., log the error or take other actions
+        }
     }
 }
 
-$db->close();
-session_start();
+// Close the database connection
+$conn->close();
 ?>
 
 
@@ -43,7 +45,6 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
     <link rel="stylesheet" href="assets/css/advertisements.css">
 </head>
 
@@ -55,6 +56,7 @@ session_start();
         include './navbar.php';
     }
     ?>
+    <script src="./assets/js/advertisement.js"></script>
     <div
         style="background-image:url(&quot;assets/img/pexels-photo-160107.jpeg&quot;);height:500px;background-position:center;background-size:cover;background-repeat:no-repeat;">
         <div class="d-flex justify-content-center align-items-center"
@@ -116,17 +118,26 @@ session_start();
             </div>
         </div>
     </section>
+
     <section>
         <div class="slideshow-container">
-            <?php foreach ($ads as $index => $ad) : ?>
-                <div class="mySlides fade">
-                    <div class="numbertext"><?= $index + 1 ?> / <?= count($ads) ?></div>
-                    <img src="./php/<?= htmlspecialchars($ad['image_path']) ?>" alt="<?= htmlspecialchars($ad['title']) ?>">
-                    <div class="text"><?= htmlspecialchars($ad['title']) ?><br><?= htmlspecialchars($ad['description']) ?><br>Expires on: <?= $ad['until_date'] ?></div>
-                </div>
-            <?php endforeach; ?>
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            <?php if (!empty($ads)) : ?>
+                <?php foreach ($ads as $index => $ad) : ?>
+                    <div class="mySlides fade">
+                        <div class="numbertext"><?= $index + 1 ?> / <?= count($ads) ?></div>
+                        <img src=".<?= htmlspecialchars($ad['image_path']) ?>" alt="<?= htmlspecialchars($ad['title']) ?>" style="width:100%">
+                        <div class="text">
+                            <h3><?= htmlspecialchars($ad['title']) ?></h3>
+                            <p><?= htmlspecialchars($ad['description']) ?></p>
+                            <p>Expires on: <?= htmlspecialchars($ad['until_date']) ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            <?php else : ?>
+                <p>No advertisements to display.</p>
+            <?php endif; ?>
         </div>
 
         <br>
@@ -137,6 +148,7 @@ session_start();
             <?php endfor; ?>
         </div>
     </section>
+
     <section class="py-5 mt-5">
         <div class="container py-5" id="Testimonials">
             <div class="row mb-5">
@@ -271,7 +283,7 @@ session_start();
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="assets/js/script.min.js"></script>
-    <script src="assets/js/advertisement.js"></script>
+
 
 </body>
 

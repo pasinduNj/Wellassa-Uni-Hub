@@ -3,32 +3,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once './php/classes/db_connection.php';
+require_once './classes/db_connection.php';
+require_once './classes/Product.php';
 
 session_start();
-
-class Product
-{
-    private $conn;
-
-    public function __construct($db)
-    {
-        $this->conn = $db;
-    }
-
-    public function addProduct($name, $price, $quantity, $description, $category, $provider_id, $image_path)
-    {
-        $stmt = $this->conn->prepare("INSERT INTO product (name, price, quantity, description, category, provider_id, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sdissss", $name, $price, $quantity, $description, $category, $provider_id, $image_path);
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-            return false;
-        }
-    }
-}
 
 $db = new DbConnection();
 $conn = $db->getConnection();
@@ -46,11 +24,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($_FILES['image']['name'])) {
         $image_name = "prod_img_" . basename($_FILES['image']['name']);
-        $target_dir = "assets/img/products/";
+        // Use __DIR__ to get the absolute path to the current PHP file
+        $target_dir = __DIR__ . "/../assets/img/products/";
         $target_file = $target_dir . $image_name;
 
+        // Make sure the directory exists
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true); // Create the directory if it doesn't exist
+        }
+
+        // Move the uploaded file to the correct directory
         if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-            $image_path = $target_file;
+            // Save the relative path to the database (for display in HTML)
+            $image_path = "/assets/img/products/" . $image_name;
         } else {
             echo "Sorry, there was an error uploading your file.";
             exit();
@@ -58,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($product->addProduct($name, $price, $quantity, $description, $category, $provider_id, $image_path)) {
-        header("Location: shop.php");
+        header("Location: ../shop.php");
         exit();
     } else {
         echo "Error adding product.";

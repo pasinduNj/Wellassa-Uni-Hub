@@ -114,7 +114,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
         <div class="row filter-container">
             <div class="col-md-2">
                 <h4>Filters</h4>
-                <form action="" method="GET" class="filter-form">
+                <form action="" method="GET" class="filter-form" style="padding: 5px;">
                     <div class="mb-3">
                         <label for="category" class="form-label">Category</label>
                         <select class="form-select" id="category" name="category">
@@ -133,7 +133,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
                         <label for="max_price" class="form-label">Max Price</label>
                         <input type="number" class="form-control" id="max_price" name="max_price" placeholder="1000" min="0">
                     </div>
-                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    <button type="submit" class="btn btn-primary" style="width:90%;">Apply Filters</button>
                 </form>
             </div>
             <div class="col-md-9 offset-md-1">
@@ -145,7 +145,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
                         <?php foreach ($products as $product) : ?>
                             <div class="col-md-4 mb-4">
                                 <div class="card h-100">
-                                    <img src="<?php echo htmlspecialchars($product['image_path']); ?>" class="card-img-top" alt="Product Image">
+                                    <img src=".<?php echo htmlspecialchars($product['image_path']); ?>" class="card-img-top" alt="Product Image">
                                     <div class="card-body">
                                         <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
                                         <p class="card-text"><?php echo htmlspecialchars($product['description']); ?></p>

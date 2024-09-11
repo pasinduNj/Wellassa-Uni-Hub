@@ -14,31 +14,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Specify the directory where the file is going to be placed
-    $target_dir = "uploads/";
+    $target_dir = __DIR__ . "/../assets/img/advertisements/";
     // Make sure the target directory exists
     if (!is_dir($target_dir)) {
-        mkdir($target_dir, 0777, true);
+        if (!mkdir($target_dir, 0777, true)) {
+            die("Failed to create directory.");
+        }
     }
-    // Specify the path of the file to be uploaded
-    $target_file = $target_dir . basename($image["name"]);
+    
+    // Generate a unique filename
+    $file_extension = pathinfo($image["name"], PATHINFO_EXTENSION);
+    $unique_filename = uniqid() . '.' . $file_extension;
+    $target_file = $target_dir . $unique_filename;
+    
     // Upload the file
     if (!move_uploaded_file($image["tmp_name"], $target_file)) {
-        die("Sorry, there was an error uploading your file.");
+        die("Sorry, there was an error uploading your file. Error: " . error_get_last()['message']);
     }
 
     // Insert advertisement into database
     $db = new DbConnection();
     $conn = $db->getConnection();
 
+    $relative_path = "/assets/img/advertisements/" . $unique_filename;
     $stmt = $conn->prepare("INSERT INTO advertisements (title, description, image_path, until_date) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $title, $description, $target_file, $until_date);
+    $stmt->bind_param("ssss", $title, $description, $relative_path, $until_date);
 
     if ($stmt->execute()) {
-        echo "Advertisement added successfully!";
+        header("Location: ../add_ad.php?S=1");
+        exit();
     } else {
-        echo "Error: " . $stmt->error;
+        unlink($target_file); // Remove the uploaded file if database insertion fails
+        header("Location: ../add_ad.php?S=0");
+        exit();
     }
 
     $stmt->close();
-    $db->close();
+    $conn->close();
 }
+?>

@@ -47,7 +47,7 @@ session_start();
     <div class="container">
         <div class="form-container">
             <h2 class="text-center mb-4">Add Product</h2>
-            <form action="add_product2.php" method="POST" enctype="multipart/form-data">
+            <form action="./php/add_product_process.php" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="name" class="form-label">Product Name:</label>
                     <input type="text" class="form-control" id="name" name="name" required>

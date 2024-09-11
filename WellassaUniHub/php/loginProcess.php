@@ -60,7 +60,7 @@ if (!empty($email) && !empty($passwordInput)) {
                     set_remember_me($auth_key);
                 }
                 if ($user_type == "admin") {
-                    header("Location: ./add_ad.php");
+                    header("Location: ../add_ad.php");
                     exit;
                 }
 
