@@ -145,7 +145,8 @@ $products = $product->getProducts($category, $min_price, $max_price);
                         <?php foreach ($products as $product) : ?>
                             <div class="col-md-4 mb-4">
                                 <div class="card h-100">
-                                    <img src=".<?php echo htmlspecialchars($product['image_path']); ?>" class="card-img-top" alt="Product Image">
+                                <img src=".<?php echo htmlspecialchars($product['image_path']); ?>" class="card-img-top" alt="Product Image">
+
                                     <div class="card-body">
                                         <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
                                         <p class="card-text"><?php echo htmlspecialchars($product['description']); ?></p>

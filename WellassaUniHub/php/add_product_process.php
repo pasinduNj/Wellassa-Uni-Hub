@@ -25,12 +25,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_FILES['image']['name'])) {
         $image_name = "prod_img_" . basename($_FILES['image']['name']);
         // Use __DIR__ to get the absolute path to the current PHP file
-        $target_dir = __DIR__ . "/../assets/img/products/";
+        $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/WellassaUniHub/assets/img/products/";
+
         $target_file = $target_dir . $image_name;
+
+        // Debug paths
+        echo "Target Directory: " . $target_dir . "<br>";
+        echo "Target File: " . $target_file . "<br>";
 
         // Make sure the directory exists
         if (!is_dir($target_dir)) {
-            mkdir($target_dir, 0777, true); // Create the directory if it doesn't exist
+            mkdir($target_dir, 0755, true); // Create the directory if it doesn't exist
+            echo "Directory created.<br>"; // Debug statement
         }
 
         // Move the uploaded file to the correct directory
@@ -54,3 +60,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     http_response_code(405);
     echo "Method Not Allowed";
 }
+

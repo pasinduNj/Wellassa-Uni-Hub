@@ -2,6 +2,12 @@
 require_once './php/classes/db_connection.php';
 session_start();
 
+if (isset($_SESSION['user_name'])) {
+    include './navbar2.php';
+} else {
+    include './navbar.php';
+}
+
 // Create a class for handling individual product retrieval
 class Product
 {
@@ -49,75 +55,92 @@ $productDetails = $product->getProductById($id);
     <link rel="stylesheet" href="assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <style>
-        .img-fluid {
-            max-width: 100%;
-            height: auto;
-        }
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
 
-        .product-image {
-            max-width: 300px;
-            height: auto;
-            object-fit: cover;
-        }
+    .product-image {
+        max-width: 300px;
+        height: auto;
+        object-fit: cover;
+    }
 
-        .btn-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+    .btn-style {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
 
-        .btn {
-            flex: 1;
-        }
+    .btn-custom {
+        width: 50%;
+        padding: 10px 0;
+        text-align: center;
+        outline: none; /* Remove button outline */
+        border: none;  /* Remove border */
+        box-shadow: none; /* Remove box-shadow */
+    }
+
+    .btn-custom:hover, .btn-custom:focus {
+        outline: none; /* Ensure outline is removed on hover and focus */
+        box-shadow: none; /* Remove box-shadow on focus */
+    }
     </style>
+
 </head>
 
 <body>
 
-    <div class="container mt-5">
-        <h2 class="text-center">Product Details</h2>
+<div class="container mt-5">
+    <h2 class="text-center">Product Details</h2>
 
-        <?php if ($productDetails) : ?>
-            <div class="row">
-                <div class="col-md-6">
-                    <?php if (!empty($productDetails['image_path'])) : ?>
-                        <img src="<?php echo htmlspecialchars($productDetails['image_path']); ?>" class="product-image img-fluid" alt="Product Image">
-                    <?php else : ?>
-                        <p>No image available.</p>
-                    <?php endif; ?>
-                </div>
-                <div class="col-md-6">
-                    <h2><?php echo htmlspecialchars($productDetails['name']); ?></h2>
-                    <p><?php echo htmlspecialchars($productDetails['description']); ?></p>
-                    <p><strong>Price:</strong> LKR <?php echo htmlspecialchars($productDetails['price']); ?></p>
-                    <p><strong>Category:</strong> <?php echo htmlspecialchars($productDetails['category']); ?></p>
-                    <div class="btn-row">
-                        <a href="shop.php" class="btn btn-secondary">Back to Shop</a>
-                        <form action="./add_cart.php" method="POST" class="d-inline">
-                            <input type="hidden" name="product_id" value="<?php echo $id?>">
-                            <input type="hidden" name="name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
-                            <input type="hidden" name="price" value="<?php echo htmlspecialchars($productDetails['price']); ?>">
-                            <input type="hidden" name="image_path" value="<?php echo htmlspecialchars($productDetails['image_path']); ?>"> <!-- Add this line -->
-                            <button type="submit" class="btn btn-warning">Add to Cart</button>
-                        </form>
+    <?php if ($productDetails) : ?>
+        <div class="row">
+            <div class="col-md-6">
+                <?php if (!empty($productDetails['image_path'])) : ?>
+                    <img src="<?php echo htmlspecialchars($productDetails['image_path']); ?>" class="product-image img-fluid" alt="Product Image">
+                <?php else : ?>
+                    <p>No image available.</p>
+                <?php endif; ?>
+            </div>
+            <div class="col-md-6">
+                <h2><?php echo htmlspecialchars($productDetails['name']); ?></h2>
+                <p><?php echo htmlspecialchars($productDetails['description']); ?></p>
+                <p><strong>Price:</strong> LKR <?php echo htmlspecialchars($productDetails['price']); ?></p>
+                <p><strong>Category:</strong> <?php echo htmlspecialchars($productDetails['category']); ?></p>
 
-                        <a href="buy_now.php?id=<?php echo htmlspecialchars($productDetails['product_id']); ?>" class="btn btn-success">Buy Now</a>
-                    </div>
+                <!-- Add to Cart Button -->
+                <form action="add_cart.php" method="POST">
+                   
+                    <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($id); ?>">
+                    <input type="hidden" name="name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
+                    <input type="hidden" name="price" value="<?php echo htmlspecialchars($productDetails['price']); ?>">
+                    <input type="hidden" name="image_path" value="<?php echo htmlspecialchars($productDetails['image_path']); ?>"> 
+                    <button type="submit" class="btn btn-warning btn-custom">Add to Cart</button>
+                </form>
+                
+
+                <div class="btn-style mt-4">
+                <a href="?id=<?php echo htmlspecialchars($productDetails['product_id']); ?>" class="btn btn-success btn-custom">Buy Now</a>
+                    
+                    <a href="feedback.php" class="btn btn-primary btn-custom">Review</a>
+                    <a href="shop.php" class="btn btn-secondary btn-custom">Back to Shop</a>
+                    
                 </div>
             </div>
-        <?php else : ?>
-            <p>Product not found.</p>
-        <?php endif; ?>
-    </div>
-    
-  
+        </div>
+    <?php else : ?>
+        <p>Product not found.</p>
+    <?php endif; ?>
+</div>
 
-    <!-- Bootstrap JS (optional, for additional components) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
+<!-- Bootstrap JS (optional, for additional components) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="assets/js/script.min.js"></script>
 
 </body>
 
