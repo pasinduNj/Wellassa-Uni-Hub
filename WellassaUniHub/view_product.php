@@ -1,7 +1,9 @@
 <?php
+// Database connection (replace with your own connection logic)
 require_once './php/classes/db_connection.php';
 session_start();
 
+// Check if user is logged in and load appropriate navbar
 if (isset($_SESSION['user_name'])) {
     include './navbar2.php';
 } else {
@@ -47,47 +49,38 @@ $productDetails = $product->getProductById($id);
     <title>Product Details</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="assets/css/styles.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <style>
-    .img-fluid {
-        max-width: 100%;
-        height: auto;
-    }
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+        }
 
-    .product-image {
-        max-width: 300px;
-        height: auto;
-        object-fit: cover;
-    }
+        .product-image {
+            max-width: 300px;
+            height: auto;
+            object-fit: cover;
+        }
 
-    .btn-style {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-    }
+        .btn-style {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
 
-    .btn-custom {
-        width: 50%;
-        padding: 10px 0;
-        text-align: center;
-        outline: none; /* Remove button outline */
-        border: none;  /* Remove border */
-        box-shadow: none; /* Remove box-shadow */
-    }
+        .btn-custom {
+            width: 50%;
+            padding: 10px 0;
+            text-align: center;
+            outline: none;
+            border: none;
+        }
 
-    .btn-custom:hover, .btn-custom:focus {
-        outline: none; /* Ensure outline is removed on hover and focus */
-        box-shadow: none; /* Remove box-shadow on focus */
-    }
+        .btn-custom:hover,
+        .btn-custom:focus {
+            outline: none;
+        }
     </style>
-
 </head>
 
 <body>
@@ -112,21 +105,17 @@ $productDetails = $product->getProductById($id);
 
                 <!-- Add to Cart Button -->
                 <form action="add_cart.php" method="POST">
-                   
                     <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($id); ?>">
-                    <input type="hidden" name="name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
-                    <input type="hidden" name="price" value="<?php echo htmlspecialchars($productDetails['price']); ?>">
-                    <input type="hidden" name="image_path" value="<?php echo htmlspecialchars($productDetails['image_path']); ?>"> 
+                    <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
+                    <input type="hidden" name="product_price" value="<?php echo htmlspecialchars($productDetails['price']); ?>">
+                    <input type="hidden" name="product_image" value="<?php echo htmlspecialchars($productDetails['image_path']); ?>">
                     <button type="submit" class="btn btn-warning btn-custom">Add to Cart</button>
                 </form>
-                
 
                 <div class="btn-style mt-4">
-                <a href="?id=<?php echo htmlspecialchars($productDetails['product_id']); ?>" class="btn btn-success btn-custom">Buy Now</a>
-                    
+                    <a href="checkout.php" class="btn btn-success btn-custom">Buy Now</a>
                     <a href="feedback.php" class="btn btn-primary btn-custom">Review</a>
                     <a href="shop.php" class="btn btn-secondary btn-custom">Back to Shop</a>
-                    
                 </div>
             </div>
         </div>
@@ -135,13 +124,8 @@ $productDetails = $product->getProductById($id);
     <?php endif; ?>
 </div>
 
-<!-- Bootstrap JS (optional, for additional components) -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="assets/js/script.min.js"></script>
 
 </body>
-
 </html>

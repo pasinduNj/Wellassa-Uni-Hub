@@ -1,7 +1,8 @@
 <?php
-require_once './php/classes/db_connection.php';
 session_start();
+require_once './php/classes/db_connection.php';
 
+// Initialize cart if not already set
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
@@ -10,41 +11,81 @@ if (!isset($_SESSION['cart'])) {
 $db = new DbConnection();
 $conn = $db->getConnection();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $product_id = isset($_POST['product_id']) ? (int)$_POST['product_id'] : 0;
-    $name = isset($_POST['name']) ? $_POST['name'] : '';
-    $price = isset($_POST['price']) ? (float)$_POST['price'] : 0.0;
-    $image_path = isset($_POST['image_path']) ? $_POST['image_path'] : '';
+// Add product to the cart
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
+    $product_id = (int)$_POST['product_id'];
+    $product_name = $_POST['product_name'];
+    $product_price = (float)$_POST['product_price'];
+    $product_image = $_POST['product_image'];
 
-    if ($product_id && $name && $price) {
-        $found = false;
-        foreach ($_SESSION['cart'] as &$item) {
-            if ($item['product_id'] === $product_id) {
-                $item['quantity'] += 1;
-                $found = true;
-                break;
-            }
+    // Check if the product is already in the cart
+    $found = false;
+    foreach ($_SESSION['cart'] as $key => $item) {
+        if ($item['id'] == $product_id) {
+            $_SESSION['cart'][$key]['quantity'] += 1; // Increase quantity
+            $found = true;
+            break;
         }
-        if (!$found) {
-            $_SESSION['cart'][] = [
-                'product_id' => $product_id,
-                'name' => $name,
-                'price' => $price,
-                'image_path' => $image_path,
-                'quantity' => 1
-            ];
-        }
+    }
+
+    // If not found, add a new entry
+    if (!$found) {
+        $_SESSION['cart'][] = [
+            'id' => $product_id,
+            'name' => $product_name,
+            'price' => $product_price,
+            'quantity' => 1,
+            'image_path' => $product_image
+        ];
     }
 }
 
-if (isset($_GET['remove'])) {
-    $key = (int)$_GET['remove'];
-    if (isset($_SESSION['cart'][$key])) {
-        unset($_SESSION['cart'][$key]);
-        $_SESSION['cart'] = array_values($_SESSION['cart']);
+// Handling AJAX requests for updating quantity or removing an item
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    if ($_POST['action'] === 'update_quantity') {
+        $key = (int)$_POST['key'];
+        $quantity = (int)$_POST['quantity'];
+
+        if (isset($_SESSION['cart'][$key])) {
+            $_SESSION['cart'][$key]['quantity'] = $quantity;
+        }
+
+        // Recalculate item total and cart total
+        $item_total = $_SESSION['cart'][$key]['price'] * $_SESSION['cart'][$key]['quantity'];
+        $cart_total = 0;
+        foreach ($_SESSION['cart'] as $item) {
+            $cart_total += $item['price'] * $item['quantity'];
+        }
+
+        // Return the updated totals as JSON response
+        echo json_encode([
+            'item_total' => number_format($item_total, 2),
+            'cart_total' => number_format($cart_total, 2)
+        ]);
+        exit;
+    } elseif ($_POST['action'] === 'remove_item') {
+        $key = (int)$_POST['key'];
+
+        if (isset($_SESSION['cart'][$key])) {
+            unset($_SESSION['cart'][$key]);
+            $_SESSION['cart'] = array_values($_SESSION['cart']);
+        }
+
+        // Recalculate cart total
+        $cart_total = 0;
+        foreach ($_SESSION['cart'] as $item) {
+            $cart_total += $item['price'] * $item['quantity'];
+        }
+
+        // Return the updated cart total as JSON response
+        echo json_encode([
+            'cart_total' => number_format($cart_total, 2)
+        ]);
+        exit;
     }
 }
 
+// Regular PHP logic for displaying the cart
 $cart = $_SESSION['cart'];
 $total = 0;
 foreach ($cart as $item) {
@@ -114,16 +155,16 @@ foreach ($cart as $item) {
                         </thead>
                         <tbody>
                             <?php foreach ($cart as $key => $item) : ?>
-                                <tr class="cart-item">
+                                <tr class="cart-item" data-key="<?php echo $key; ?>">
                                     <td><img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="Product Image"></td>
                                     <td><?php echo htmlspecialchars($item['name']); ?></td>
                                     <td>LKR <?php echo htmlspecialchars($item['price']); ?></td>
                                     <td>
                                         <input type="number" class="form-control quantity" data-key="<?php echo $key; ?>" value="<?php echo htmlspecialchars($item['quantity']); ?>" min="1">
                                     </td>
-                                    <td>LKR <span class="item-total"><?php echo htmlspecialchars($item['price'] * $item['quantity']); ?></span></td>
+                                    <td>LKR <span class="item-total"><?php echo number_format($item['price'] * $item['quantity'], 2); ?></span></td>
                                     <td>
-                                        <a href="?remove=<?php echo $key; ?>" class="btn btn-danger btn-custom">Remove</a>
+                                        <a href="#" class="btn btn-danger btn-custom remove-item" data-key="<?php echo $key; ?>">Remove</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -138,48 +179,67 @@ foreach ($cart as $item) {
         </div>
     </div>
 
-    <!-- Bootstrap JS and jQuery -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
     <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         $(document).ready(function () {
-            // Update total when quantity changes
+            // Update total when quantity changes using AJAX
             $('.quantity').on('input', function () {
                 const key = $(this).data('key');
                 const quantity = parseInt($(this).val(), 10);
-                const price = parseFloat($(this).closest('tr').find('td:nth-child(3)').text().replace('LKR ', ''));
-                const itemTotal = price * quantity;
-                $(this).closest('tr').find('.item-total').text(itemTotal.toFixed(2));
 
-                // Update cart total
-                let total = 0;
-                $('.item-total').each(function () {
-                    total += parseFloat($(this).text());
-                });
-                $('#cart-total').text(total.toFixed(2));
-
-                // Optionally, you could also send an AJAX request to update the cart in the server-side session
                 $.ajax({
-                    url: 'update_cart.php',
+                    url: '', // Current PHP file
                     method: 'POST',
+                    dataType: 'json',
                     data: {
+                        action: 'update_quantity',
                         key: key,
                         quantity: quantity
+                    },
+                    success: function (response) {
+                        // Update the item total and cart total in the UI
+                        $(`tr[data-key="${key}"]`).find('.item-total').text(response.item_total);
+                        $('#cart-total').text(response.cart_total);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
+            // Remove item using AJAX
+            $('.remove-item').on('click', function (e) {
+                e.preventDefault();
+                const key = $(this).data('key');
+
+                $.ajax({
+                    url: '', // Current PHP file
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        action: 'remove_item',
+                        key: key
+                    },
+                    success: function (response) {
+                        // Remove the item from the cart in the UI
+                        $(`tr[data-key="${key}"]`).remove();
+                        $('#cart-total').text(response.cart_total);
+
+                        // Check if the cart is empty
+                        if ($('.cart-item').length === 0) {
+                            $('.container').html('<p>Your cart is empty.</p>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
                     }
                 });
             });
         });
     </script>
-     <?php
-    include './footer.php';
-    ?>
-
-    <!-- Bootstrap JS (optional, for additional components) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
-    
 </body>
 </html>

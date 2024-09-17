@@ -1,4 +1,5 @@
 <?php
+// Database connection (replace with your own connection logic)
 require_once './php/classes/db_connection.php';
 session_start();
 
@@ -104,7 +105,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
     } else {
         include './navbar.php';
     }  
-    ?>
+?>
     <div class="container mt-4">
         <div class="row">
             <div class="col-12">
@@ -119,19 +120,19 @@ $products = $product->getProducts($category, $min_price, $max_price);
                         <label for="category" class="form-label">Category</label>
                         <select class="form-select" id="category" name="category">
                             <option value="">All</option>
-                            <option value="camping">Camping</option>
-                            <option value="gift">Gift</option>
-                            <option value="electronics">Electronics</option>
-                            <option value="others">Others</option>
+                            <option value="camping" <?php echo $category == 'camping' ? 'selected' : ''; ?>>Camping</option>
+                            <option value="gift" <?php echo $category == 'gift' ? 'selected' : ''; ?>>Gift</option>
+                            <option value="electronics" <?php echo $category == 'electronics' ? 'selected' : ''; ?>>Electronics</option>
+                            <option value="others" <?php echo $category == 'others' ? 'selected' : ''; ?>>Others</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="min_price" class="form-label">Min Price</label>
-                        <input type="number" class="form-control" id="min_price" name="min_price" placeholder="0" min="0">
+                        <input type="number" class="form-control" id="min_price" name="min_price" placeholder="0" min="0" value="<?php echo $min_price; ?>">
                     </div>
                     <div class="mb-3">
                         <label for="max_price" class="form-label">Max Price</label>
-                        <input type="number" class="form-control" id="max_price" name="max_price" placeholder="1000" min="0">
+                        <input type="number" class="form-control" id="max_price" name="max_price" placeholder="1000" min="0" value="<?php echo $max_price; ?>">
                     </div>
                     <button type="submit" class="btn btn-primary" style="width:90%;">Apply Filters</button>
                 </form>
@@ -145,8 +146,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
                         <?php foreach ($products as $product) : ?>
                             <div class="col-md-4 mb-4">
                                 <div class="card h-100">
-                                <img src=".<?php echo htmlspecialchars($product['image_path']); ?>" class="card-img-top" alt="Product Image">
-
+                                    <img src=".<?php echo htmlspecialchars($product['image_path']); ?>" class="card-img-top" alt="Product Image">
                                     <div class="card-body">
                                         <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
                                         <p class="card-text"><?php echo htmlspecialchars($product['description']); ?></p>
@@ -159,7 +159,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
-                <a href="feedback.php"><button class="btn btn-primary">Review</button></a>
+                
             </div>
         </div>
     </div>
@@ -173,8 +173,6 @@ $products = $product->getProducts($category, $min_price, $max_price);
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="assets/js/script.min.js"></script>
-    
-
 </body>
 
 </html>
