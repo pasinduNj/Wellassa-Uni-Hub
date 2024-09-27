@@ -85,47 +85,48 @@ $productDetails = $product->getProductById($id);
 
 <body>
 
-<div class="container mt-5">
-    <h2 class="text-center">Product Details</h2>
+    <div class="container mt-5">
+        <h2 class="text-center">Product Details</h2>
 
-    <?php if ($productDetails) : ?>
-        <div class="row">
-            <div class="col-md-6">
-                <?php if (!empty($productDetails['image_path'])) : ?>
-                    <img src="<?php echo htmlspecialchars($productDetails['image_path']); ?>" class="product-image img-fluid" alt="Product Image">
-                <?php else : ?>
-                    <p>No image available.</p>
-                <?php endif; ?>
-            </div>
-            <div class="col-md-6">
-                <h2><?php echo htmlspecialchars($productDetails['name']); ?></h2>
-                <p><?php echo htmlspecialchars($productDetails['description']); ?></p>
-                <p><strong>Price:</strong> LKR <?php echo htmlspecialchars($productDetails['price']); ?></p>
-                <p><strong>Category:</strong> <?php echo htmlspecialchars($productDetails['category']); ?></p>
+        <?php if ($productDetails) : ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php if (!empty($productDetails['image_path'])) : ?>
+                        <img src="<?php echo htmlspecialchars('.' . $productDetails['image_path']); ?>" class="product-image img-fluid" alt="Product Image">
+                    <?php else : ?>
+                        <p>No image available.</p>
+                    <?php endif; ?>
+                </div>
+                <div class="col-md-6">
+                    <h2><?php echo htmlspecialchars($productDetails['name']); ?></h2>
+                    <p><?php echo htmlspecialchars($productDetails['description']); ?></p>
+                    <p><strong>Price:</strong> LKR <?php echo htmlspecialchars($productDetails['price']); ?></p>
+                    <p><strong>Category:</strong> <?php echo htmlspecialchars($productDetails['category']); ?></p>
 
-                <!-- Add to Cart Button -->
-                <form action="add_cart.php" method="POST">
-                    <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($id); ?>">
-                    <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
-                    <input type="hidden" name="product_price" value="<?php echo htmlspecialchars($productDetails['price']); ?>">
-                    <input type="hidden" name="product_image" value="<?php echo htmlspecialchars($productDetails['image_path']); ?>">
-                    <button type="submit" class="btn btn-warning btn-custom">Add to Cart</button>
-                </form>
+                    <!-- Add to Cart Button -->
+                    <form action="add_cart.php" method="POST">
+                        <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($id); ?>">
+                        <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
+                        <input type="hidden" name="product_price" value="<?php echo htmlspecialchars($productDetails['price']); ?>">
+                        <input type="hidden" name="product_image" value="<?php echo htmlspecialchars($productDetails['image_path']); ?>">
+                        <button type="submit" class="btn btn-warning btn-custom">Add to Cart</button>
+                    </form>
 
-                <div class="btn-style mt-4">
-                    <a href="checkout.php" class="btn btn-success btn-custom">Buy Now</a>
-                    <a href="feedback.php" class="btn btn-primary btn-custom">Review</a>
-                    <a href="shop.php" class="btn btn-secondary btn-custom">Back to Shop</a>
+                    <div class="btn-style mt-4">
+                        <a href="checkout.php" class="btn btn-success btn-custom">Buy Now</a>
+                        <a href="feedback.php" class="btn btn-primary btn-custom">Review</a>
+                        <a href="shop.php" class="btn btn-secondary btn-custom">Back to Shop</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    <?php else : ?>
-        <p>Product not found.</p>
-    <?php endif; ?>
-</div>
+        <?php else : ?>
+            <p>Product not found.</p>
+        <?php endif; ?>
+    </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>
