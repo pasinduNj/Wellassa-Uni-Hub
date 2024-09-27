@@ -20,4 +20,13 @@ class Product
             return false;
         }
     }
+
+    public function getProductById($id)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM product WHERE product_id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
 }

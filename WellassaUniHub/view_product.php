@@ -1,6 +1,7 @@
 <?php
 // Database connection (replace with your own connection logic)
 require_once './php/classes/db_connection.php';
+require_once './php/classes/Product.php';
 session_start();
 
 // Check if user is logged in and load appropriate navbar
@@ -8,26 +9,6 @@ if (isset($_SESSION['user_name'])) {
     include './navbar2.php';
 } else {
     include './navbar.php';
-}
-
-// Create a class for handling individual product retrieval
-class Product
-{
-    private $conn;
-
-    public function __construct($db)
-    {
-        $this->conn = $db;
-    }
-
-    public function getProductById($id)
-    {
-        $stmt = $this->conn->prepare("SELECT * FROM product WHERE product_id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
-    }
 }
 
 // Initialize database connection and product class
