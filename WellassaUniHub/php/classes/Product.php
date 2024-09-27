@@ -29,4 +29,45 @@ class Product
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+
+    public function getProducts($category = null, $min_price = null, $max_price = null)
+    {
+        $query = "SELECT * FROM product WHERE 1=1";
+
+        if ($category) {
+            $query .= " AND category = ?";
+        }
+        if ($min_price) {
+            $query .= " AND price >= ?";
+        }
+        if ($max_price) {
+            $query .= " AND price <= ?";
+        }
+
+        $stmt = $this->conn->prepare($query);
+
+        $params = [];
+        $types = '';
+
+        if ($category) {
+            $params[] = $category;
+            $types .= 's';
+        }
+        if ($min_price) {
+            $params[] = $min_price;
+            $types .= 'd';
+        }
+        if ($max_price) {
+            $params[] = $max_price;
+            $types .= 'd';
+        }
+
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }

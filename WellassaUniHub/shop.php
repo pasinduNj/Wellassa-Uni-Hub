@@ -1,59 +1,8 @@
 <?php
 // Database connection (replace with your own connection logic)
 require_once './php/classes/db_connection.php';
+require_once './php/classes/Product.php';
 session_start();
-
-// Create a class for handling product retrieval
-class Product
-{
-    private $conn;
-
-    public function __construct($db)
-    {
-        $this->conn = $db;
-    }
-
-    public function getProducts($category = null, $min_price = null, $max_price = null)
-    {
-        $query = "SELECT * FROM product WHERE 1=1";
-
-        if ($category) {
-            $query .= " AND category = ?";
-        }
-        if ($min_price) {
-            $query .= " AND price >= ?";
-        }
-        if ($max_price) {
-            $query .= " AND price <= ?";
-        }
-
-        $stmt = $this->conn->prepare($query);
-
-        $params = [];
-        $types = '';
-
-        if ($category) {
-            $params[] = $category;
-            $types .= 's';
-        }
-        if ($min_price) {
-            $params[] = $min_price;
-            $types .= 'd';
-        }
-        if ($max_price) {
-            $params[] = $max_price;
-            $types .= 'd';
-        }
-
-        if (!empty($params)) {
-            $stmt->bind_param($types, ...$params);
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-}
 
 // Initialize database connection and product class
 $db = new DbConnection();
@@ -99,13 +48,13 @@ $products = $product->getProducts($category, $min_price, $max_price);
 </head>
 
 <body>
-<?php
+    <?php
     if (isset($_SESSION['user_name'])) {
         include './navbar2.php';
     } else {
         include './navbar.php';
-    }  
-?>
+    }
+    ?>
     <div class="container mt-4">
         <div class="row">
             <div class="col-12">
@@ -159,7 +108,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
-                
+
             </div>
         </div>
     </div>
