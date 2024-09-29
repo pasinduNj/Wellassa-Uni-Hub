@@ -38,15 +38,15 @@ if (isset($productId)) {
 </head>
 
 <body>
-<?php
+    <?php
     if (isset($_SESSION['user_name'])) {
         include './navbar2.php';
     } else {
         include './navbar.php';
     }
-    
+
     ?>
-   
+
     <main>
         <div class="container mt-5">
             <div class="row">
@@ -94,13 +94,7 @@ if (isset($productId)) {
                         <span class="mr-2">
                             Reviews :
                         </span>
-                        <span class="rating">
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9733;</span>
-                            <span class="text-warning">&#9734;</span> <!-- empty star is illustration -->
-                        </span>
+
                     </p>
                     <div class="d-flex justify-content-center">
                         <a href="./cart.php" class="btn btn-primary rounded-pill mt-auto mb-3">Proceed with the advance</a>
