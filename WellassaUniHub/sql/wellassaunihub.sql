@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 11, 2024 at 09:16 AM
+-- Generation Time: Sep 29, 2024 at 05:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,9 +41,8 @@ CREATE TABLE `advertisements` (
 --
 
 INSERT INTO `advertisements` (`ad_id`, `title`, `description`, `image_path`, `upload_date`, `until_date`) VALUES
-(11, 'Tent', 'jhhhdi', '/assets/img/advertisements/66e13019d4667.jpg', '2024-09-11 05:52:25', '2024-09-26'),
-(12, 'Acer', 'fef', '/assets/img/advertisements/66e13527119b3.jpg', '2024-09-11 06:13:59', '2024-10-03'),
-(13, 'Ad', 'fef', '/assets/img/advertisements/66e1354251f70.jpg', '2024-09-11 06:14:26', '2024-09-26');
+(14, 'Add 1', 'Description 1', '/assets/img/advertisements/66f96b146739c.jpeg', '2024-09-29 14:58:28', '2024-10-29'),
+(15, 'Add 2', 'Description 2', '/assets/img/advertisements/66f96b322074a.jpeg', '2024-09-29 14:58:58', '2024-10-29');
 
 -- --------------------------------------------------------
 
@@ -130,20 +129,22 @@ INSERT INTO `reservations` (`reservation_id`, `cus_id`, `timeslot_id`, `payment_
 
 CREATE TABLE `review_table` (
   `review_id` int(11) NOT NULL,
-  `user_name` varchar(200) NOT NULL,
+  `user_id` varchar(10) NOT NULL,
+  `product_id` varchar(10) NOT NULL,
+  `provider_id` varchar(10) NOT NULL,
+  `user_name` varchar(50) NOT NULL,
   `user_rating` int(1) NOT NULL,
   `user_review` text NOT NULL,
-  `datetime` int(11) NOT NULL
+  `datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `review_table`
 --
 
-INSERT INTO `review_table` (`review_id`, `user_name`, `user_rating`, `user_review`, `datetime`) VALUES
-(6, 'Lorem Ipsum', 4, 'The camera quality is phenomenal, especially in low light conditions.', 1621935691),
-(7, 'Jane Doe', 5, 'Battery life lasts me all day, even with heavy usage. Impressive!', 1621939888),
-(8, 'John Doe', 5, 'Love the sleek design and lightning-fast performance of this iphone!', 1621940010);
+INSERT INTO `review_table` (`review_id`, `user_id`, `product_id`, `provider_id`, `user_name`, `user_rating`, `user_review`, `datetime`) VALUES
+(9, '0', '1', '', 'Geeth', 3, 'Good Product', '2024-09-29 19:34:15'),
+(10, '0', '3', '', 'Geeth', 3, 'good one', '2024-09-29 19:39:07');
 
 -- --------------------------------------------------------
 
@@ -278,7 +279,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `advertisements`
 --
 ALTER TABLE `advertisements`
-  MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -290,7 +291,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `review_table`
 --
 ALTER TABLE `review_table`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

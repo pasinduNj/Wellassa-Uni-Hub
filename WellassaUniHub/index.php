@@ -9,7 +9,8 @@ require './php/classes/db_connection.php';
 $db = new DbConnection();
 $conn = $db->getConnection();
 
-$sql = "SELECT * FROM advertisements ORDER BY upload_date DESC";
+// Updated SQL query to select only active ads (until_date should be in the future)
+$sql = "SELECT * FROM advertisements WHERE until_date >= CURDATE() ORDER BY upload_date DESC";
 $result = $conn->query($sql);
 
 $ads = [];  // Initialize the $ads array
@@ -29,6 +30,7 @@ if ($result && $result->num_rows > 0) {
 // Close the database connection
 $conn->close();
 ?>
+
 
 
 <!DOCTYPE html>
@@ -119,6 +121,7 @@ $conn->close();
         </div>
     </section>
 
+    <!-- Slideshow Container for Advertisements -->
     <section>
         <div class="slideshow-container">
             <?php if (!empty($ads)) : ?>
@@ -136,18 +139,20 @@ $conn->close();
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
             <?php else : ?>
-                <p>No advertisements to display.</p>
+                <p>No active advertisements to display.</p>
             <?php endif; ?>
         </div>
 
         <br>
 
+        <!-- Dots to indicate the slide number -->
         <div style="text-align:center">
             <?php for ($i = 1; $i <= count($ads); $i++) : ?>
                 <span class="dot" onclick="currentSlide(<?= $i ?>)"></span>
             <?php endfor; ?>
         </div>
     </section>
+
 
     <section class="py-5 mt-5">
         <div class="container py-5" id="Testimonials">
