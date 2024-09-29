@@ -69,10 +69,10 @@ if (isset($productId)) {
                         </span> <a href="tel:+94'.$user->getPhone().'" target="_blank"><?= $user->getPhone() ?></a></p>
                     <p class="mb-2">
                         <span class="mr-2">
-                            <i class="bi bi-whatsapp mr-2"></i>
+                            <i class="bi bi-whatsapp mr-2" style="color: #25D366;"></i>
                         </span>
                         <!-- check digits if need trim -->
-                        <a href="https://wa.me/'.$user->getWPhone().'" target="_blank"><?= $user->getWPhone() ?></a>
+                        <a href="https://wa.me/<?= $user->getWPhone() ?>" target="_blank"><?= $user->getWPhone() ?></a>
                     </p>
                     <p class="mb-2">
                         <i class="bi bi-geo-alt mr-2"></i>
