@@ -47,10 +47,11 @@ if ($_SESSION['user_type'] == "customer") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-       
+
 </head>
+
 <body>
-<?php
+    <?php
     if (isset($_SESSION['user_name'])) {
         include './navbar2.php';
     } else {
@@ -61,7 +62,7 @@ if ($_SESSION['user_type'] == "customer") {
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-3 text-center">
-                <img src="<?= $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getFirstName() ?>" class="img-fluid rounded-circle" style="width: 150px;height: 150px;border-radius: 50%;object-fit: cover;">
+                <img src="<?= '.' . $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getFirstName() ?>" class="img-fluid rounded-circle" style="width: 150px;height: 150px;border-radius: 50%;object-fit: cover;">
                 <i class="bi bi-pencil-square position-absolute top-0 start-0 translate-middle bg-white rounded-circle p-2"></i>
             </div>
             <div class="col-md-9">
@@ -147,10 +148,10 @@ if ($_SESSION['user_type'] == "customer") {
     include './footer.php';
     ?>
 </body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
-  
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="assets/js/script.min.js"></script>
+
 </html>
