@@ -84,6 +84,16 @@ $result = $stmt->get_result();
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
     </style>
 </head>
 
@@ -125,9 +135,11 @@ $result = $stmt->get_result();
                     <?php endwhile; ?>
                 </table>
                 <input type="submit" value="Reserve">
+                <a href="../Reservation_view.php<?php echo $userId ? '?userId=' . $userId : ''; ?>" class="btn">Return to Home</a>
             </form>
         <?php else : ?>
             <p>No available timeslots for this service provider from today onwards.</p>
+            <a href="../Reservation_view.php<?php echo $userId ? '?userId=' . $userId : ''; ?>" class="btn">Return to Home</a>
         <?php endif; ?>
     </div>
 </body>
