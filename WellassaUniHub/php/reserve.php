@@ -1,13 +1,11 @@
 <?php
 // Include your database connection script
 include './classes/db_connection.php';
+include './classes/UserClass.php';
+session_start();
 
 $db = new DbConnection();
 $conn = $db->getConnection();
-
-
-// Hardcoded customer ID for testing
-$cus_id = 'CUS-001'; // Replace this with the actual customer ID you want to test with
 
 // Function to generate new reservation ID
 function generateReservationID($conn)
@@ -26,7 +24,8 @@ function generateReservationID($conn)
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $timeslot_id = $_POST['timeslot_id'];
-
+    $user_id = $_POST['current_id'];
+    $cus_id = $user_id;
     // Generate new reservation ID
     $reservation_id = generateReservationID($conn);
 
@@ -56,15 +55,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserve Timeslot</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            width: 50%;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .back-link:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
         <h1>Reserve Timeslot</h1>
-        <?php if (isset($message)) {
-            echo "<p>$message</p>";
-        } ?>
-        <a href="Bindex.php">Back to Available Timeslots</a>
+        <?php
+        if (isset($message)) {
+            $messageClass = strpos($message, 'Error') !== false ? 'error' : 'success';
+            echo "<div class='message {$messageClass}'>{$message}</div>";
+        }
+
+        // Get the user ID from POST data if available, otherwise try GET
+        $returnUserId = isset($_POST['cus_id']) ? $_POST['cus_id'] : (isset($_GET['userId']) ? $_GET['userId'] : '');
+        ?>
+
+        <a href="Bindex.php<?php echo $returnUserId ? '?userId=' . $returnUserId : ''; ?>" class="back-link">Back to Available Timeslots</a>
     </div>
 </body>
 

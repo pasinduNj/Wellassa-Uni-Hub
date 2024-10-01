@@ -29,6 +29,7 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Available Timeslots</title>
     <link rel="stylesheet" href="styles.css">
+
     <style>
         .container {
             width: 50%;
@@ -87,11 +88,20 @@ $result = $stmt->get_result();
 </head>
 
 <body>
+
+
+
+    <?php
+    $user = $_SESSION['user_id'];
+
+    ?>
     <div class="container">
 
         <h1>Available Timeslots from <?php echo $currentDate; ?> Onwards</h1>
         <?php if ($result->num_rows > 0) : ?>
             <form action="reserve.php" method="post">
+                <input type="hidden" name="cus_id" value="<?php echo $userId; ?>">
+                <input type="hidden" name="current_id" value="<?php echo $user; ?>">
                 <table>
                     <tr>
                         <th>Select</th>
