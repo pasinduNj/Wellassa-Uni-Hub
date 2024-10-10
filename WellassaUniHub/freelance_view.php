@@ -144,13 +144,7 @@ $reviews = $review->getReviewsByProviderId($providerId);
                             <i class="bi bi-currency-dollar mr-2"></i>
                         </span>Reserve an advance with Rs. <?= $user->getAmountPer() ?>
                     </p>
-                    <p class="mb-2">
-                        <!-- add rating here -->
-                        <span class="mr-2">
-                            Reviews :
-                        </span>
 
-                    </p>
                     <!--display the reviews -->
                     <div class="mb-4">
                         <h3>Reviews</h3>
@@ -170,6 +164,9 @@ $reviews = $review->getReviewsByProviderId($providerId);
                         </div>
 
                         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $providerId): ?>
+
+                            <a href="./cart.php"><button class="btn btn-primary" onclick="">Proceed With Advance</button></a>
+
                             <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#reviewModal">
                                 Write a Review
                             </button>
@@ -226,9 +223,6 @@ $reviews = $review->getReviewsByProviderId($providerId);
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <a href="./cart.php" class="btn btn-primary rounded-pill mt-auto mb-3">Proceed with the advance</a>
                     </div>
                 </div>
             </div>

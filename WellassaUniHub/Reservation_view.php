@@ -139,11 +139,8 @@ $reviews = $review->getReviewsByProviderId($providerId);
                     </span>
                     <?= $user->getDescription() ?>
                 </p>
-                <p class="mb-2">
-                    <span class="mr-2">
-                        Reviews :
-                    </span>
-                </p>
+
+
                 <!--display the reviews -->
                 <div class="mb-4">
                     <h3>Reviews</h3>
@@ -163,6 +160,7 @@ $reviews = $review->getReviewsByProviderId($providerId);
                     </div>
 
                     <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $providerId): ?>
+                        <button class="btn btn-primary" onclick="bookService()">Book</button>
                         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#reviewModal">
                             Write a Review
                         </button>
@@ -188,6 +186,7 @@ $reviews = $review->getReviewsByProviderId($providerId);
                         <?php endforeach; ?>
                     </div>
                 </div>
+
 
                 <!-- Review Modal -->
                 <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
@@ -220,9 +219,6 @@ $reviews = $review->getReviewsByProviderId($providerId);
                         </div>
                     </div>
                 </div>
-
-                <button class="btn btn-primary" onclick="bookService()">Book</button>
-
             </div>
         </div>
         <hr>
