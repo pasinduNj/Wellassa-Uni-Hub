@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 29, 2024 at 05:28 PM
+-- Generation Time: Oct 10, 2024 at 07:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -129,7 +129,7 @@ INSERT INTO `reservations` (`reservation_id`, `cus_id`, `timeslot_id`, `payment_
 
 CREATE TABLE `review_table` (
   `review_id` int(11) NOT NULL,
-  `user_id` varchar(10) NOT NULL,
+  `customer_id` varchar(10) NOT NULL,
   `product_id` varchar(10) NOT NULL,
   `provider_id` varchar(10) NOT NULL,
   `user_name` varchar(50) NOT NULL,
@@ -142,9 +142,15 @@ CREATE TABLE `review_table` (
 -- Dumping data for table `review_table`
 --
 
-INSERT INTO `review_table` (`review_id`, `user_id`, `product_id`, `provider_id`, `user_name`, `user_rating`, `user_review`, `datetime`) VALUES
-(9, '0', '1', '', 'Geeth', 3, 'Good Product', '2024-09-29 19:34:15'),
-(10, '0', '3', '', 'Geeth', 3, 'good one', '2024-09-29 19:39:07');
+INSERT INTO `review_table` (`review_id`, `customer_id`, `product_id`, `provider_id`, `user_name`, `user_rating`, `user_review`, `datetime`) VALUES
+(13, 'SP-006', '', 'SP-001', 'Geeth', 3, 'Good Service', '2024-10-09 22:12:53'),
+(15, 'SP-006', '', 'SP-003', 'Geeth', 4, 'best', '2024-10-09 22:18:07'),
+(16, 'SP-006', '', 'SP-005', 'Geeth', 3, 'Good', '2024-10-09 22:28:30'),
+(20, 'SP-006', '', 'SP-002', 'Geeth', 5, 'best', '2024-10-10 10:43:46'),
+(22, 'SP-006', '4', '', 'Geeth', 5, 'very good Product', '2024-10-10 10:51:56'),
+(23, 'SP-006', '3', '', 'Geeth', 4, 'Good camping hut', '2024-10-10 10:52:42'),
+(24, 'SP-006', '2', '', 'Geeth', 4, 'Good Product', '2024-10-10 10:55:18'),
+(25, 'SP-006', '1', '', 'Geeth', 4, 'Good Rice', '2024-10-10 10:56:26');
 
 -- --------------------------------------------------------
 
@@ -173,7 +179,10 @@ INSERT INTO `timeslots` (`timeslot_id`, `sp_id`, `date`, `start_time`, `end_time
 ('TS-00005', 'SP-006', '2024-08-07', '10:00:00', '10:30:00', 'free'),
 ('TS-00006', 'SP-006', '2024-08-07', '10:30:00', '11:00:00', 'free'),
 ('TS-00007', 'SP-006', '2024-08-07', '11:00:00', '11:30:00', 'free'),
-('TS-00008', 'SP-006', '2024-08-07', '11:30:00', '12:00:00', 'free');
+('TS-00008', 'SP-006', '2024-08-07', '11:30:00', '12:00:00', 'free'),
+('TS-00009', 'SP-006', '2024-10-01', '11:00:00', '11:30:00', 'free'),
+('TS-00010', 'SP-006', '2024-10-01', '11:30:00', '12:00:00', 'free'),
+('TS-00011', 'SP-006', '2024-10-01', '12:00:00', '12:30:00', 'free');
 
 -- --------------------------------------------------------
 
@@ -291,7 +300,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `review_table`
 --
 ALTER TABLE `review_table`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

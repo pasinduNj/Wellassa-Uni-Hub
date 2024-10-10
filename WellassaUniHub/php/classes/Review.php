@@ -8,13 +8,14 @@ class Review
         $this->conn = $db;
     }
 
-    public function addReview($user_id, $product_id, $user_name, $user_rating, $user_review)
+    // Existing product review functions
+    public function addReview($customer_id, $product_id, $user_name, $user_rating, $user_review)
     {
-        $query = "INSERT INTO review_table (user_id, product_id, user_name, user_rating, user_review, datetime) 
+        $query = "INSERT INTO review_table (customer_id, product_id, user_name, user_rating, user_review, datetime) 
                   VALUES (?, ?, ?, ?, ?, NOW())";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("iisis", $user_id, $product_id, $user_name, $user_rating, $user_review);
+        $stmt->bind_param("sssis", $customer_id, $product_id, $user_name, $user_rating, $user_review);
 
         if ($stmt->execute()) {
             return true;
@@ -41,6 +42,51 @@ class Review
 
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $product_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $reviews = [];
+        while ($row = $result->fetch_assoc()) {
+            $reviews[] = $row;
+        }
+
+        return $reviews;
+    }
+
+    // New provider review functions
+    public function addReviewForProvider($customer_id, $provider_id, $user_name, $user_rating, $user_review)
+    {
+        $query = "INSERT INTO review_table (customer_id, provider_id, user_name, user_rating, user_review, datetime) 
+                  VALUES (?, ?, ?, ?, ?, NOW())";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("sssis", $customer_id, $provider_id, $user_name, $user_rating, $user_review);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getAverageRatingByProvider($provider_id)
+    {
+        $query = "SELECT AVG(user_rating) as avg_rating FROM review_table WHERE provider_id = ?";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $provider_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        return $row['avg_rating'] ? round($row['avg_rating'], 1) : 0;
+    }
+
+    public function getReviewsByProviderId($provider_id)
+    {
+        $query = "SELECT * FROM review_table WHERE provider_id = ? ORDER BY datetime DESC";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $provider_id);
         $stmt->execute();
         $result = $stmt->get_result();
 

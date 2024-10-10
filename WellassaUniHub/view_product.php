@@ -4,6 +4,7 @@ require_once './php/classes/db_connection.php';
 require_once './php/classes/Product.php';
 require_once './php/classes/Review.php';
 session_start();
+$customer_id = $_SESSION['user_id'];
 
 // Initialize database connection and product class
 $db = new DbConnection();
@@ -78,6 +79,22 @@ $reviews = $review->getReviewsByProductId($id);
             right: 20px;
             z-index: 9999;
             display: none;
+            min-width: 250px;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
         }
 
         /* Additional styles for navbar */
@@ -241,6 +258,7 @@ $reviews = $review->getReviewsByProductId($id);
                 <div class="modal-body">
                     <form id="reviewForm">
                         <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($id); ?>">
+                        <input type="hidden" name="customer_id" value="<?php echo htmlspecialchars($customer_id); ?>">
                         <div class="mb-3">
                             <label for="rating" class="form-label">Rating</label>
                             <div class="star-rating">
@@ -324,13 +342,21 @@ $reviews = $review->getReviewsByProductId($id);
 
         function showMessage(message, type) {
             const popup = $('#messagePopup');
-            popup.text(message);
-            popup.removeClass('alert-success alert-danger');
-            popup.addClass(`alert-${type}`);
-            popup.fadeIn();
+
+            // Update popup content and styling
+            popup.text(message)
+                .removeClass('alert-success alert-danger')
+                .addClass(`alert-${type}`)
+                .css('display', 'block'); // Make sure it's visible
+
+            // Ensure the popup is in the viewport
+            const navbarHeight = $('nav').outerHeight();
+            popup.css('top', `${navbarHeight + 20}px`);
+
+            // Fade out after delay
             setTimeout(() => {
                 popup.fadeOut();
-            }, 2000);
+            }, 5000); // Increased to 3 seconds for better visibility
         }
     </script>
 </body>

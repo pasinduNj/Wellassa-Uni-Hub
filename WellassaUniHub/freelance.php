@@ -2,10 +2,10 @@
 include './php/classes/db_connection.php';
 session_start();
 
-if(!isset($_SESSION['user_name'])){
-$utype = "sp_freelance";//$_SESSION['user_type'];
-}else{
-$utype = "sp_freelance";
+if (!isset($_SESSION['user_name'])) {
+    $utype = $_SESSION['user_type'];
+} else {
+    $utype = "sp_freelance";
 }
 ?>
 <!DOCTYPE html>
@@ -32,7 +32,7 @@ $utype = "sp_freelance";
     } else {
         include './navbar.php';
     }
-    
+
     ?>
     <!-- Search Bar Section -->
     <!-- <section class="search-section py-5 bg-light">
@@ -78,7 +78,7 @@ $utype = "sp_freelance";
                             echo '<div class="card-body">';
                             echo '<h5 class="card-title">' . $row['business_name'] . '</h5>';
                             //Here goes the description of the card
-                    //*****put the rating also */
+                            //*****put the rating also */
                             echo '<p class="card-text text-truncate" >' . $row['description'] . '</p>';
                             echo '</div>';
 
@@ -86,9 +86,8 @@ $utype = "sp_freelance";
                             //Check the type of user before showing the button in database
                             if ($utype == "") {
                                 echo '<div class="d-flex justify-content-center">';
-                                    echo '<a href="./signup.php" class="btn btn-primary rounded-pill mt-auto mb-3">login for More</a>';
-                                    echo '</div>';
-                                
+                                echo '<a href="./signup.php" class="btn btn-primary rounded-pill mt-auto mb-3">login for More</a>';
+                                echo '</div>';
                             } else {
                                 echo '<div class="d-flex justify-content-center">';
                                 //Put the correct link here, here i load the userId inthe link as hard coded . it should be dynamic
