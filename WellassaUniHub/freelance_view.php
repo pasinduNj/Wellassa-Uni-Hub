@@ -65,6 +65,7 @@ $reviews = $review->getReviewsByProviderId($providerId);
             margin-left: 5px;
         }
 
+
         #messagePopup {
             position: fixed;
             top: 20px;
