@@ -95,6 +95,7 @@ foreach ($cart as $item) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -113,7 +114,8 @@ foreach ($cart as $item) {
 
         .back-to-shop {
             position: absolute;
-            top: 80px; /* Adjust based on navbar height */
+            top: 80px;
+            /* Adjust based on navbar height */
             left: 20px;
             z-index: 1000;
         }
@@ -123,6 +125,7 @@ foreach ($cart as $item) {
         }
     </style>
 </head>
+
 <body>
     <?php
     if (isset($_SESSION['user_name'])) {
@@ -156,7 +159,7 @@ foreach ($cart as $item) {
                         <tbody>
                             <?php foreach ($cart as $key => $item) : ?>
                                 <tr class="cart-item" data-key="<?php echo $key; ?>">
-                                    <td><img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="Product Image"></td>
+                                    <td><img src="<?php echo '.' . htmlspecialchars($item['image_path']); ?>" alt="Product Image"></td>
                                     <td><?php echo htmlspecialchars($item['name']); ?></td>
                                     <td>LKR <?php echo htmlspecialchars($item['price']); ?></td>
                                     <td>
@@ -185,9 +188,9 @@ foreach ($cart as $item) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Update total when quantity changes using AJAX
-            $('.quantity').on('input', function () {
+            $('.quantity').on('input', function() {
                 const key = $(this).data('key');
                 const quantity = parseInt($(this).val(), 10);
 
@@ -200,19 +203,19 @@ foreach ($cart as $item) {
                         key: key,
                         quantity: quantity
                     },
-                    success: function (response) {
+                    success: function(response) {
                         // Update the item total and cart total in the UI
                         $(`tr[data-key="${key}"]`).find('.item-total').text(response.item_total);
                         $('#cart-total').text(response.cart_total);
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('Error:', error);
                     }
                 });
             });
 
             // Remove item using AJAX
-            $('.remove-item').on('click', function (e) {
+            $('.remove-item').on('click', function(e) {
                 e.preventDefault();
                 const key = $(this).data('key');
 
@@ -224,7 +227,7 @@ foreach ($cart as $item) {
                         action: 'remove_item',
                         key: key
                     },
-                    success: function (response) {
+                    success: function(response) {
                         // Remove the item from the cart in the UI
                         $(`tr[data-key="${key}"]`).remove();
                         $('#cart-total').text(response.cart_total);
@@ -234,7 +237,7 @@ foreach ($cart as $item) {
                             $('.container').html('<p>Your cart is empty.</p>');
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('Error:', error);
                     }
                 });
@@ -242,4 +245,5 @@ foreach ($cart as $item) {
         });
     </script>
 </body>
+
 </html>
