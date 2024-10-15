@@ -1,35 +1,42 @@
 let slideIndex = 0;
-    showSlides();
+let slides = document.getElementsByClassName("mySlides");
+let slideContainer = document.querySelector(".slideshow-container");
+let timeoutId;
 
-    function showSlides() {
-        let i;
-        let slides = document.getElementsByClassName("mySlides");
-        let dots = document.getElementsByClassName("dot");
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        slideIndex++;
-        if (slideIndex > slides.length) {
-            slideIndex = 1;
-        }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-        if (slides[slideIndex - 1]) {
-            slides[slideIndex - 1].style.display = "block";
-        }
-        if (dots[slideIndex - 1]) {
-            dots[slideIndex - 1].className += " active";
-        }
-        setTimeout(showSlides, 5000); // Change image every 5 seconds
-    }
+function setupSlides() {
+  // Position all slides to the right initially
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.left = "100%";
+  }
+  // Position the first slide in view
+  slides[0].style.left = "0";
+}
 
-    function plusSlides(n) {
-        slideIndex += n - 1;
-        showSlides();
-    }
+function showNextSlide() {
+  let currentSlide = slides[slideIndex];
+  slideIndex = (slideIndex + 1) % slides.length;
+  let nextSlide = slides[slideIndex];
 
-    function currentSlide(n) {
-        slideIndex = n - 1;
-        showSlides();
-    }
+  // Position the next slide to the right
+  nextSlide.style.left = "100%";
+
+  // Trigger reflow
+  nextSlide.offsetHeight;
+
+  // Start the transition
+  currentSlide.style.left = "-100%";
+  nextSlide.style.left = "0";
+
+  // Set timeout for the next slide
+  timeoutId = setTimeout(showNextSlide, 5000);
+}
+
+function plusSlides(n) {
+  clearTimeout(timeoutId);
+  slideIndex = (slideIndex + n + slides.length) % slides.length;
+  showNextSlide();
+}
+
+// Initialize and start the slideshow
+setupSlides();
+timeoutId = setTimeout(showNextSlide, 5000);

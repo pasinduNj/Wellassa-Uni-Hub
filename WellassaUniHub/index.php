@@ -58,7 +58,22 @@ $conn->close();
         include './navbar.php';
     }
     ?>
-    <script src="./assets/js/advertisement.js"></script>
+    <div class="container mt-3">
+        <?php
+        if (isset($_GET['status'])) {
+            if ($_GET['status'] == 'success') {
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Your message has been sent successfully</strong>
+                      </div>';
+            } elseif ($_GET['status'] == 'error') {
+                echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>There was a problem sending your message. Please try again.</strong> 
+                      </div>';
+            }
+        }
+        ?>
+    </div>
+
     <div
         style="background-image:url(&quot;assets/img/pexels-photo-160107.jpeg&quot;);height:500px;background-position:center;background-size:cover;background-repeat:no-repeat;">
         <div class="d-flex justify-content-center align-items-center"
@@ -122,6 +137,7 @@ $conn->close();
     </section>
 
     <!-- Slideshow Container for Advertisements -->
+
     <section>
         <div class="slideshow-container">
             <?php if (!empty($ads)) : ?>
@@ -152,6 +168,7 @@ $conn->close();
             <?php endfor; ?>
         </div>
     </section>
+    <script src="./assets/js/advertisement.js"></script>
 
 
     <section class="py-5 mt-5">
@@ -222,9 +239,11 @@ $conn->close();
                                     placeholder="Name"></div>
                             <div class="mb-3"><input class="form-control" type="email" id="email-1" name="email"
                                     placeholder="Email"></div>
+                            <div class="mb-3"><input class="form-control" type="text" id="name-1" name="subject"
+                                    placeholder="Subject"></div>
                             <div class="mb-3"><textarea class="form-control" id="message-1" name="message" rows="6"
                                     placeholder="Message"></textarea></div>
-                            <div><button class="btn btn-primary shadow d-block w-100" type="submit">Send </button></div>
+                            <div><button class="btn btn-primary shadow d-block w-100" type="submit" name="submit">Send </button></div>
                         </form>
                     </div>
                 </div>
@@ -283,6 +302,18 @@ $conn->close();
     <?php
     include './footer.php';
     ?>
+    <script src="./assets/js/advertisement.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Auto close the alert after 4 seconds
+            window.setTimeout(function() {
+                $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                    $(this).remove();
+                });
+            }, 4000);
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
