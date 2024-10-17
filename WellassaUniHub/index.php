@@ -139,7 +139,7 @@ $db->close();
                 <?php foreach ($ads as $index => $ad) : ?>
                     <div class="mySlides fade">
                         <div class="numbertext"><?= $index + 1 ?> / <?= count($ads) ?></div>
-                        <img src=".<?= htmlspecialchars($ad['image_path']) ?>" alt="<?= htmlspecialchars($ad['title']) ?>" style="width:100%">
+                        <img src=".<?= htmlspecialchars($ad['image_path']) ?>" alt="<?= htmlspecialchars($ad['title']) ?>">
                         <div class="text">
                             <h3><?= htmlspecialchars($ad['title']) ?></h3>
                             <p><?= htmlspecialchars($ad['description']) ?></p>
@@ -154,15 +154,12 @@ $db->close();
             <?php endif; ?>
         </div>
 
-        <br>
-
-        <!-- Dots to indicate the slide number -->
-        <div style="text-align:center">
-            <?php for ($i = 1; $i <= count($ads); $i++) : ?>
-                <span class="dot" onclick="currentSlide(<?= $i ?>)"></span>
-            <?php endfor; ?>
+        <div class="dot-container">
+            <!-- Dots will be dynamically added by JavaScript -->
         </div>
     </section>
+
+
     <script src="./assets/js/advertisement.js"></script>
 
 

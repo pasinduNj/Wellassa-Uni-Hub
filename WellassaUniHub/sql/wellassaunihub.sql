@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 10, 2024 at 07:28 AM
+-- Generation Time: Oct 17, 2024 at 07:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,6 +62,24 @@ CREATE TABLE `image` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `payment_id` int(11) NOT NULL,
+  `customer_id` varchar(12) NOT NULL,
+  `provider_id` varchar(12) NOT NULL,
+  `product_id` varchar(12) NOT NULL,
+  `price` float NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `total` double NOT NULL,
+  `date_time` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` enum('paid','pending','','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product`
 --
 
@@ -84,7 +102,8 @@ INSERT INTO `product` (`product_id`, `name`, `price`, `quantity`, `description`,
 (1, 'Rice', 200, 3, 'Red Rice', 'others', 'SP-006', '/assets/img/products/prod_img_ROG.jpeg'),
 (2, 'Acer', 1235689, 5, 'ROG', 'electronics', 'SP-006', '/assets/img/products/prod_img_ROG.jpeg'),
 (3, 'camping tent', 1200, 2, 'good quality', 'camping', 'SP-006', '/assets/img/products/prod_img_tent.jpg'),
-(4, 'Test Product', 254, 5, 'Testing', 'camping', 'SP-006', '/assets/img/products/prod_img_acer.jpg');
+(4, 'Test Product', 254, 5, 'Testing', 'camping', 'SP-006', '/assets/img/products/prod_img_acer.jpg'),
+(5, '', 0, 0, '', '', 'SP-006', '');
 
 -- --------------------------------------------------------
 
@@ -150,7 +169,8 @@ INSERT INTO `review_table` (`review_id`, `customer_id`, `product_id`, `provider_
 (22, 'SP-006', '4', '', 'Geeth', 5, 'very good Product', '2024-10-10 10:51:56'),
 (23, 'SP-006', '3', '', 'Geeth', 4, 'Good camping hut', '2024-10-10 10:52:42'),
 (24, 'SP-006', '2', '', 'Geeth', 4, 'Good Product', '2024-10-10 10:55:18'),
-(25, 'SP-006', '1', '', 'Geeth', 4, 'Good Rice', '2024-10-10 10:56:26');
+(25, 'SP-006', '1', '', 'Geeth', 4, 'Good Rice', '2024-10-10 10:56:26'),
+(28, 'SP-006', '', 'SP-008', 'Geeth', 4, 'Wow supereb', '2024-10-10 19:09:04');
 
 -- --------------------------------------------------------
 
@@ -182,7 +202,23 @@ INSERT INTO `timeslots` (`timeslot_id`, `sp_id`, `date`, `start_time`, `end_time
 ('TS-00008', 'SP-006', '2024-08-07', '11:30:00', '12:00:00', 'free'),
 ('TS-00009', 'SP-006', '2024-10-01', '11:00:00', '11:30:00', 'free'),
 ('TS-00010', 'SP-006', '2024-10-01', '11:30:00', '12:00:00', 'free'),
-('TS-00011', 'SP-006', '2024-10-01', '12:00:00', '12:30:00', 'free');
+('TS-00011', 'SP-006', '2024-10-01', '12:00:00', '12:30:00', 'free'),
+('TS-00012', 'SP-006', '2024-10-18', '09:00:00', '09:30:00', 'free'),
+('TS-00013', 'SP-006', '2024-10-18', '09:30:00', '10:00:00', 'free'),
+('TS-00014', 'SP-006', '2024-10-18', '10:00:00', '10:30:00', 'free'),
+('TS-00015', 'SP-006', '2024-10-18', '10:30:00', '11:00:00', 'free'),
+('TS-00016', 'SP-006', '2024-10-18', '11:00:00', '11:30:00', 'free'),
+('TS-00017', 'SP-006', '2024-10-18', '09:00:00', '09:30:00', 'free'),
+('TS-00018', 'SP-006', '2024-10-18', '09:30:00', '10:00:00', 'free'),
+('TS-00019', 'SP-006', '2024-10-18', '10:00:00', '10:30:00', 'free'),
+('TS-00020', 'SP-006', '2024-10-18', '10:30:00', '11:00:00', 'free'),
+('TS-00021', 'SP-006', '2024-10-18', '11:00:00', '11:30:00', 'free'),
+('TS-00022', 'SP-006', '2024-10-21', '08:00:00', '08:30:00', 'free'),
+('TS-00023', 'SP-006', '2024-10-21', '08:30:00', '09:00:00', 'free'),
+('TS-00024', 'SP-006', '2024-10-21', '09:00:00', '09:30:00', 'free'),
+('TS-00025', 'SP-006', '2024-10-21', '09:30:00', '10:00:00', 'free'),
+('TS-00026', 'SP-006', '2024-10-21', '10:00:00', '10:30:00', 'free'),
+('TS-00027', 'SP-006', '2024-10-21', '10:30:00', '11:00:00', 'free');
 
 -- --------------------------------------------------------
 
@@ -223,9 +259,31 @@ INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `email`, `contact_numb
 ('SP-003', 'Mohammed', 'SajithAli', 'sajitha@gmail.com', '0770784568', 'sp_freelance', '$2y$10$lahmslvy8zzyQ1r.H2y8SeCPP7vb9Y3NRSiMmaNotHmLc7skQ7ZJu', '2024-08-03', '/assets/img/profile_photo/SP-003.jpg', 'Hechers', '200023202975', '0770784568', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', 'I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.', NULL),
 ('SP-004', 'Mohammed', 'SajithAli', 'sajit@gmail.com', '0770784569', 'sp_freelance', '$2y$10$bcqC76et2wi9OD23DQOXHOsJtRHeYt7DDZ6cvapX.Mbu4g9mthWXy', '2024-08-03', '/assets/img/profile_photo/SP-004.jpg', 'Rechers', '200023202985', '0770784569', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', 'I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.\nI am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.', NULL),
 ('SP-005', NULL, NULL, 'saji@gmail.com', '0770784565', 'sp_freelance', '$2y$10$FnLUPX2JK.V57ITbQtQvPOc8ewyfE/SRfjoE4XQJ.IzsFdJ8DzcBS', '2024-08-03', '/assets/img/profile_photo/SP-005.jpg', 'Slechers', '200023202984', '0770784565', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', NULL, NULL),
-('SP-006', 'Geeth', 'hashan', 'ghashan54@gmail.com', '0704416022', 'sp_reservation', '$2y$10$MDh5Pqz/4X19J4laeQ3NGu6NJDv6ALM6.YBQF.j5ILmgNbHLPrdAC', '2024-08-04', '/assets/img/profile_photo/SP-002.jpg', 'A2Z Saloon', '200119602896', '0704416022', 'F107 Amara Niwasa, Ranawana, Dewalegama', 'c404061103e812a8b4880849eb8f7164', '2024-09-04 09:00:38', 'active', 'Reserve me and get all the services you need!', 200),
+('SP-006', 'Geeth', 'hashan', 'ghashan54@gmail.com', '0704416022', 'sp_reservation', '$2y$10$jetqBoWLvTRCJfqsJNDa3OhpwEIHjqZ8qsYa5PlbnpDg2VW8m1IMi', '2024-08-04', '/assets/img/profile_photo/SP-002.jpg', 'A2Z Saloon', '200119602896', '0704416022', 'F107 Amara Niwasa, Ranawana, Dewalegama', 'c404061103e812a8b4880849eb8f7164', '2024-09-04 09:00:38', 'active', 'Reserve me and get all the services you need!', 200),
 ('SP-007', 'Tharushi', 'sewwandi', 'tharusew@gmail.com', '0775645345', 'sp_reservation', '$2y$10$1p/ZoX4sU3sOFhiWrqUtAubcOJFm8x0ge4EI95RJUs7hNaplZozfG', '2024-08-04', '/assets/img/profile_photo/SP-003.jpg', 'Repeat Exam Sign', '199919602898', '0789657345', 'Admin Building', NULL, NULL, 'active', NULL, 100),
-('SP-008', 'Sarath', 'Kumar', 'sarak@gmail.com', '0887867456', 'sp_reservation', '$2y$10$mhJ3.UO.3fCSlbgghnDmye731aG917MMZ83OpUMosuwmheC1kXXIi', '2024-08-04', '/assets/img/profile_photo/sarath.jpg', 'Bpot', '200019602896', '0789657340', '2nd post mile', NULL, NULL, 'active', NULL, 500);
+('SP-008', 'Sarath', 'Kumar', 'sarak@gmail.com', '0887867456', 'sp_reservation', '$2y$10$mhJ3.UO.3fCSlbgghnDmye731aG917MMZ83OpUMosuwmheC1kXXIi', '2024-08-04', '/assets/img/profile_photo/sarath.jpg', 'Bpot', '200019602896', '0789657340', '2nd post mile', NULL, NULL, 'active', NULL, 500),
+('SP-009', 'Raees', 'Ahamed', 'raeesahmd120@gmail.com', '0764953014', 'sp_products', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-10-17', NULL, 'Raees Shop', '200126001722', '0764953014', 'Badulla', NULL, NULL, 'active', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `verify`
+--
+
+CREATE TABLE `verify` (
+  `token` varchar(100) NOT NULL,
+  `user_id` varchar(10) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `expires_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `verify`
+--
+
+INSERT INTO `verify` (`token`, `user_id`, `password`, `created_at`, `expires_at`) VALUES
+('4d1c18ad27eb71293a81f50a77d96d166e86c9f5f0cb5568a3d5c77cd6e6d29ff18de31a65f65a4b5fc6ed670f292937cdc8', 'SP-006', '$2y$10$jetqBoWLvTRCJfqsJNDa3OhpwEIHjqZ8qsYa5PlbnpDg2VW8m1IMi', '2024-10-17 20:26:59', '2024-10-17 20:36:59');
 
 --
 -- Indexes for dumped tables
@@ -242,6 +300,12 @@ ALTER TABLE `advertisements`
 --
 ALTER TABLE `image`
   ADD PRIMARY KEY (`image_id`);
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`payment_id`);
 
 --
 -- Indexes for table `product`
@@ -281,6 +345,12 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `whatsapp_number` (`whatsapp_number`);
 
 --
+-- Indexes for table `verify`
+--
+ALTER TABLE `verify`
+  ADD PRIMARY KEY (`token`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -291,16 +361,22 @@ ALTER TABLE `advertisements`
   MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `product_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `review_table`
 --
 ALTER TABLE `review_table`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
