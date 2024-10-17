@@ -43,11 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Body    = $message;
 
         if ($mail->send()) {
-            header('Location: index.php?status=success');
+            header('Location: ../index.php?status=success');
             exit();
         }
     } catch (Exception $e) {
-        header('Location: index.php?status=error');
+        header('Location: ../index.php?status=error');
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 } else {
