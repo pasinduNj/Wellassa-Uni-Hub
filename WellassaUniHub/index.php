@@ -1,34 +1,29 @@
 <?php
 session_start();
-// Enable error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// 1. Check if ads are in the database
 require './php/classes/db_connection.php';
 $db = new DbConnection();
 $conn = $db->getConnection();
 
-// Updated SQL query to select only active ads (until_date should be in the future)
-$sql = "SELECT * FROM advertisements WHERE until_date >= CURDATE() ORDER BY upload_date DESC";
+// Delete expired advertisements
+$today = date('Y-m-d');
+$delete_sql = "DELETE FROM advertisements WHERE until_date < ?";
+$delete_stmt = $conn->prepare($delete_sql);
+$delete_stmt->bind_param("s", $today);
+$delete_stmt->execute();
+$delete_stmt->close();
+
+// Get active advertisements
+$sql = "SELECT * FROM advertisements ORDER BY upload_date DESC";
 $result = $conn->query($sql);
 
-$ads = [];  // Initialize the $ads array
-
-if ($result && $result->num_rows > 0) {
-    // 2. Fetch each ad and store it in the $ads array
+$ads = [];
+if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $ads[] = $row;  // Add each row to the $ads array
-
-        // 3. Check if the image file exists
-        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $row['image_path'])) {
-            // Handle missing image files, e.g., log the error or take other actions
-        }
+        $ads[] = $row;
     }
 }
 
-// Close the database connection
-$conn->close();
+$db->close();
 ?>
 
 
