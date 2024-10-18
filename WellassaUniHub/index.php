@@ -43,6 +43,8 @@ $db->close();
     <link rel="stylesheet" href="assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="assets/css/advertisements.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -95,34 +97,43 @@ $db->close();
     <section>
         <div class="container py-5">
             <div class="mx-auto" style="max-width: 900px;">
-                <div class="row row-cols-1 row-cols-md-2 d-flex justify-content-center">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 d-flex justify-content-center">
                     <div class="col mb-4">
-                        <div class="card bg-primary-subtle">
-                            <div class="card-body text-center px-4 py-5 px-md-5">
+                        <div class="card bg-primary-subtle h-100">
+                            <div class="card-body text-center px-4 py-5 px-md-5 d-flex flex-column">
                                 <p class="fw-bold text-primary card-text mb-2">Reservations</p>
-                                <h5 class="fw-bold card-title mb-3"><span style="font-weight: normal !important;">You
-                                        will be able to Reserve time slots and save your valuable time</span></h5>
-                                <button class="btn btn-primary btn-sm" type="button">Learn more</button>
+                                <h5 class="fw-bold card-title mb-3 flex-grow-1">
+                                    <span style="font-weight: normal !important;">
+                                        You will be able to Reserve time slots and save your valuable time
+                                    </span>
+                                </h5>
+                                <button class="btn btn-primary btn-sm mt-auto" type="button">Learn more</button>
                             </div>
                         </div>
                     </div>
                     <div class="col mb-4">
-                        <div class="card bg-secondary-subtle">
-                            <div class="card-body text-center px-4 py-5 px-md-5" style="height: 274.4px;">
+                        <div class="card bg-secondary-subtle h-100">
+                            <div class="card-body text-center px-4 py-5 px-md-5 d-flex flex-column">
                                 <p class="fw-bold text-secondary card-text mb-2">Order Products &amp; Services</p>
-                                <h5 class="fw-bold card-title mb-3"><span style="font-weight: normal !important;">Order
-                                        products without walking miles</span></h5><button
-                                    class="btn btn-secondary btn-sm" type="button">Learn more</button>
+                                <h5 class="fw-bold card-title mb-3 flex-grow-1">
+                                    <span style="font-weight: normal !important;">
+                                        Order products without walking miles
+                                    </span>
+                                </h5>
+                                <button class="btn btn-secondary btn-sm mt-auto" type="button">Learn more</button>
                             </div>
                         </div>
                     </div>
                     <div class="col mb-4">
-                        <div class="card bg-info-subtle">
-                            <div class="card-body text-center px-4 py-5 px-md-5">
+                        <div class="card bg-info-subtle h-100">
+                            <div class="card-body text-center px-4 py-5 px-md-5 d-flex flex-column">
                                 <p class="fw-bold text-info card-text mb-2">Freelance&nbsp;</p>
-                                <h5 class="fw-bold card-title mb-3"><span style="font-weight: normal !important;">Find
-                                        the most suitable people to handover your work</span></h5><button
-                                    class="btn btn-info btn-sm" type="button">Learn more</button>
+                                <h5 class="fw-bold card-title mb-3 flex-grow-1">
+                                    <span style="font-weight: normal !important;">
+                                        Find the most suitable people to handover your work
+                                    </span>
+                                </h5>
+                                <button class="btn btn-info btn-sm mt-auto" type="button">Learn more</button>
                             </div>
                         </div>
                     </div>
@@ -131,28 +142,39 @@ $db->close();
         </div>
     </section>
 
+
     <!-- Slideshow Container for Advertisements -->
 
     <section>
         <div class="slideshow-container">
             <?php if (!empty($ads)) : ?>
-                <?php foreach ($ads as $index => $ad) : ?>
-                    <div class="mySlides fade">
-                        <div class="numbertext"><?= $index + 1 ?> / <?= count($ads) ?></div>
-                        <img src=".<?= htmlspecialchars($ad['image_path']) ?>" alt="<?= htmlspecialchars($ad['title']) ?>">
-                        <div class="text">
-                            <h3><?= htmlspecialchars($ad['title']) ?></h3>
-                            <p><?= htmlspecialchars($ad['description']) ?></p>
-                            <p>Expires on: <?= htmlspecialchars($ad['until_date']) ?></p>
-                        </div>
+                <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                    <div class="carousel-inner">
+                        <?php foreach ($ads as $index => $ad) : ?>
+                            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                <img src=".<?= htmlspecialchars($ad['image_path']) ?>" class="d-block w-100" alt="<?= htmlspecialchars($ad['title']) ?>">
+                                <center>
+                                    <h3><?= htmlspecialchars($ad['title']) ?></h3>
+                                    <p><?= htmlspecialchars($ad['description']) ?></p>
+                                </center>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-                <?php endforeach; ?>
-                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             <?php else : ?>
                 <p>No active advertisements to display.</p>
             <?php endif; ?>
         </div>
+
+
 
         <div class="dot-container">
             <!-- Dots will be dynamically added by JavaScript -->
@@ -311,6 +333,8 @@ $db->close();
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="assets/js/script.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
 
 </body>
