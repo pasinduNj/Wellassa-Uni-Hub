@@ -91,6 +91,15 @@ $total = 0;
 foreach ($cart as $item) {
     $total += $item['price'] * $item['quantity'];
 }
+
+// PayHere integration
+$merchant_id = '1228450'; // Replace with your PayHere Merchant ID
+$merchant_secret = "NjY3MjAxNzYzNDE0NjczMDA5OTQwNDk4MTA0NTEzNTU2MDI4NDA2";
+$currency = "LKR";
+$order_id = time(); // Use time as unique order ID
+
+// Generate hash for PayHere
+$hash = strtoupper(md5($merchant_id.$order_id.number_format($total,2,'.','').$currency.strtoupper(md5($merchant_secret))));
 ?>
 
 <!DOCTYPE html>
@@ -175,7 +184,9 @@ foreach ($cart as $item) {
                     </table>
                     <div class="text-center">
                         <h4>Total: LKR <span id="cart-total"><?php echo number_format($total, 2); ?></span></h4>
-                        <a href="checkout.php" class="btn btn-success btn-custom">Buy Now</a>
+                        <button class="btn btn-success btn-custom" onclick="paymentGateWay()">Buy Now</button>
+                    <script src="https://www.payhere.lk/lib/payhere.js"></script>
+
                     </div>
                 <?php endif; ?>
             </div>
@@ -228,14 +239,7 @@ foreach ($cart as $item) {
                         key: key
                     },
                     success: function(response) {
-                        // Remove the item from the cart in the UI
-                        $(`tr[data-key="${key}"]`).remove();
-                        $('#cart-total').text(response.cart_total);
-
-                        // Check if the cart is empty
-                        if ($('.cart-item').length === 0) {
-                            $('.container').html('<p>Your cart is empty.</p>');
-                        }
+                        location.reload(); // Reload the page to update cart
                     },
                     error: function(xhr, status, error) {
                         console.error('Error:', error);
@@ -243,6 +247,42 @@ foreach ($cart as $item) {
                 });
             });
         });
+
+        function paymentGateWay(){
+            payhere.onCompleted = function(orderId) {
+                console.log("Payment completed. OrderID:" + orderId);
+            };
+
+            payhere.onDismissed = function() {
+                console.log("Payment dismissed");
+            };
+
+            payhere.onError = function(error) {
+                console.log("Error:" + error);
+            };
+
+            const payment = {
+                "sandbox": true,
+                "merchant_id": "<?php echo $merchant_id; ?>",
+                "return_url": "http://localhost/gamestore",
+                "cancel_url": "http://localhost/gamestore/cancel",
+                "notify_url": "http://localhost/gamestore/notify",
+                "order_id": "<?php echo $order_id; ?>",
+                "items": "Your Order", 
+                "amount": "<?php echo number_format($total,2,'.',''); ?>",
+                "currency": "LKR",
+                "hash": "<?php echo $hash; ?>",
+                "first_name": "John",
+                "last_name": "Doe",
+                "email": "john.doe@example.com",
+                "phone": "0771234567",
+                "address": "No. 1, Galle Road",
+                "city": "Colombo",
+                "country": "Sri Lanka"
+            };
+
+            payhere.startPayment(payment);
+        }
     </script>
 </body>
 
