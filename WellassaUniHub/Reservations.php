@@ -1,10 +1,10 @@
 <?php
 include './php/classes/db_connection.php';
 session_start();
-if (!isset($_SESSION['user_type'])) {
-    $utype = "sp_reservation"; //$_SESSION['user_type'];
+if (isset($_SESSION['user_type'])) {
+    $utype = $_SESSION['user_type'];
 } else {
-    $utype = "sp_reservation";
+    $utype = "";
 }
 
 ?>
@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_type'])) {
 <html data-bs-theme="light" lang="en">
 
 <head>
-<meta charset="utf-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>wellassaUniHub</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
@@ -69,7 +69,7 @@ if (!isset($_SESSION['user_type'])) {
                                 //Check the type of user before showing the button in database
                                 if ($utype == "") {
                                     echo '<div class="d-flex justify-content-center">';
-                                    echo '<a href="./signup.php" class="btn btn-primary rounded-pill mt-auto mb-3">login for More</a>';
+                                    echo '<a href="./signup.php" class="btn btn-primary rounded-pill mt-auto mb-3">login to view</a>';
                                     echo '</div>';
                                 } else {
                                     echo '<div class="d-flex justify-content-center">';
