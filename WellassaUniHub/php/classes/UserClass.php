@@ -16,9 +16,7 @@ class User
     private $amountPer;
     private $dbconn;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
     //constructor for sarath products
     public static function constructSPWithProductId($dbconn, $userId, $productId)
     {
@@ -124,8 +122,10 @@ class User
         return $this->description;
     }
 
-    public function getAmountPer(){
-        return $this->amountPer;}
+    public function getAmountPer()
+    {
+        return $this->amountPer;
+    }
 
     public function setFirstName($firstName)
     {
@@ -148,12 +148,13 @@ class User
         $stmt->execute();
     }
 
-    /*public function setPhone($phone)
+    public function setPhone($phone)
     {
+
         $stmt = $this->dbconn->prepare("UPDATE user SET contact_number=? WHERE user_id=?");
         $stmt->bind_param("ss", $phone, $this->userId);
         $stmt->execute();
-    }*/
+    }
 
     public function setWphone($wphone)
     {
@@ -162,12 +163,6 @@ class User
         $stmt->execute();
     }
 
-    /*public function setEmail()
-    {
-        $stmt = $this->dbconn->prepare("UPDATE user SET email=? WHERE user_id=?");
-        $stmt->bind_param("ss", $this->email, $this->userId);
-        $stmt->execute();
-    }*/
 
     public function setAddress($address)
     {
@@ -261,10 +256,9 @@ class User
 
     public function addPhoto($photoPath)
     {
-        $stmt = $this->dbconn->prepare("UPDATE image SET image_path = ?, modified_date =CURRENT_TIMESTAMP WHERE user_id =".$this->userId."");
+        $stmt = $this->dbconn->prepare("UPDATE image SET image_path = ?, modified_date =CURRENT_TIMESTAMP WHERE user_id =" . $this->userId . "");
         $stmt->bind_param("s", $photoPath);
         $stmt->execute();
-
     }
 
     public function deletePhoto($photoPath)
