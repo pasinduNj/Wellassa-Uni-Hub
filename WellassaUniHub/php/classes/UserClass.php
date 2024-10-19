@@ -150,10 +150,17 @@ class User
 
     public function setPhone($phone)
     {
-
-        $stmt = $this->dbconn->prepare("UPDATE user SET contact_number=? WHERE user_id=?");
-        $stmt->bind_param("ss", $phone, $this->userId);
-        $stmt->execute();
+        // Check if email or contact number already exist for users
+        $checkQuery = "SELECT * FROM user WHERE contact_number = '$contactNumber'";
+        $checkResult = $conn->query($checkQuery);
+        if ($checkResult->num_rows > 0) {
+            echo "<script>alert('Email or contact number already exists.'); window.history.back();</script>";
+            exit;
+        } else {
+            $stmt = $this->dbconn->prepare("UPDATE user SET contact_number=? WHERE user_id=?");
+            $stmt->bind_param("ss", $phone, $this->userId);
+            $stmt->execute();
+        }
     }
 
     public function setWphone($wphone)

@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_FILES['image']['name'])) {
         $image_name = "prod_img_" . basename($_FILES['image']['name']);
         // Use __DIR__ to get the absolute path to the current PHP file
-        $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/WellassaUniHub/assets/img/products/";
+        $target_dir = "C:/xampp/htdocs/GitHub_Projects/Project1/WellassaUniHub/assets/img/products/";
 
         $target_file = $target_dir . $image_name;
 
@@ -60,4 +60,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     http_response_code(405);
     echo "Method Not Allowed";
 }
-
