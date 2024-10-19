@@ -2,10 +2,10 @@
 include './php/classes/db_connection.php';
 session_start();
 
-if (!isset($_SESSION['user_name'])) {
+if (isset($_SESSION['user_name'])) {
     $utype = $_SESSION['user_type'];
 } else {
-    $utype = "sp_freelance";
+    $utype = "";
 }
 ?>
 <!DOCTYPE html>

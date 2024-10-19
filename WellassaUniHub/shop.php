@@ -101,7 +101,15 @@ $products = $product->getProducts($category, $min_price, $max_price);
                                         <p class="card-text"><?php echo htmlspecialchars($product['description']); ?></p>
                                         <p class="card-text"><strong>Price:</strong> LKR <?php echo htmlspecialchars($product['price']); ?></p>
                                         <p class="card-text"><strong>Category:</strong> <?php echo htmlspecialchars($product['category']); ?></p>
-                                        <a href="view_product.php?id=<?php echo htmlspecialchars($product['product_id']); ?>" class="btn btn-primary">View Details</a>
+
+
+                                        <?php
+                                        if ($utype == "") {
+                                            echo '<a href="view_product.php?id=' . $product['product_id'] . '" class="btn btn-primary">View Details</a>';
+                                        } else {
+                                            echo '<a href="./signup.php" class="btn btn-primary">Login to View</a>';
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>

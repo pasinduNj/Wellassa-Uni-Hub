@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-md sticky-top text-nowrap shadow visible navbar-shrink py-3 navbar-light" 
-    id="mainNav" 
-    style="background: url(&quot;https://cdn.bootstrapstudio.io/placeholders/1400x800.png&quot;), var(--bs-secondary-bg);height: 73.2px;" 
+<nav class="navbar navbar-expand-md sticky-top text-nowrap shadow visible navbar-shrink py-3 navbar-light"
+    id="mainNav"
+    style="background: url(&quot;https://cdn.bootstrapstudio.io/placeholders/1400x800.png&quot;), var(--bs-secondary-bg);height: 73.2px;"
     data-bs-smooth-scroll="true">
     <div class="container">
         <span class="bs-icon-sm bs-icon-circle bs-icon-primary shadow d-flex justify-content-center align-items-center me-2 bs-icon">
@@ -13,13 +13,12 @@
             <span>WellassaUniHUB</span>
         </a>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-        
+
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
                 <li class="nav-item dropdown" style="margin: 0px;padding: -1px;">
-                    <a class="dropdown-toggle nav-link d-lg-flex align-items-lg-center" aria-expanded="false" data-bs-toggle="dropdown" 
-                    target="_blank" style="margin: -1px;padding: 9px;font-weight: bold;color: rgba(0,0,0,0.65);">Services</a>
+                    <a class="dropdown-toggle nav-link d-lg-flex align-items-lg-center" aria-expanded="false" data-bs-toggle="dropdown" target="_blank" style="margin: -1px;padding: 9px;font-weight: bold;color: rgba(0,0,0,0.65);">Services</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="./Reservations.php">Reservations</a>
                         <a class="dropdown-item" href="./shop.php">OrderProducts</a>
@@ -30,14 +29,14 @@
                     <a class="nav-link" href="index.php#contact">Contact Us</a>
                 </li>
             </ul>
-            <a class="btn btn-primary shadow" role="button" href="login.php" 
-            style="height: 35px;padding: 3px 10px;margin: 10px -10px 10px 10px;width: 78px;border-radius: 59px;">Sign In</a>
-            <a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right" 
-            role="button" href="./shopping-cart.php"
-            style="padding: 1px;padding-left: 11px;margin: 0px;margin-left: 7px;margin-right: 5px;margin-bottom: 3px;
+            <a class="btn btn-primary shadow" role="button" href="login.php"
+                style="height: 35px;padding: 3px 10px;margin: 10px -10px 10px 10px;width: 78px;border-radius: 59px;">Sign In</a>
+            <a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right"
+                role="button" href="./shopping-cart.php"
+                style="padding: 1px;padding-left: 11px;margin: 0px;margin-left: 7px;margin-right: 5px;margin-bottom: 3px;
             padding-bottom: 7px;padding-top: 7px;padding-right: 12px;margin-top: 1px;transform: translate(24px) rotate(1deg) scale(1);
             box-shadow: 0px 0px;height: 31.6px;width: 63.2px;text-align: left;position: static;">
-            <i class="fa fa-shopping-cart" style="width: 27.2px;height: 33px;margin: -9px;padding: 2px;font-size: 25px;"></i>&nbsp;Cart
+                <i class="fa fa-shopping-cart" style="width: 27.2px;height: 33px;margin: -9px;padding: 2px;font-size: 25px;"></i>&nbsp;Cart
             </a>
         </div>
     </div>
