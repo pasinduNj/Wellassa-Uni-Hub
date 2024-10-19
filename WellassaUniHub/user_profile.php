@@ -75,7 +75,7 @@ if ($_SESSION['user_type'] == "customer") {
                     echo '<h1 class="col-md-3 mb-3">' . $user->getFirstName() . ' ' . $user->getLastName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>' . $user->getEmail() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span> <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</a></p>';
-                    echo '<a href="/php/edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
+                    echo '<a href="./edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
                 } elseif ($_SESSION['user_type'] == "sp_reservation") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>' . $user->getEmail() . '</p>';
@@ -133,7 +133,7 @@ if ($_SESSION['user_type'] == "customer") {
         echo '</button>';
         echo '</div>';
         echo '<div class="modal-body">';
-            echo '<form action="/php/edit_user.php" method="post" enctype="multipart/form-data">';
+            echo '<form action="./edit_user.php" method="post" enctype="multipart/form-data">';
             echo '<div class="form-group">';
             echo '<label for="image">Select to upload</label>';
             echo '<input type="file" class="form-control-file" name="image" required>';
