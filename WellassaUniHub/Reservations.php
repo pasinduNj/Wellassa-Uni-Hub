@@ -69,7 +69,7 @@ if (isset($_SESSION['user_type'])) {
                                 //Check the type of user before showing the button in database
                                 if ($utype == "") {
                                     echo '<div class="d-flex justify-content-center">';
-                                    echo '<a href="./signup.php" class="btn btn-primary rounded-pill mt-auto mb-3">login to view</a>';
+                                    echo '<a href="./signup.php" class="btn btn-primary rounded-pill mt-auto mb-3">Login to view</a>';
                                     echo '</div>';
                                 } else {
                                     echo '<div class="d-flex justify-content-center">';
