@@ -67,7 +67,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
             </div>
         </div>
         <div class="row filter-container">
-            <div class="col-md-2">
+            <div class="col-md-3" style="position: sticky; top: 15%; z-index: 1000; align-self: flex-start;">
                 <h4>Filters</h4>
                 <form action="" method="GET" class="filter-form" style="padding: 5px;">
                     <div class="mb-3">
@@ -91,7 +91,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
                     <button type="submit" class="btn btn-primary" style="width:90%;">Apply Filters</button>
                 </form>
             </div>
-            <div class="col-md-9 offset-md-1">
+            <div class="col-md-8 offset-md-1">
                 <h2 class="mb-4">Shop</h2>
                 <div class="row">
                     <?php if (empty($products)) : ?>
