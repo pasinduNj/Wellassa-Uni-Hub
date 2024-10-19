@@ -121,6 +121,52 @@
         </div>
     </div>
 
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-center mb-4">Payment Details</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>User ID</th>
+                           
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentTableBody">
+                        <!-- Payment rows will be appended here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-center mb-4">Product  Details</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Provider ID</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                        <!-- Payment rows will be appended here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+
     <!-- Bootstrap JS (optional, for certain Bootstrap features) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -148,6 +194,44 @@
                 })
                 .catch(error => console.error('Error fetching user data:', error));
         });
+
+        fetch('./php/fetch_payments.php')
+                .then(response => response.json())
+                .then(data => {
+                    const paymentTableBody = document.getElementById('paymentTableBody');
+                    data.forEach(payment => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${payment.payment_id}</td>
+                            <td>${payment.customer_id}</td>
+                           
+                            <td>${payment.price}</td>
+                            <td>${payment.date_time}</td>
+                            <td>${payment.status}</td>
+                        `;
+                        paymentTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching payment data:', error));
+                fetch('./php/fetch_products.php')
+    .then(response => response.json())
+    .then(data => {
+        console.log('Fetched product data:', data); // Debugging output
+        const productTableBody = document.getElementById('productTableBody');
+        data.forEach(product => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${product.product_id}</td>
+                <td>${product.name}</td>
+                <td>${product.provider_id}</td>
+                <td>${product.price}</td>
+                <td>${product.quantity}</td>
+            `;
+            productTableBody.appendChild(row);
+        });
+    })
+    .catch(error => console.error('Error fetching product data:', error));
+        
 
         function disableUser(userId) {
             if (confirm('Are you sure you want to disable this user?')) {
