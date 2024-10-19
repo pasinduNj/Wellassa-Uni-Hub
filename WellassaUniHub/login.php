@@ -15,7 +15,7 @@ if (!empty($auth_key_cookie)) {
   $stmt->execute();
   $stmt->store_result();
   if ($stmt->num_rows > 0) {
-    $stmt->bind_result($user_id,$first_name, $user_type, $auth_key_expires, $status);
+    $stmt->bind_result($user_id, $first_name, $user_type, $auth_key_expires, $status);
     $stmt->fetch();
     if (strtotime($auth_key_expires) > time() && $status == "active") {
       $_SESSION['user_id'] = $user_id;
@@ -38,12 +38,12 @@ if (!empty($auth_key_cookie)) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
   <title>Log in</title>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="assets/css/styles.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="assets/css/styles.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 
 <body>
@@ -58,8 +58,8 @@ if (!empty($auth_key_cookie)) {
         </svg>
       </span>
       <a class="navbar-brand d-flex align-items-center"><span>Wellassa UniHUB</span>
-    </a>
-    <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+      </a>
+      <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="navcol-1">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
@@ -80,7 +80,7 @@ if (!empty($auth_key_cookie)) {
           </li>
           <li class="nav-item">
             <a class="nav-link" href="index.php#contact">Contact Us</a>
-          </li>      
+          </li>
         </ul>
         <a class="btn btn-primary shadow" role="button" href="signup.php" style="
               height: 35px;
@@ -89,7 +89,7 @@ if (!empty($auth_key_cookie)) {
               width: 78px;
               border-radius: 59px;">Sign Up
         </a>
-            <a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right" role="button" href="shopping-cart.html" style="
+        <a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right" role="button" href="shopping-cart.html" style="
               padding: 1px;
               padding-left: 11px;
               margin: 0px;
@@ -123,10 +123,10 @@ if (!empty($auth_key_cookie)) {
           <p class="fw-bold text-success mb-2">Login</p>
           <h2 class="fw-bold">Welcome back</h2>
           <?php
-            if (isset($_GET['S']) && $_GET['S'] == '1') {
-                echo '<div class="alert alert-success" role="alert">Password updated successfully. Please log in with your new password.</div>';
-            }
-            ?>
+          if (isset($_GET['S']) && $_GET['S'] == '1') {
+            echo '<div class="alert alert-success" role="alert">Password updated successfully. Please log in with your new password.</div>';
+          }
+          ?>
         </div>
       </div>
       <div class="row d-flex justify-content-center">
@@ -169,14 +169,14 @@ if (!empty($auth_key_cookie)) {
     </div>
   </section>
   <?php
-    include './footer.php';
+  include './footer.php';
   ?>
-  
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <script src="assets/js/script.min.js"></script>
 </body>
 
 </html>
