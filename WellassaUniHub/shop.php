@@ -4,6 +4,11 @@ require_once './php/classes/db_connection.php';
 require_once './php/classes/Product.php';
 session_start();
 
+if (isset($_SESSION['user_name'])) {
+    $utype = $_SESSION['user_type'];
+} else {
+    $utype = "";
+}
 // Initialize database connection and product class
 $db = new DbConnection();
 $conn = $db->getConnection();
@@ -105,9 +110,9 @@ $products = $product->getProducts($category, $min_price, $max_price);
 
                                         <?php
                                         if ($utype == "") {
-                                            echo '<a href="view_product.php?id=' . $product['product_id'] . '" class="btn btn-primary">View Details</a>';
-                                        } else {
                                             echo '<a href="./signup.php" class="btn btn-primary">Login to View</a>';
+                                        } else {
+                                            echo '<a href="view_product.php?id=' . $product['product_id'] . '" class="btn btn-primary">View Details</a>';
                                         }
                                         ?>
                                     </div>
