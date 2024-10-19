@@ -6,7 +6,8 @@ session_start();
 
 $db = new DbConnection();
 $conn = $db->getConnection();
-
+//provider_id
+$userId = $_POST['cus_id'];
 // Function to generate new reservation ID
 function generateReservationID($conn)
 {
@@ -158,6 +159,11 @@ if (!$timeslot_details && isset($_SESSION['timeslot_id'])) {
 </head>
 
 <body>
+    <?php
+    //current_id
+    $user = $_SESSION['user_id'];
+
+    ?>
     <div class="container">
         <h1>Reserve Timeslot</h1>
         <?php
@@ -186,6 +192,8 @@ if (!$timeslot_details && isset($_SESSION['timeslot_id'])) {
                 <form action="process_payment.php" method="post" style="display: inline;">
                     <input type="hidden" name="reservation_id" value="<?php echo $_SESSION['reservation_id']; ?>">
                     <input type="hidden" name="user_id" value="<?php echo $returnUserId; ?>">
+                    <input type="hidden" name="cus_id" value="<?php echo $userId; ?>">
+                    <input type="hidden" name="current_id" value="<?php echo $user; ?>">
                     <button type="submit" class="btn payment-btn">Proceed to Payment</button>
                 </form>
             <?php endif; ?>
