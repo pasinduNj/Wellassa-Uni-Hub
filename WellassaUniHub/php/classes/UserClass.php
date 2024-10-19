@@ -2,19 +2,24 @@
 
 class User
 {
+    private $dbconn;
+
     private $userId;
     private $firstName;
     private $lastName;
-    private $businessName;
-    private $phone;
-    private $wphone;
     private $email;
+    private $phone;
+    private $userType;
+    private $profileImage;
+    private $businessName;
+    private $nic;
+    private $wphone;
     private $address;
     private $description;
-    private $profileImage;
-    private $productId;
     private $amountPer;
-    private $dbconn;
+
+    private $productId;
+
 
     public function __construct() {}
     //constructor for sarath products
@@ -56,8 +61,9 @@ class User
 
         $this->firstName = $user['first_name'];
         $this->lastName = $user['last_name'];
-        $this->phone = $user['contact_number'];
         $this->email = $user['email'];
+        $this->phone = $user['contact_number'];
+        $this->userType = $user['user_type'];
         $this->profileImage = $user['profile_photo'];
     }
 
@@ -69,20 +75,21 @@ class User
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
 
-        $this->businessName = $user['business_name'];
-        $this->phone = $user['contact_number'];
-        $this->wphone = $user['whatsapp_number'];
+        $this->firstName = $user['first_name'];
+        $this->lastName = $user['last_name'];
         $this->email = $user['email'];
+        $this->phone = $user['contact_number'];
+        $this->userType = $user['user_type'];
+        $this->profileImage = $user['profile_photo'];
+        $this->businessName = $user['business_name'];
+        $this->nic = $user['nic'];
+        $this->wphone = $user['whatsapp_number'];
         $this->address = $user['service_address'];
         $this->description = $user['description'];
         $this->amountPer = $user['amount_per'];
-        $this->profileImage = $user['profile_photo'];
     }
 
-    public function getProfileImage()
-    {
-        return $this->profileImage;
-    }
+
 
     public function getFirstName()
     {
@@ -93,23 +100,37 @@ class User
     {
         return $this->lastName;
     }
-    public function getBusinessName()
+    public function getEmail()
     {
-        return $this->businessName;
+        return $this->email;
     }
-
     public function getPhone()
     {
         return $this->phone;
     }
 
+    public function getUserType()
+    {
+        return $this->userType;
+    }
+
+    public function getProfileImage()
+    {
+        return $this->profileImage;
+    }
+    public function getBusinessName()
+    {
+        return $this->businessName;
+    }
+
+    public function getNic()
+    {
+        return $this->nic;
+    }
+
     public function getWphone()
     {
         return $this->wphone;
-    }
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     public function getAddress()
@@ -140,19 +161,11 @@ class User
         $stmt->bind_param("ss", $lastName, $this->userId);
         $stmt->execute();
     }
-
-    public function setBusinessName($businessName)
-    {
-        $stmt = $this->dbconn->prepare("UPDATE user SET business_name=? WHERE user_id=?");
-        $stmt->bind_param("ss", $businessName, $this->userId);
-        $stmt->execute();
-    }
-
     public function setPhone($phone)
     {
         // Check if email or contact number already exist for users
-        $checkQuery = "SELECT * FROM user WHERE contact_number = '$contactNumber'";
-        $checkResult = $conn->query($checkQuery);
+        $checkQuery = "SELECT * FROM user WHERE contact_number = '$phone'";
+        $checkResult = $this->dbconn->query($checkQuery);
         if ($checkResult->num_rows > 0) {
             echo "<script>alert('Email or contact number already exists.'); window.history.back();</script>";
             exit;
@@ -162,6 +175,45 @@ class User
             $stmt->execute();
         }
     }
+
+    public function setProfileImage($profileImage)
+    {
+        $image_name = uniqid();
+        // Use __DIR__ to get the absolute path to the current PHP file
+        $target_dir = "C:/xampp/htdocs/GitHub_Projects/Project1/WellassaUniHub/assets/img/profile_photo/";
+
+        $target_file = $target_dir . $image_name;
+
+        // Make sure the directory exists
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0755, true); // Create the directory if it doesn't exist
+            echo "Directory created.<br>"; // Debug statement
+        }
+
+        // Move the uploaded file to the correct directory
+        if (move_uploaded_file($profileImage['tmp_name'], $target_file)) {
+            // Save the relative path to the database (for display in HTML)
+            $image_path = "/assets/img/profile_photo/" . $image_name;
+
+            $stmt = $this->dbconn->prepare("UPDATE user SET profile_photo=? WHERE user_id=?");
+            $stmt->bind_param("ss", $image_path, $this->userId);
+            $stmt->execute();
+            $this->profileImage = $image_path;
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+            exit();
+        }
+    }
+
+
+    public function setBusinessName($businessName)
+    {
+        $stmt = $this->dbconn->prepare("UPDATE user SET business_name=? WHERE user_id=?");
+        $stmt->bind_param("ss", $businessName, $this->userId);
+        $stmt->execute();
+    }
+
+
 
     public function setWphone($wphone)
     {
@@ -184,11 +236,12 @@ class User
         $stmt->bind_param("ss", $description, $this->userId);
         $stmt->execute();
     }
-    //remember we need to dynamically change the image url to a specific path
-    public function setProfileImage($profileImage)
+    // remember we need to dynamically change the image url to a specific path
+
+    public function setAmountPer($amountPer)
     {
-        $stmt = $this->dbconn->prepare("UPDATE user SET profile_photo=? WHERE user_id=?");
-        $stmt->bind_param("ss", $profileImage, $this->userId);
+        $stmt = $this->dbconn->prepare("UPDATE user SET amount_per=? WHERE user_id=?");
+        $stmt->bind_param("ss", $amountPer, $this->userId);
         $stmt->execute();
     }
 
