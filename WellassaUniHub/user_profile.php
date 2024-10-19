@@ -47,6 +47,29 @@ if ($_SESSION['user_type'] == "customer") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <style>
+        #statusMessage {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            z-index: 9999;
+            display: none;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
 
 </head>
 
@@ -58,11 +81,13 @@ if ($_SESSION['user_type'] == "customer") {
         include './navbar.php';
     }
     ?>
+
     <!--<div class="container mt-5" style="font-size: 1.1rem;">-->
     <div class="container mt-5">
+        <div id="statusMessage"></div>
         <div class="row">
             <div class="col-md-3 text-center">
-                <img src="<?= '.' . $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getFirstName() ?>" class="img-fluid rounded-circle" style="width: 150px;height: 150px;border-radius: 50%;object-fit: cover;">
+                <img src="<?= '.' . $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getFirstName() ?>" class="img-fluid rounded-circle" style="width: 200px;height: 200px;border-radius: 50%;object-fit: cover;">
                 <i class="bi bi-pencil-square position-absolute top-0 start-0 translate-middle bg-white rounded-circle p-2"></i>
             </div>
             <div class="col-md-9">
@@ -104,7 +129,6 @@ if ($_SESSION['user_type'] == "customer") {
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-whatsapp mr-2"></i></span><a href="https://wa.me/94' . $user->getWphone() . '">' . $user->getWphone() . '</a></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>' . $user->getAddress() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>' . $user->getDescription() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>Reserve advance Rs.' . $user->getAmountPer() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2">Reviews :</span><span class="rating"><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span></span></p>'; //empty star for illustration
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
                     echo '<a href="./add_product.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Add Product</button></a>';
@@ -173,5 +197,66 @@ if ($_SESSION['user_type'] == "customer") {
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="assets/js/script.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const error = urlParams.get('error');
+        const messageElement = document.getElementById('statusMessage');
+
+        if (status || error) {
+            if (status) {
+                switch (status) {
+                    case 'success':
+                        messageElement.textContent = 'Profile updated successfully with new image!';
+                        messageElement.classList.add('success');
+                        break;
+                    case 'success_no_image':
+                        messageElement.textContent = 'Profile updated successfully without changing the image.';
+                        messageElement.classList.add('success');
+                        break;
+                    default:
+                        messageElement.textContent = 'An unknown status occurred. Please try again.';
+                        messageElement.classList.add('error');
+                }
+            } else if (error) {
+                switch (error) {
+                    case 'invalid_file_type':
+                        messageElement.textContent = 'Invalid file type. Please choose a valid image file (JPEG, PNG, or GIF).';
+                        break;
+                    case 'file_too_large':
+                        messageElement.textContent = 'File is too large. Maximum size allowed is 5 MB.';
+                        break;
+                    case 'directory_creation_failed':
+                        messageElement.textContent = 'Failed to create upload directory. Please contact support.';
+                        break;
+                    case 'directory_not_writable':
+                        messageElement.textContent = 'Upload directory is not writable. Please contact support.';
+                        break;
+                    case 'database_prepare_failed':
+                        messageElement.textContent = 'Database prepare statement failed. Please try again or contact support.';
+                        break;
+                    case 'database_update_failed':
+                        messageElement.textContent = 'Database update failed. Please try again or contact support.';
+                        break;
+                    case 'file_move_failed':
+                        messageElement.textContent = 'Failed to move uploaded file. Please try again or contact support.';
+                        break;
+                    default:
+                        messageElement.textContent = 'An unknown error occurred. Please try again or contact support.';
+                }
+                messageElement.classList.add('error');
+            }
+            showMessage();
+        }
+
+        function showMessage() {
+            messageElement.style.display = 'block';
+            setTimeout(() => {
+                messageElement.style.display = 'none';
+            }, 5000);
+        }
+    });
+</script>
 
 </html>

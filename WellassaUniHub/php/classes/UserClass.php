@@ -82,7 +82,7 @@ class User
         $this->userType = $user['user_type'];
         $this->profileImage = $user['profile_photo'];
         $this->businessName = $user['business_name'];
-        $this->nic = $user['nic'];
+        $this->nic = $user['nic_number'];
         $this->wphone = $user['whatsapp_number'];
         $this->address = $user['service_address'];
         $this->description = $user['description'];
@@ -163,47 +163,15 @@ class User
     }
     public function setPhone($phone)
     {
-        // Check if email or contact number already exist for users
-        $checkQuery = "SELECT * FROM user WHERE contact_number = '$phone'";
-        $checkResult = $this->dbconn->query($checkQuery);
-        if ($checkResult->num_rows > 0) {
-            echo "<script>alert('Email or contact number already exists.'); window.history.back();</script>";
-            exit;
-        } else {
-            $stmt = $this->dbconn->prepare("UPDATE user SET contact_number=? WHERE user_id=?");
-            $stmt->bind_param("ss", $phone, $this->userId);
-            $stmt->execute();
-        }
+        $stmt = $this->dbconn->prepare("UPDATE user SET contact_number=? WHERE user_id=?");
+        $stmt->bind_param("ss", $phone, $this->userId);
+        $stmt->execute();
     }
 
-    public function setProfileImage($profileImage)
-    {
-        $image_name = uniqid();
-        // Use __DIR__ to get the absolute path to the current PHP file
-        $target_dir = "C:/xampp/htdocs/GitHub_Projects/Project1/WellassaUniHub/assets/img/profile_photo/";
+    // public function setProfileImage($profileImage)
+    // {
 
-        $target_file = $target_dir . $image_name;
-
-        // Make sure the directory exists
-        if (!is_dir($target_dir)) {
-            mkdir($target_dir, 0755, true); // Create the directory if it doesn't exist
-            echo "Directory created.<br>"; // Debug statement
-        }
-
-        // Move the uploaded file to the correct directory
-        if (move_uploaded_file($profileImage['tmp_name'], $target_file)) {
-            // Save the relative path to the database (for display in HTML)
-            $image_path = "/assets/img/profile_photo/" . $image_name;
-
-            $stmt = $this->dbconn->prepare("UPDATE user SET profile_photo=? WHERE user_id=?");
-            $stmt->bind_param("ss", $image_path, $this->userId);
-            $stmt->execute();
-            $this->profileImage = $image_path;
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-            exit();
-        }
-    }
+    // }
 
 
     public function setBusinessName($businessName)

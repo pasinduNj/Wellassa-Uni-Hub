@@ -3,7 +3,7 @@ class DbConnection
 {
     private $servername = "localhost";
     private $username = "root";
-    private $password = "pasindu28";
+    private $password = "";
     private $dbname = "wellassaunihub";
     private $conn;
 
