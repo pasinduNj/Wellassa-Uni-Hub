@@ -89,30 +89,7 @@ if (!empty($auth_key_cookie)) {
               width: 78px;
               border-radius: 59px;">Sign Up
         </a>
-        <a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right" role="button" href="shopping-cart.html" style="
-              padding: 1px;
-              padding-left: 11px;
-              margin: 0px;
-              margin-left: 7px;
-              margin-right: 5px;
-              margin-bottom: 3px;
-              padding-bottom: 7px;
-              padding-top: 7px;
-              padding-right: 12px;
-              margin-top: 1px;
-              transform: translate(24px) rotate(1deg) scale(1);
-              box-shadow: 0px 0px;
-              height: 31.6px;
-              width: 63.2px;
-              text-align: left;
-              position: static;
-            "><i class="fa fa-shopping-cart" style="
-                width: 27.2px;
-                height: 33px;
-                margin: -9px;
-                padding: 2px;
-                font-size: 25px;
-              "></i>&nbsp;Cart</a>
+
       </div>
     </div>
   </nav>

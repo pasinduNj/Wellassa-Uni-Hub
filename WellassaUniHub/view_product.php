@@ -29,93 +29,149 @@ $order_id = 1228450;
 $amount = $productDetails['price']; // Ensure amount is defined
 
 // Generate hash for PayHere
-$hash = strtoupper(md5($merchant_id.$order_id.number_format($amount,2,'.','').$currency.strtoupper(md5($merchant_secret))));
+$hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.', '') . $currency . strtoupper(md5($merchant_secret))));
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        .img-fluid { max-width: 100%; height: auto; }
-        .product-image { max-width: 300px; height: auto; object-fit: cover; }
-        .btn-style { display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
-        .btn-custom { width: 50%; padding: 10px 0; text-align: center; outline: none; border: none; }
-        .star-rating { color: #ffc107; }
-        .review-item { border-bottom: 1px solid #dee2e6; padding: 10px 0; }
-        #messagePopup { position: fixed; top: 20px; right: 20px; z-index: 9999; display: none; min-width: 250px; padding: 15px; border-radius: 4px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .alert-success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
-        .alert-danger { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product-image {
+            max-width: 300px;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .btn-style {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+
+        .btn-custom {
+            width: 50%;
+            padding: 10px 0;
+            text-align: center;
+            outline: none;
+            border: none;
+        }
+
+        .star-rating {
+            color: #ffc107;
+        }
+
+        .review-item {
+            border-bottom: 1px solid #dee2e6;
+            padding: 10px 0;
+        }
+
+        #messagePopup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: none;
+            min-width: 250px;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
     </style>
 </head>
+
 <body>
     <?php include './navbar2.php'; ?>
     <div class="container mt-5">
         <h2 class="text-center">Product Details</h2>
         <?php if ($productDetails) : ?>
-        <div class="row">
-            <div class="col-md-6">
-                <?php if (!empty($productDetails['image_path'])) : ?>
-                <img src="<?php echo htmlspecialchars('.'.$productDetails['image_path']); ?>" class="product-image img-fluid" alt="Product Image">
-                <?php else : ?>
-                <p>No image available.</p>
-                <?php endif; ?>
-                <div class="mt-3">
-                    <h4>Average Rating</h4>
-                    <div class="star-rating">
-                        <?php for ($i = 1; $i <= 5; $i++) {
-                            if ($i <= $averageRating) echo '<i class="fas fa-star"></i>';
-                            elseif ($i - 0.5 <= $averageRating) echo '<i class="fas fa-star-half-alt"></i>';
-                            else echo '<i class="far fa-star"></i>';
-                        } ?>
-                        <span class="ml-2"><?php echo number_format($averageRating,1); ?></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <?php if (!empty($productDetails['image_path'])) : ?>
+                        <img src="<?php echo htmlspecialchars('.' . $productDetails['image_path']); ?>" class="product-image img-fluid" alt="Product Image">
+                    <?php else : ?>
+                        <p>No image available.</p>
+                    <?php endif; ?>
+                    <div class="mt-3">
+                        <h4>Average Rating</h4>
+                        <div class="star-rating">
+                            <?php for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= $averageRating) echo '<i class="fas fa-star"></i>';
+                                elseif ($i - 0.5 <= $averageRating) echo '<i class="fas fa-star-half-alt"></i>';
+                                else echo '<i class="far fa-star"></i>';
+                            } ?>
+                            <span class="ml-2"><?php echo number_format($averageRating, 1); ?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h2><?php echo htmlspecialchars($productDetails['name']); ?></h2>
+                    <p><?php echo htmlspecialchars($productDetails['description']); ?></p>
+                    <p><strong>Price:</strong> LKR <?php echo htmlspecialchars($productDetails['price']); ?></p>
+                    <p><strong>Category:</strong> <?php echo htmlspecialchars($productDetails['category']); ?></p>
+                    <form action="add_cart.php" method="POST">
+                        <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($id); ?>">
+                        <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
+                        <input type="hidden" name="product_price" value="<?php echo htmlspecialchars($productDetails['price']); ?>">
+                        <input type="hidden" name="product_image" value="<?php echo htmlspecialchars($productDetails['image_path']); ?>">
+                        <button type="submit" class="btn btn-warning btn-custom">Add to Cart</button>
+                    </form>
+                    <div class="btn-style mt-4">
+                        <button class="btn btn-success btn-custom" onclick="paymentGateWay()">Buy Now</button>
+                        <script src="https://www.payhere.lk/lib/payhere.js"></script>
+                        <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#reviewModal">Review</button>
+                        <a href="shop.php" class="btn btn-secondary btn-custom">Back to Shop</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <h2><?php echo htmlspecialchars($productDetails['name']); ?></h2>
-                <p><?php echo htmlspecialchars($productDetails['description']); ?></p>
-                <p><strong>Price:</strong> LKR <?php echo htmlspecialchars($productDetails['price']); ?></p>
-                <p><strong>Category:</strong> <?php echo htmlspecialchars($productDetails['category']); ?></p>
-                <form action="add_cart.php" method="POST">
-                    <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($id); ?>">
-                    <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
-                    <input type="hidden" name="product_price" value="<?php echo htmlspecialchars($productDetails['price']); ?>">
-                    <input type="hidden" name="product_image" value="<?php echo htmlspecialchars($productDetails['image_path']); ?>">
-                    <button type="submit" class="btn btn-warning btn-custom">Add to Cart</button>
-                </form>
-                <div class="btn-style mt-4">
-                    <button class="btn btn-success btn-custom" onclick="paymentGateWay()">Buy Now</button>
-                    <script src="https://www.payhere.lk/lib/payhere.js"></script>
-                    <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#reviewModal">Review</button>
-                    <a href="shop.php" class="btn btn-secondary btn-custom">Back to Shop</a>
-                </div>
-            </div>
-        </div>
 
-        <div class="mt-5">
-            <h3>Customer Reviews</h3>
-            <div id="reviewsContainer">
-                <?php foreach ($reviews as $review) : ?>
-                <div class="review-item">
-                    <div class="star-rating">
-                        <?php for ($i = 1; $i <= 5; $i++) {
-                            if ($i <= $review['user_rating']) echo '<i class="fas fa-star"></i>';
-                            else echo '<i class="far fa-star"></i>';
-                        } ?>
-                    </div>
-                    <p><strong><?php echo htmlspecialchars($review['user_name']); ?></strong> - <?php echo date('F j, Y', strtotime($review['datetime'])); ?></p>
-                    <p><?php echo htmlspecialchars($review['user_review']); ?></p>
+            <div class="mt-5">
+                <h3>Customer Reviews</h3>
+                <div id="reviewsContainer">
+                    <?php foreach ($reviews as $review) : ?>
+                        <div class="review-item">
+                            <div class="star-rating">
+                                <?php for ($i = 1; $i <= 5; $i++) {
+                                    if ($i <= $review['user_rating']) echo '<i class="fas fa-star"></i>';
+                                    else echo '<i class="far fa-star"></i>';
+                                } ?>
+                            </div>
+                            <p><strong><?php echo htmlspecialchars($review['user_name']); ?></strong> - <?php echo date('F j, Y', strtotime($review['datetime'])); ?></p>
+                            <p><?php echo htmlspecialchars($review['user_review']); ?></p>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-                <?php endforeach; ?>
             </div>
-        </div>
         <?php else : ?>
-        <p>Product not found.</p>
+            <p>Product not found.</p>
         <?php endif; ?>
     </div>
 
@@ -191,21 +247,21 @@ $hash = strtoupper(md5($merchant_id.$order_id.number_format($amount,2,'.','').$c
         function paymentGateWay() {
             payhere.startPayment({
                 sandbox: true,
-                merchant_id: "<?php echo $merchant_id; ?>", 
-                return_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.phpp", 
-                cancel_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.php", 
-                notify_url: "http://localhost/notify.php", 
+                merchant_id: "<?php echo $merchant_id; ?>",
+                return_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.phpp",
+                cancel_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.php",
+                notify_url: "http://localhost/notify.php",
                 order_id: <?php echo $order_id; ?>,
-                items: "<?php echo htmlspecialchars($productDetails['name']); ?>", 
+                items: "<?php echo htmlspecialchars($productDetails['name']); ?>",
                 amount: <?php echo $amount; ?>,
                 currency: "<?php echo $currency; ?>",
-                hash: "<?php echo $hash; ?>", 
-                first_name: "Saman", 
-                last_name: "Perera", 
-                email: "samanp@gmail.com", 
-                phone: "0771234567", 
-                address: "No.1, Galle Road", 
-                city: "Colombo", 
+                hash: "<?php echo $hash; ?>",
+                first_name: "Saman",
+                last_name: "Perera",
+                email: "samanp@gmail.com",
+                phone: "0771234567",
+                address: "No.1, Galle Road",
+                city: "Colombo",
                 country: "Sri Lanka"
             });
         }
@@ -219,4 +275,5 @@ $hash = strtoupper(md5($merchant_id.$order_id.number_format($amount,2,'.','').$c
         }
     </script>
 </body>
+
 </html>
