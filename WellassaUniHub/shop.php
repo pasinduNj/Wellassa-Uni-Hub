@@ -69,16 +69,25 @@ $products = $product->getProducts($category, $min_price, $max_price);
     }
     ?>
     <div class="container mt-4">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="mb-4">Wellassa UniHUB Shop</h1>
+        <!-- Search Bar Section -->
+        <section class="search-section py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4">Wellassa UniHub Products</h2>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <form class="d-flex" method="GET" style="border: none;">
+                            <input id="searchInput" class="form-control" type="search" name="search" placeholder="Search for Freelancers" aria-label="Search" value="<?php echo htmlspecialchars($search_query); ?>" style="flex: 7;">
+                            <button class="btn btn-outline-success ms-2" type="submit" style="flex: 3;">Search</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
         <div class="row filter-container">
             <div class="col-md-3" style="position: sticky; top: 15%; z-index: 1000; align-self: flex-start;">
-                <h4>Filters</h4>
+
                 <form action="" method="GET" class="filter-form" style="padding: 5px;">
-                    <input type="text" id="searchInput" name="search" placeholder="Search products..." value="<?php echo htmlspecialchars($search_query); ?>">
+                    <h4>Filter Products</h4>
                     <div class="mb-3">
                         <label for="category" class="form-label">Category</label>
                         <select class="form-select" id="category" name="category">
@@ -121,7 +130,6 @@ $products = $product->getProducts($category, $min_price, $max_price);
                 </form>
             </div>
             <div class="col-md-8 offset-md-1">
-                <h2 class="mb-4">Shop</h2>
                 <div id="productContainer" class="row">
                     <?php if (empty($products)) : ?>
                         <p>No products found.</p>
