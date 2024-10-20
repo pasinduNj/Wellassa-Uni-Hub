@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 19, 2024 at 06:39 PM
+-- Generation Time: Oct 20, 2024 at 01:02 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -71,12 +71,20 @@ CREATE TABLE `payment` (
   `customer_id` varchar(12) NOT NULL,
   `provider_id` varchar(12) NOT NULL,
   `product_id` varchar(12) NOT NULL,
+  `reservation_id` varchar(12) NOT NULL,
   `price` float NOT NULL,
   `quantity` int(11) NOT NULL,
   `total` double NOT NULL,
   `date_time` datetime NOT NULL DEFAULT current_timestamp(),
   `status` enum('paid','pending','','') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`payment_id`, `customer_id`, `provider_id`, `product_id`, `reservation_id`, `price`, `quantity`, `total`, `date_time`, `status`) VALUES
+(1, 'SP-009', 'SP-006', '', 'RES-0016', 100, 1, 100, '2024-10-20 11:15:07', 'paid');
 
 -- --------------------------------------------------------
 
@@ -103,7 +111,8 @@ INSERT INTO `product` (`product_id`, `name`, `price`, `quantity`, `description`,
 (1, 'Rice', 200, 3, 'Red Rice', 'others', 'SP-006', '/assets/img/products/prod_img_ROG.jpeg'),
 (2, 'Acer', 1235689, 5, 'ROG', 'electronics', 'SP-006', '/assets/img/products/prod_img_ROG.jpeg'),
 (3, 'camping tent', 1200, 2, 'good quality', 'camping', 'SP-006', '/assets/img/products/prod_img_tent.jpg'),
-(4, 'Test Product', 254, 5, 'Testing', 'camping', 'SP-006', '/assets/img/products/prod_img_acer.jpg');
+(4, 'Test Product', 254, 5, 'Testing', 'camping', 'SP-006', '/assets/img/products/prod_img_acer.jpg'),
+(7, 'Burger', 650, 15, 'Chicken Burger', 'others', 'SP-009', '/assets/img/products/prod_img_add3.jpeg');
 
 -- --------------------------------------------------------
 
@@ -138,7 +147,9 @@ INSERT INTO `reservations` (`reservation_id`, `cus_id`, `timeslot_id`, `payment_
 ('RES-0012', 'CUS-001', 'TS-00006', 'pending', '2024-07-16'),
 ('RES-0013', 'CUS-001', 'TS-00007', 'pending', '2024-07-16'),
 ('RES-0014', 'CUS-001', 'TS-00043', 'pending', '2024-08-04'),
-('RES-0015', 'CUS-001', 'TS-00002', 'pending', '2024-08-05');
+('RES-0015', 'CUS-001', 'TS-00002', 'pending', '2024-08-05'),
+('RES-0016', 'SP-009', 'TS-00023', 'paid', '2024-10-20'),
+('RES-0017', 'SP-009', 'TS-00024', 'pending', '2024-10-20');
 
 -- --------------------------------------------------------
 
@@ -170,7 +181,8 @@ INSERT INTO `review_table` (`review_id`, `customer_id`, `product_id`, `provider_
 (23, 'SP-006', '3', '', 'Geeth', 4, 'Good camping hut', '2024-10-10 10:52:42'),
 (24, 'SP-006', '2', '', 'Geeth', 4, 'Good Product', '2024-10-10 10:55:18'),
 (25, 'SP-006', '1', '', 'Geeth', 4, 'Good Rice', '2024-10-10 10:56:26'),
-(28, 'SP-006', '', 'SP-008', 'Geeth', 4, 'Wow supereb', '2024-10-10 19:09:04');
+(28, 'SP-006', '', 'SP-008', 'Geeth', 4, 'Wow supereb', '2024-10-10 19:09:04'),
+(29, 'SP-009', '', 'SP-001', 'Raees', 3, 'nice', '2024-10-20 05:00:49');
 
 -- --------------------------------------------------------
 
@@ -214,8 +226,8 @@ INSERT INTO `timeslots` (`timeslot_id`, `sp_id`, `date`, `start_time`, `end_time
 ('TS-00020', 'SP-006', '2024-10-18', '10:30:00', '11:00:00', 'free'),
 ('TS-00021', 'SP-006', '2024-10-18', '11:00:00', '11:30:00', 'free'),
 ('TS-00022', 'SP-006', '2024-10-21', '08:00:00', '08:30:00', 'free'),
-('TS-00023', 'SP-006', '2024-10-21', '08:30:00', '09:00:00', 'free'),
-('TS-00024', 'SP-006', '2024-10-21', '09:00:00', '09:30:00', 'free'),
+('TS-00023', 'SP-006', '2024-10-21', '08:30:00', '09:00:00', 'booked'),
+('TS-00024', 'SP-006', '2024-10-21', '09:00:00', '09:30:00', 'booked'),
 ('TS-00025', 'SP-006', '2024-10-21', '09:30:00', '10:00:00', 'free'),
 ('TS-00026', 'SP-006', '2024-10-21', '10:00:00', '10:30:00', 'free'),
 ('TS-00027', 'SP-006', '2024-10-21', '10:30:00', '11:00:00', 'free');
@@ -262,7 +274,7 @@ INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `email`, `contact_numb
 ('SP-006', 'Geeth', 'hashan', 'ghashan54@gmail.com', '0704416022', 'sp_reservation', '$2y$10$jetqBoWLvTRCJfqsJNDa3OhpwEIHjqZ8qsYa5PlbnpDg2VW8m1IMi', '2024-08-04', '/assets/img/profile_photo/SP-002.jpg', 'A2Z Saloon', '200119602896', '0704416022', 'F107 Amara Niwasa, Ranawana, Dewalegama', 'c404061103e812a8b4880849eb8f7164', '2024-09-04 09:00:38', 'active', 'Reserve me and get all the services you need!', 200),
 ('SP-007', 'Tharushi', 'sewwandi', 'tharusew@gmail.com', '0775645345', 'sp_reservation', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-08-04', '/assets/img/profile_photo/SP-003.jpg', 'Repeat Exam Sign', '199919602898', '0789657345', 'Admin Building', NULL, NULL, 'active', NULL, 100),
 ('SP-008', 'Sarath', 'Kumar', 'sarak@gmail.com', '0887867456', 'sp_reservation', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-08-04', '/assets/img/profile_photo/sarath.jpg', 'Bpot', '200019602896', '0789657340', '2nd post mile', NULL, NULL, 'active', NULL, 500),
-('SP-009', 'Raees', 'Ahamed', 'raeesahmd120@gmail.com', '0764953014', 'sp_products', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-10-17', NULL, 'Raees Shop', '200126001722', '0764953014', 'Badulla', NULL, NULL, 'active', NULL, NULL);
+('SP-009', 'Raees', 'Ahamed', 'raeesahmd120@gmail.com', '0764953014', 'sp_products', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-10-17', '/assets/img/profile_photo/SP-009_1729376785_acer.jpg', 'Raees Shop', '200126001722', '0764953014', 'Badulla', NULL, NULL, 'active', 'Computer Shop', 50);
 
 -- --------------------------------------------------------
 
@@ -364,19 +376,19 @@ ALTER TABLE `advertisements`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `product_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `review_table`
 --
 ALTER TABLE `review_table`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
