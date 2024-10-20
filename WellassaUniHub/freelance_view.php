@@ -115,35 +115,17 @@ $reviews = $review->getReviewsByProviderId($providerId);
                     //https://wa.me/94765907934  this link should be merge from the database
                     ?>
                     <h1 class="col-md-3 mb-3"><?= $user->getBusinessName() ?></h1>
-                    <p class="mb-2"><span class="mr-2">
-                            <i class="bi bi-envelope mr-2"></i>
-                        </span> <?= $user->getEmail() ?></p>
-                    <p class="mb-2"><span class="mr-2">
-                            <i class="bi bi-telephone mr-2"></i>
-                        </span> <a href="tel:+94'.$user->getPhone().'" target="_blank"><?= $user->getPhone() ?></a></p>
-                    <p class="mb-2">
-                        <span class="mr-2">
-                            <i class="bi bi-whatsapp mr-2" style="color: #25D366;"></i>
-                        </span>
+                    <p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span> <?= $user->getEmail() ?></p>
+                    <p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span> <a href="tel:+94'.$user->getPhone().'" target="_blank"><?= $user->getPhone() ?></a></p>
+                    <p class="mb-2"><span class="mr-2"><i class="bi bi-whatsapp mr-2" style="color: #25D366;"></i></span>
                         <!-- check digits if need trim -->
                         <a href="https://wa.me/<?= $user->getWPhone() ?>" target="_blank"><?= $user->getWPhone() ?></a>
                     </p>
-                    <p class="mb-2">
-                        <i class="bi bi-geo-alt mr-2"></i>
-                        <?= $user->getAddress() ?>
-                    </p>
-                    <p class="mb-2">
-                        <span class="mr-2">
-                            <i class="bi bi-info-circle mr-2"></i>
-                        </span>
-                        <?= $user->getDescription() ?>
-                    </p>
-                    <p class="mb-2">
-                        <span class="mr-2">
-                            <i class="bi bi-currency-dollar mr-2"></i>
-                        </span>Reserve an advance with <b>Rs. <?= $user->getAmountPer() ?></b>
-                    </p>
+                    <p class="mb-2"><i class="bi bi-geo-alt mr-2"></i><?= $user->getAddress() ?></p>
+                    <p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span><?= $user->getDescription() ?></p>
+                    <p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>Reserve an advance with <b>Rs. <?= $user->getAmountPer() ?></b></p>
                     <br>
+                
                     <!--Display photos-->
                 <div class="row">
                     <div class="col-12">

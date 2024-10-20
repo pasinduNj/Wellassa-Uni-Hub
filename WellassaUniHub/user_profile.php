@@ -1,10 +1,11 @@
 <?php
 require './php/classes/db_connection.php';
 require './php/classes/UserClass.php';
+require_once './php/classes/Review.php';
 session_start();
 
 $db = new DBConnection();
-$userId = $_SESSION['user_id']; //$_GET['userId'];
+$userId = $_SESSION['user_id'];
 if (!empty($_GET['productId'])) {
     $productId = $_GET['productId'];
 }
@@ -23,6 +24,10 @@ if ($_SESSION['user_type'] == "customer") {
         $photos = $user->getPhotos();
     }
 }
+$review = new Review($dbconn);
+$averageRating = $review->getAverageRatingByProvider($userId);
+$reviews = $review->getReviewsByProviderId($userId);
+
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +46,10 @@ if ($_SESSION['user_type'] == "customer") {
         ?>
     </title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo|Cinzel|Poppins:200,300,400,500,600,700">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -92,48 +100,91 @@ if ($_SESSION['user_type'] == "customer") {
             </div>
             <div class="col-md-9">
                 <?php
-                //phone: should be in icon
-                //whatsapp icon leads to the whatsapp chat
-                //https://wa.me/944  this link should be merge from the database
-                //buttons needs to be added
                 if ($_SESSION['user_type'] == "customer") {
                     echo '<h1 class="col-md-3 mb-3">' . $user->getFirstName() . ' ' . $user->getLastName() . '</h1>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>' . $user->getEmail() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span> <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</a></p>';
-                    echo '<a href="./edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span>  <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</span></a></p>';
+                    echo '<a href="/php/edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                 } elseif ($_SESSION['user_type'] == "sp_reservation") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>' . $user->getEmail() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span><a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</a></p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-whatsapp mr-2"></i></span><a href="https://wa.me/94' . $user->getWphone() . '">' . $user->getWphone() . '</a></p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>' . $user->getAddress() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>' . $user->getDescription() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>Reserve advance Rs.' . $user->getAmountPer() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2">Reviews :</span><span class="rating"><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span></span></p>'; //empty star for illustration
-                    echo '<a href="./edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
-                    echo '<a href="./add_timeslot.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Add Time Slot</button></a>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span>  <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</span></a></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-whatsapp mr-2" style="color: #25D366;"></i></span>  <a href="https://wa.me/94' . $user->getWphone() . '">' . $user->getWphone() . '</span></a></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>  '. $user->getAddress() . '</p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>  ' . $user->getDescription() . '</span></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>  Reserve advance <b>Rs.' . $user->getAmountPer() . '</b></span></p>';
+                    
+                    //Display reviews
+                    echo '<div class="mb-4">';
+                    echo '<h3>Reviews</h3>';
+                    echo '<div class="star-rating mb-2">';
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= $averageRating) {
+                                    echo '<i class="bi bi-star-fill text-warning"></i>';
+                                } elseif ($i - 0.5 <= $averageRating) {
+                                    echo '<i class="bi bi-star-half text-warning"></i>';
+                                } else {
+                                    echo '<i class="bi bi-star text-warning"></i>';
+                                }
+                            }
+                    echo '<span class="ml-2">'.number_format($averageRating, 1).'</span>';
+                    echo '</div>';
+
+                    echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
+                    echo '<a href="./add_timeslot.php"><button class="btn btn-primary mt-auto mb-3">Add Time Slot</button></a>';
                 } elseif ($_SESSION['user_type'] == "sp_freelance") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>' . $user->getEmail() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span><a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</a></p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-whatsapp mr-2"></i></span><a href="https://wa.me/94' . $user->getWphone() . '">' . $user->getWphone() . '</a></p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>' . $user->getAddress() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>' . $user->getDescription() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>Reserve advance Rs.' . $user->getAmountPer() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2">Reviews :</span><span class="rating"><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span></span></p>'; //empty star for illustration
-                    echo '<a href="./edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span>  <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</span></a></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-whatsapp mr-2" style="color: #25D366;"></i></span>  <a href="https://wa.me/94' . $user->getWphone() . '">' . $user->getWphone() . '</span></a></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>  ' . $user->getAddress() . '</span></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>  ' . $user->getDescription() . '</span></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>  Reserve advance <b>Rs.' . $user->getAmountPer() . '</b></span></p>';
+                    //Display reviews
+                    echo '<div class="mb-4">';
+                    echo '<h3>Reviews</h3>';
+                    echo '<div class="star-rating mb-2">';
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= $averageRating) {
+                                    echo '<i class="bi bi-star-fill text-warning"></i>';
+                                } elseif ($i - 0.5 <= $averageRating) {
+                                    echo '<i class="bi bi-star-half text-warning"></i>';
+                                } else {
+                                    echo '<i class="bi bi-star text-warning"></i>';
+                                }
+                            }
+                    echo '<span class="ml-2">'.number_format($averageRating, 1).'</span>';
+                    echo '</div>';
+                    echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                 } else {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>' . $user->getEmail() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span><a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</a></p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-whatsapp mr-2"></i></span><a href="https://wa.me/94' . $user->getWphone() . '">' . $user->getWphone() . '</a></p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>' . $user->getAddress() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>' . $user->getDescription() . '</p>';
-                    echo '<p class="mb-2"><span class="mr-2">Reviews :</span><span class="rating"><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span></span></p>'; //empty star for illustration
-                    echo '<a href="./edit_user_profile.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Edit Profile</button></a>';
-                    echo '<a href="./add_product.php"><button class="btn btn-primary rounded-pill mt-auto mb-3">Add Product</button></a>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span>  <a href="tel:+94' . $user->getPhone() . '">'  . $user->getPhone() . '</span></a></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-whatsapp mr-2" style="color: #25D366;"></i></span>  <a href="https://wa.me/94' . $user->getWphone() . '">' . $user->getWphone() . '</span></a></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>  ' . $user->getAddress() . '</span></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>  ' . $user->getDescription() . '</span></p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>  Reserve advance <b>Rs.' . $user->getAmountPer() . '</b></p>';
+                    //Display reviews
+                    echo '<div class="mb-4">';
+                    echo '<h3>Reviews</h3>';
+                    echo '<div class="star-rating mb-2">';
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= $averageRating) {
+                                    echo '<i class="bi bi-star-fill text-warning"></i>';
+                                } elseif ($i - 0.5 <= $averageRating) {
+                                    echo '<i class="bi bi-star-half text-warning"></i>';
+                                } else {
+                                    echo '<i class="bi bi-star text-warning"></i>';
+                                }
+                            }
+                    echo '<span class="ml-2">'.number_format($averageRating, 1).'</span>';
+                    echo '</div>';
+                    echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
+                    echo '<a href="./add_product.php"><button class="btn btn-primary mt-auto mb-3">Add Product</button></a>';
                 }
+                echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
                 ?>
+                
             </div>
         </div>
     </div>
@@ -144,48 +195,53 @@ if ($_SESSION['user_type'] == "customer") {
         echo '<div class="row">';
         echo '<div class="col-12">';
         echo '<h2>Photos</h2>';
-        echo '<button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#uploadPopup">Add Photo</button>';
+        echo '<div class="d-flex flex-wrap">';
+                // SQL query to select data
+                $dbconnector = new DbConnection();
+                $conn = $dbconnector->getConnection();
+
+                //sql query for getting data
+                $sql = "SELECT image_path,image_name FROM image where user_id= '".$userId."' ";
+
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    // Output data of each row
+                    while ($row = $result->fetch_assoc()) {
+                    echo '<div class="card m-2" style="align-items:center;border: none;">';
+                    echo '<img src="' . $row['image_path'] . '" class="card-img-top" alt="Image of ' . $row['image_name'] . '" style="width: 250px;height: 250px;">';
+                    echo '<button class="btn btn-danger" style="margin-top: 10px;">Delete</button>';
+                    echo '</div>';
+                    }
+                }
+        echo '</div>';
+        
 
         //The popup prompt for upload image
-        /*echo '<div class="modal fade" id="uploadPopup" tabindex="-1" aria-labelledby="uploadWindow" aria-hidden="true">';
+        echo '<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">';
         echo '<div class="modal-dialog">';
         echo '<div class="modal-content">';
         echo '<div class="modal-header">';
-        echo '<h5 class="modal-title" id="uploadWindow">Upload Image</h5>';
-        echo '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
-        echo '<span aria-hidden="true">&times;</span>';
-        echo '</button>';
+        echo '<h5 class="modal-title" id="uploadModelLabel">Upload Image</h5>';
+        echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
         echo '</div>';
         echo '<div class="modal-body">';
-            echo '<form action="./edit_user.php" method="post" enctype="multipart/form-data">';
-            echo '<div class="form-group">';
-            echo '<label for="image">Select to upload</label>';
-            echo '<input type="file" class="form-control-file" name="image" required>';
+            echo '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'?>" method="post" enctype="multipart/form-data" style="border:none;">';
+            echo '<div class="mb-3">';
+            echo '<label for="image" class="form-label">Select image to upload:</label>';
+            echo '<input type="file" name="image" id="image" class="form-control" required>';
             echo '</div>';
+            echo '<div class="modal-footer" style="border:none;">';
             echo '<button type="submit" class="btn btn-primary" name="submit">Upload</button>';
+            echo '<div>';
             echo '</form>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
-*/
-
-        echo '<div class="d-flex flex-wrap">';
-        echo '<div class="card m-2" style="width: 18rem;">';
-        foreach ($photos as $photoPath) {
-
-            echo '<img src=' . $photoPath . '" class="card-img-top" alt="...">';
-            echo '<div class="card-body">';
-            // we should  make proper delete option
-            echo '<button class="btn btn-danger">Delete</button>';
-            echo '</div>';
-        }
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
+        
     }
+        
     ?>
     <br>
     <?php
