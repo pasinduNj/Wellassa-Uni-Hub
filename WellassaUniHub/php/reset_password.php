@@ -43,7 +43,7 @@ if ($result->num_rows > 0) {
         VALUES ('$token', '$user_id', '$password', NOW(), DATE_ADD(NOW(), INTERVAL 10 MINUTE))";
 
         if ($conn->query($query) === TRUE) {
-            $link = "http://localhost/GitHub_Projects/Project1/WellassaUniHub/php/verify_email.php?token=$token";
+            $link = "http://localhost/GitHub/WellassaUniHub/php/verify_email.php?token=$token";
 
 
             //Mail Function
