@@ -104,7 +104,7 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '<h1 class="col-md-3 mb-3">' . $user->getFirstName() . ' ' . $user->getLastName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span>  <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</span></a></p>';
-                    echo '<a href="/php/edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
+                    echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                 } elseif ($_SESSION['user_type'] == "sp_reservation") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
@@ -132,6 +132,7 @@ $reviews = $review->getReviewsByProviderId($userId);
 
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                     echo '<a href="./add_timeslot.php"><button class="btn btn-primary mt-auto mb-3">Add Time Slot</button></a>';
+                    echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
                 } elseif ($_SESSION['user_type'] == "sp_freelance") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
@@ -156,6 +157,7 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '<span class="ml-2">' . number_format($averageRating, 1) . '</span>';
                     echo '</div>';
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
+                    echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
                 } elseif ($_SESSION['user_type'] == "sp_products") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
@@ -181,8 +183,9 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '</div>';
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                     echo '<a href="./add_product.php"><button class="btn btn-primary mt-auto mb-3">Add Product</button></a>';
+                    echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
                 }
-                echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
+
                 ?>
 
             </div>

@@ -48,7 +48,7 @@ if ($userType == "customer") {
                 <label for="email">Email</label>
                 <input type="email" class="form-control"  name="email" value="' . $user->getEmail() . '" readonly>
             </div>';
-                echo '<div class="form-group"></div>
+                echo '<div class="form-group">
                 <label for="phone">Phone</label>
                 <input type="text" class="form-control"  name="phone" value="' . $user->getPhone() . '">
             </div>';
