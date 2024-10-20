@@ -76,7 +76,11 @@ $products = $product->getProducts($category, $min_price, $max_price);
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <form class="d-flex" method="GET" style="border: none;">
+<<<<<<< HEAD
+                            <input id="searchInput" class="form-control" type="search" name="search" placeholder="Search for Products" aria-label="Search" value="<?php echo htmlspecialchars($search_query); ?>" style="flex: 7;">
+=======
                             <input id="searchInput" class="form-control" type="search" name="search" placeholder="Search for products" aria-label="Search" value="<?php echo htmlspecialchars($search_query); ?>" style="flex: 7;">
+>>>>>>> 96b44e0ce46331f3cca85bad6ac472208cc3ef4d
                             <button class="btn btn-outline-success ms-2" type="submit" style="flex: 3;">Search</button>
                         </form>
                     </div>
