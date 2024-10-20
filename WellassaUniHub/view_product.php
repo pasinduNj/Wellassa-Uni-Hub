@@ -40,11 +40,11 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo|Cinzel|Poppins:200,300,400,500,600,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         .img-fluid {
@@ -137,14 +137,14 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
                     <p><?php echo htmlspecialchars($productDetails['description']); ?></p>
                     <p><strong>Price:</strong> LKR <?php echo htmlspecialchars($productDetails['price']); ?></p>
                     <p><strong>Category:</strong> <?php echo htmlspecialchars($productDetails['category']); ?></p>
-                    <form action="add_cart.php" method="POST">
+                    <form action="add_cart.php" method="POST" style="border: none;">
                         <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($id); ?>">
                         <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
                         <input type="hidden" name="product_price" value="<?php echo htmlspecialchars($productDetails['price']); ?>">
                         <input type="hidden" name="product_image" value="<?php echo htmlspecialchars($productDetails['image_path']); ?>">
                         <button type="submit" class="btn btn-warning btn-custom">Add to Cart</button>
                     </form>
-                    <div class="btn-style mt-4">
+                    <div class="btn-style mt-2">
                         <button class="btn btn-success btn-custom" onclick="paymentGateWay()">Buy Now</button>
                         <script src="https://www.payhere.lk/lib/payhere.js"></script>
                         <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#reviewModal">Review</button>

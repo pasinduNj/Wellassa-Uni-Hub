@@ -99,7 +99,7 @@ $currency = "LKR";
 $order_id = time(); // Use time as unique order ID
 
 // Generate hash for PayHere
-$hash = strtoupper(md5($merchant_id.$order_id.number_format($total,2,'.','').$currency.strtoupper(md5($merchant_secret))));
+$hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', '') . $currency . strtoupper(md5($merchant_secret))));
 ?>
 
 <!DOCTYPE html>
@@ -110,7 +110,12 @@ $hash = strtoupper(md5($merchant_id.$order_id.number_format($total,2,'.','').$cu
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo|Cinzel|Poppins:200,300,400,500,600,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <style>
         .cart-item img {
             max-width: 100px;
@@ -185,7 +190,7 @@ $hash = strtoupper(md5($merchant_id.$order_id.number_format($total,2,'.','').$cu
                     <div class="text-center">
                         <h4>Total: LKR <span id="cart-total"><?php echo number_format($total, 2); ?></span></h4>
                         <button class="btn btn-success btn-custom" onclick="paymentGateWay()">Buy Now</button>
-                    <script src="https://www.payhere.lk/lib/payhere.js"></script>
+                        <script src="https://www.payhere.lk/lib/payhere.js"></script>
 
                     </div>
                 <?php endif; ?>
@@ -248,7 +253,7 @@ $hash = strtoupper(md5($merchant_id.$order_id.number_format($total,2,'.','').$cu
             });
         });
 
-        function paymentGateWay(){
+        function paymentGateWay() {
             payhere.onCompleted = function(orderId) {
                 console.log("Payment completed. OrderID:" + orderId);
             };
@@ -268,8 +273,8 @@ $hash = strtoupper(md5($merchant_id.$order_id.number_format($total,2,'.','').$cu
                 "cancel_url": "http://localhost/gamestore/cancel",
                 "notify_url": "http://localhost/gamestore/notify",
                 "order_id": "<?php echo $order_id; ?>",
-                "items": "Your Order", 
-                "amount": "<?php echo number_format($total,2,'.',''); ?>",
+                "items": "Your Order",
+                "amount": "<?php echo number_format($total, 2, '.', ''); ?>",
                 "currency": "LKR",
                 "hash": "<?php echo $hash; ?>",
                 "first_name": "John",

@@ -29,18 +29,23 @@ $user_name = $_SESSION['user_name'];
                 </li>
             </ul>
 
-            <a href="./user_profile.php">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <!-- User Profile Link -->
+            <a href="./user_profile.php" class="d-flex align-items-center text-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person me-2" viewBox="0 0 16 16">
                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                </svg><?php echo $user_name; ?></a>
-            <a class="font-monospace link-warning border-white d-inline-block float-end d-lg-flex align-items-lg-center pull-right"
-                role="button" href="add_cart.php"
-                style="padding: 1px;padding-left: 11px;margin: 0px;margin-left: 7px;margin-right: 5px;margin-bottom: 3px;padding-bottom: 7px;padding-top: 7px;padding-right: 12px;margin-top: 1px;transform: translate(24px) rotate(1deg) scale(1);box-shadow: 0px 0px;height: 31.6px;width: 63.2px;text-align: left;position: static;">
-                <i class="fa fa-shopping-cart" style="width: 27.2px;height: 33px;margin: -9px;padding: 2px;font-size: 25px;"></i>&nbsp;Cart
+                </svg>
+                <span><?= $user_name; ?></span>
             </a>
 
-            <a class="btn btn-primary shadow" role="button" href="./php/logout.php"
-                style="height: 35px;padding: 3px 10px;margin: 10px -10px 10px 30px;width: 78px;border-radius: 59px;">Logout</a>
+            <!-- Cart Link -->
+            <a class="btn btn-outline-warning d-inline-flex align-items-center" role="button" href="shopping-cart.html" style="margin-right: 10px; margin-top: 2%;">
+                <i class="fa fa-shopping-cart" style="font-size: 20px; margin-right: 5px;"></i>Cart
+            </a>
+
+            <!-- Logout Button -->
+            <a class="btn btn-primary shadow-sm" role="button" href="./php/logout.php" style="border-radius: 50px; padding: 5px 20px; margin-top: 2%;">
+                Logout
+            </a>
         </div>
     </div>
 </nav>
