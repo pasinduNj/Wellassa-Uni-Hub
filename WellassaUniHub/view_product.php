@@ -27,7 +27,6 @@ $merchant_secret = "NjY3MjAxNzYzNDE0NjczMDA5OTQwNDk4MTA0NTEzNTU2MDI4NDA2";
 $currency = "LKR";
 $order_id = 1228450;
 $amount = $productDetails['price']; // Ensure amount is defined
-$provider_id = $productDetails['provider_id']; // Ensure provider ID is defined
 
 // Generate hash for PayHere
 $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.', '') . $currency . strtoupper(md5($merchant_secret))));
@@ -137,7 +136,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
                     <h2><?php echo htmlspecialchars($productDetails['name']); ?></h2>
                     <p><?php echo htmlspecialchars($productDetails['description']); ?></p>
                     <p><strong>Price:</strong> LKR <?php echo htmlspecialchars($productDetails['price']); ?></p>
-                    <p><strong>Stock:</strong> <?php echo htmlspecialchars($productDetails['quantity']); ?></p>
+                    <p><strong>Category:</strong> <?php echo htmlspecialchars($productDetails['category']); ?></p>
                     <form action="add_cart.php" method="POST" style="border: none;">
                         <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($id); ?>">
                         <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
@@ -244,31 +243,28 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
             });
         });
 
-       // PayHere payment integration
-function paymentGateWay() {
-    const totalAmount = $('#cart-total').text().replace(/,/g, ''); // Dynamic total from cart, remove commas if any
-
-    payhere.startPayment({
-        sandbox: true,
-        merchant_id: "<?php echo $merchant_id; ?>", // Replace with your actual Merchant ID
-        return_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.phpp",
-        cancel_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.php",
-        notify_url: "http://localhost/notify.php",
-        order_id: <?php echo $order_id; ?>,
-        items: "<?php echo htmlspecialchars($productDetails['name']); ?>",
-        amount: totalAmount, // Dynamic total from cart
-        currency: "<?php echo $currency; ?>",
-        hash: "<?php echo $hash; ?>",
-        first_name: "Saman",
-        last_name: "Perera",
-        email: "samanp@gmail.com",
-        phone: "0771234567",
-        address: "No.1, Galle Road",
-        city: "Colombo",
-        country: "Sri Lanka"
-    });
-}
-
+        // PayHere payment integration
+        function paymentGateWay() {
+            payhere.startPayment({
+                sandbox: true,
+                merchant_id: "<?php echo $merchant_id; ?>",
+                return_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.phpp",
+                cancel_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.php",
+                notify_url: "http://localhost/notify.php",
+                order_id: <?php echo $order_id; ?>,
+                items: "<?php echo htmlspecialchars($productDetails['name']); ?>",
+                amount: <?php echo $amount; ?>,
+                currency: "<?php echo $currency; ?>",
+                hash: "<?php echo $hash; ?>",
+                first_name: "Saman",
+                last_name: "Perera",
+                email: "samanp@gmail.com",
+                phone: "0771234567",
+                address: "No.1, Galle Road",
+                city: "Colombo",
+                country: "Sri Lanka"
+            });
+        }
 
         // Show message popup
         function showMessage(type, message) {
