@@ -1,2 +1,4 @@
 [2024-10-20 00:14:49] No file uploaded
 [2024-10-20 00:26:25] Image uploaded successfully: /assets/img/profile_photo/SP-009_1729376785_acer.jpg
+[2024-10-20 16:09:25] Image uploaded successfully: /assets/img/profile_photo/SP-002_1729433365_SP-003.jpg
+[2024-10-20 16:12:40] Image uploaded successfully: /assets/img/profile_photo/SP-002_1729433560_sarath.jpg

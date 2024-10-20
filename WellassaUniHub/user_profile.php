@@ -195,7 +195,6 @@ $reviews = $review->getReviewsByProviderId($userId);
 
     <?php
     if ($_SESSION['user_type'] !== "customer") {
-        echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload an Image</button>';
         echo '<div class="row">';
         echo '<div class="col-12" >';
         echo '<h2>Photos</h2>';
@@ -239,14 +238,38 @@ $reviews = $review->getReviewsByProviderId($userId);
                         </div>';
             }
         }
-        echo '</div>';
 
     }
     echo '<br>';
-    include './footer.php';
+    include './footer.php'; 
     ?>
     
-
+<?php 
+    //The popup prompt for upload image
+    echo '<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">';
+    echo '<div class="modal-dialog">';
+    echo '<div class="modal-content">';
+    echo '<div class="modal-header">';
+    echo '<h5 class="modal-title" id="uploadModelLabel">Upload Image</h5>';
+    echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+    echo '</div>';
+    echo '<div class="modal-body">';
+    echo '<form action="./user_profile_upload_image.php" method="post" enctype="multipart/form-data" style="border:none;">';
+    echo '<div class="mb-3">';
+    echo '<label for="image" class="form-label">Select image to upload:</label>';
+    echo '<input type="file" name="image" id="image" class="form-control" required>';
+    echo '</div>';
+    echo '<div class="modal-footer" style="border:none;">';
+    echo '<button type="submit" class="btn btn-primary" name="submit">Upload</button>';
+    echo '<div>';
+    echo '</form>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>'; 
+?>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -352,4 +375,4 @@ $reviews = $review->getReviewsByProviderId($userId);
     }
 </script>
 
-</html>
+</html> 

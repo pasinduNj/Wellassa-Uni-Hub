@@ -105,7 +105,7 @@ $reviews = $review->getReviewsByProviderId($providerId);
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-3">
-                    <img src=".<?= $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getBusinessName() ?>" class="img-fluid rounded-circle">
+                    <img src=".<?= $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getBusinessName() ?>"  style="width: 250px;height: 250px;border-radius: 50%;object-fit: cover;"	>
                 </div>
                 <div class="col-md-9">
                     <!-- dont forget to put other usertypes' differentdata here -->
@@ -174,7 +174,7 @@ $reviews = $review->getReviewsByProviderId($providerId);
 
                         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $providerId): ?>
 
-                            <a href="./cart.php"><button class="btn btn-primary" onclick="">Proceed With Advance</button></a>
+                            <a href="./cart.php"><button class="btn btn-primary" onclick="">Pay now</button></a>
 
                             <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#reviewModal">
                                 Write a Review

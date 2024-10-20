@@ -103,7 +103,6 @@ $reviews = $review->getReviewsByProviderId($providerId);
         <div class="row">
             <div class="col-md-3">
                 <img src="<?= '.' . $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getFirstName() ?>" class="img-fluid rounded-circle">
-                <i class="bi bi-pencil-square position-absolute top-0 start-0 translate-middle bg-white rounded-circle p-2"></i>
             </div>
             <div class="col-md-9">
                 <!-- dont forget to put other usertypes' differentdata here -->
