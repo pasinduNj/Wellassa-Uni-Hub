@@ -1,4 +1,4 @@
-<footer class="bg-primary-gradient" style="height: auto; margin: 0px; padding: 2px;">
+<footer class="bg-primary-gradient" style="height: auto;width: 100%; margin: 0px; padding: 2px;">
     <div class="container py-4 py-lg-5" style="height: auto; padding: 0px;">
         <div class="row justify-content-center">
             <div class="col-sm-4 col-md-3 text-center text-lg-start d-flex flex-column" style="height: auto; margin: 0px; padding: 0px;" >
