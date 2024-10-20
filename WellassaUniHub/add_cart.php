@@ -232,7 +232,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
                 });
             });
 
-            // Remove item using AJAX
+            // Remove item from cart using AJAX
             $('.remove-item').on('click', function(e) {
                 e.preventDefault();
                 const key = $(this).data('key');
@@ -246,7 +246,10 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
                         key: key
                     },
                     success: function(response) {
-                        location.reload(); // Reload the page to update cart
+                        // Remove the item row from the table
+                        $(`tr[data-key="${key}"]`).remove();
+                        // Update the cart total
+                        $('#cart-total').text(response.cart_total);
                     },
                     error: function(xhr, status, error) {
                         console.error('Error:', error);
@@ -255,42 +258,46 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
             });
         });
 
-        function paymentGateWay() {
-            payhere.onCompleted = function(orderId) {
-                console.log("Payment completed. OrderID:" + orderId);
-            };
+        
+    function paymentGateWay() {
+        const totalAmount = $('#cart-total').text().replace(/,/g, ''); // Remove commas for parsing
 
-            payhere.onDismissed = function() {
-                console.log("Payment dismissed");
-            };
+        payhere.onCompleted = function(orderId) {
+            console.log("Payment completed. OrderID:" + orderId);
+            // Redirect to success page or clear cart after success
+        };
 
-            payhere.onError = function(error) {
-                console.log("Error:" + error);
-            };
+        payhere.onDismissed = function() {
+            console.log("Payment dismissed");
+        };
 
-            const payment = {
-                "sandbox": true,
-                "merchant_id": "<?php echo $merchant_id; ?>",
-                "return_url": "http://localhost/gamestore",
-                "cancel_url": "http://localhost/gamestore/cancel",
-                "notify_url": "http://localhost/gamestore/notify",
-                "order_id": "<?php echo $order_id; ?>",
-                "items": "Your Order",
-                "amount": "<?php echo number_format($total, 2, '.', ''); ?>",
-                "currency": "LKR",
-                "hash": "<?php echo $hash; ?>",
-                "first_name": "John",
-                "last_name": "Doe",
-                "email": "john.doe@example.com",
-                "phone": "0771234567",
-                "address": "No. 1, Galle Road",
-                "city": "Colombo",
-                "country": "Sri Lanka"
-            };
+        payhere.onError = function(error) {
+            console.error("Payment error:", error);
+        };
 
-            payhere.startPayment(payment);
-        }
-    </script>
+        const payment = {
+            "sandbox": true, // Ensure sandbox mode for testing
+            "merchant_id": "<?php echo $merchant_id; ?>", // Replace with your actual Merchant ID
+            "return_url": "https://yourdomain.com/return", // Replace with your return URL
+            "cancel_url": "https://yourdomain.com/cancel", // Replace with your cancel URL
+            "notify_url": "https://yourdomain.com/notify", // Replace with your notify URL
+            "order_id": "<?php echo $order_id; ?>",
+            "items": "Shopping Cart Items", // A description of what is being purchased
+            "amount": totalAmount, // Dynamic total from cart
+            "currency": "LKR",
+            "first_name": "John", // User details
+            "last_name": "Doe",
+            "email": "john.doe@example.com",
+            "phone": "0771234567",
+            "address": "No.1, Galle Road",
+            "city": "Colombo",
+            "country": "Sri Lanka"
+        };
+
+        // Start the payment process
+        payhere.startPayment(payment);
+    }
+</script>
 </body>
 
 </html>
