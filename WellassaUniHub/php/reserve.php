@@ -70,6 +70,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (!$timeslot_details && isset($_SESSION['timeslot_id'])) {
     $timeslot_details = getTimeslotDetails($conn, $_SESSION['timeslot_id']);
 }
+// PayHere integration
+$merchant_id = '1228450'; // Replace with your PayHere Merchant ID
+$merchant_secret = "NjY3MjAxNzYzNDE0NjczMDA5OTQwNDk4MTA0NTEzNTU2MDI4NDA2";
+$currency = "LKR";
+$order_id = isset($_SESSION['reservation_id']) ? $_SESSION['reservation_id'] : '1228450';
+$amount = 100; // Replace with the actual amount for the reservation
+$hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.', '') . $currency . strtoupper(md5($merchant_secret))));
 ?>
 
 <!DOCTYPE html>
@@ -80,6 +87,7 @@ if (!$timeslot_details && isset($_SESSION['timeslot_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserve Timeslot</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://www.payhere.lk/lib/payhere.js"></script>
     <style>
         .container {
             width: 50%;

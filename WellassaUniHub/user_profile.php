@@ -132,7 +132,65 @@ $reviews = $review->getReviewsByProviderId($userId);
 
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                     echo '<a href="./add_timeslot.php"><button class="btn btn-primary mt-auto mb-3">Add Time Slot</button></a>';
+<<<<<<< Updated upstream
                     echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
+=======
+                    //display timeslots booked
+                    // Fetch booked timeslots
+                    $query = "SELECT p.payment_id, u.first_name, u.last_name, u.email, u.contact_number, 
+    t.start_time, t.end_time, p.date_time, p.process_status
+FROM payment p
+JOIN user u ON p.customer_id = u.user_id
+JOIN timeslots t ON p.timeslot_id = t.timeslot_id
+WHERE p.provider_id = ?
+ORDER BY p.date_time DESC";
+
+                    $stmt = $dbconn->prepare($query);
+                    $stmt->bind_param("s", $userId);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($result->num_rows > 0) {
+                        echo '<h2>Booked Timeslots</h2>';
+                        echo '<div class="table-responsive">';
+                        echo '<table class="table table-striped">';
+                        echo '<thead>';
+                        echo '<tr>';
+                        echo '<th>Customer Name</th>';
+                        echo '<th>Customer Email</th>';
+                        echo '<th>Phone Number</th>';
+                        echo '<th>Timeslot</th>';
+                        echo '<th>Paid Date</th>';
+                        echo '<th>Status</th>';
+                        echo '</tr>';
+                        echo '</thead>';
+                        echo '<tbody>';
+
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<tr>';
+                            echo '<td>' . htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['email']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['contact_number']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['start_time'] . ' - ' . $row['end_time']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['date_time']) . '</td>';
+                            echo '<td>';
+                            echo '<select class="form-select status-select" data-payment-id="' . $row['payment_id'] . '">';
+                            echo '<option value="pending"' . ($row['process_status'] == 'pending' ? ' selected' : '') . '>Pending</option>';
+                            echo '<option value="reserved"' . ($row['process_status'] == 'reserved' ? ' selected' : '') . '>Reserved</option>';
+                            echo '</select>';
+                            echo '</td>';
+                            echo '</tr>';
+                        }
+
+                        echo '</tbody>';
+                        echo '</table>';
+                        echo '</div>';
+                    } else {
+                        echo '<p>No booked timeslots found.</p>';
+                    }
+
+                    $stmt->close();
+>>>>>>> Stashed changes
                 } elseif ($_SESSION['user_type'] == "sp_freelance") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
@@ -373,6 +431,45 @@ $reviews = $review->getReviewsByProviderId($userId);
             xhr.send("imagePath=" + encodeURIComponent(imagePath));
         }
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusSelects = document.querySelectorAll('.status-select');
+        statusSelects.forEach(select => {
+            select.addEventListener('change', function() {
+                const paymentId = this.getAttribute('data-payment-id');
+                const newStatus = this.value;
+
+                // Send AJAX request to update status
+                fetch('update_status.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `payment_id=${paymentId}&status=${newStatus}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Status updated successfully');
+                        } else {
+                            alert('Failed to update status');
+                            // Reset the select to its previous value
+                            this.value = this.getAttribute('data-original-value');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while updating the status');
+                        // Reset the select to its previous value
+                        this.value = this.getAttribute('data-original-value');
+                    });
+            });
+
+            // Store the original value
+            select.setAttribute('data-original-value', select.value);
+        });
+    });
 </script>
 
 </html> 

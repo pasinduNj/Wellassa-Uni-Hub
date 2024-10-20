@@ -8,6 +8,7 @@ $conn = $db->getConnection();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['reservation_id'])) {
     $reservation_id = $_POST['reservation_id'];
+    $selected_timeslot_id = $_SESSION['selected_timeslot_id'];
     $user_id = $_POST['user_id'];
     //current_id
     $user = $_SESSION['user_id'];
@@ -39,10 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['reservation_id'])) {
 
         try {
             // Insert payment data
-            $payment_sql = "INSERT INTO payment (customer_id, provider_id, reservation_id, price, quantity, total, date_time, status) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $payment_sql = "INSERT INTO payment (customer_id, provider_id, reservation_id,timeslot_id, price, quantity, total, date_time, status) 
+                            VALUES (?, ?, ?, ?, ?,?, ?, ?, ?)";
             $payment_stmt = $conn->prepare($payment_sql);
-            $payment_stmt->bind_param("sssdidss", $customer_id, $provider_id, $reservation_id, $price, $quantity, $total, $date_time, $status);
+            $payment_stmt->bind_param("ssssdidss", $customer_id, $provider_id, $reservation_id, $selected_timeslot_id, $price, $quantity, $total, $date_time, $status);
             $payment_stmt->execute();
 
             // Update reservation status to 'paid'
