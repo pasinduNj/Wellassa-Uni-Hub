@@ -38,7 +38,7 @@ $user_name = $_SESSION['user_name'];
             </a>
 
             <!-- Cart Link -->
-            <a class="btn btn-outline-warning d-inline-flex align-items-center" role="button" href="shopping-cart.html" style="margin-right: 10px; margin-top: 2%;">
+            <a class="btn btn-outline-warning d-inline-flex align-items-center" role="button" href="./add_cart.php" style="margin-right: 10px; margin-top: 2%;">
                 <i class="fa fa-shopping-cart" style="font-size: 20px; margin-right: 5px;"></i>Cart
             </a>
 

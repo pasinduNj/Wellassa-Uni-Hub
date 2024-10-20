@@ -197,7 +197,9 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
             </div>
         </div>
     </div>
-
+    <?php
+    include './footer.php';
+    ?>
     <!-- jQuery -->
     <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <!-- Bootstrap JS -->
