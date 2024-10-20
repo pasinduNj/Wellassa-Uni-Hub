@@ -31,6 +31,7 @@ $provider_id = $productDetails['provider_id']; // Ensure provider ID is defined
 
 // Generate hash for PayHere
 $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.', '') . $currency . strtoupper(md5($merchant_secret))));
+
 ?>
 
 <!DOCTYPE html>
@@ -246,26 +247,50 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
 
         // PayHere payment integration
         function paymentGateWay() {
-            payhere.startPayment({
-                sandbox: true,
-                merchant_id: "<?php echo $merchant_id; ?>",
-                return_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.phpp",
-                cancel_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.php",
-                notify_url: "http://localhost/notify.php",
-                order_id: <?php echo $order_id; ?>,
-                items: "<?php echo htmlspecialchars($productDetails['name']); ?>",
-                amount: <?php echo $amount; ?>,
-                currency: "<?php echo $currency; ?>",
-                hash: "<?php echo $hash; ?>",
-                first_name: "Saman",
-                last_name: "Perera",
-                email: "samanp@gmail.com",
-                phone: "0771234567",
-                address: "No.1, Galle Road",
-                city: "Colombo",
-                country: "Sri Lanka"
+            // First, process the payment on the server side
+            $.ajax({
+                url: 'php/process_payment_product.php',
+                method: 'POST',
+                data: {
+                    customer_id: '<?php echo $customer_id; ?>',
+                    provider_id: '<?php echo $provider_id; ?>',
+                    product_id: '<?php echo $productDetails['product_id']; ?>', // Make sure this matches your product table's primary key
+                    price: <?php echo $amount; ?>
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        // If server-side processing is successful, proceed with PayHere
+                        payhere.startPayment({
+                            sandbox: true,
+                            merchant_id: "<?php echo $merchant_id; ?>",
+                            return_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.php",
+                            cancel_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.php",
+                            notify_url: "http://localhost/notify.php",
+                            order_id: <?php echo $order_id; ?>,
+                            items: "<?php echo htmlspecialchars($productDetails['name']); ?>",
+                            amount: <?php echo $amount; ?>,
+                            currency: "<?php echo $currency; ?>",
+                            hash: "<?php echo $hash; ?>",
+                            first_name: "Saman",
+                            last_name: "Perera",
+                            email: "samanp@gmail.com",
+                            phone: "0771234567",
+                            address: "No.1, Galle Road",
+                            city: "Colombo",
+                            country: "Sri Lanka"
+                        });
+                    } else {
+                        showMessage('alert-danger', 'Failed to process payment: ' + (response.message || 'Unknown error'));
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX error:', textStatus, errorThrown);
+                    showMessage('alert-danger', 'An error occurred: ' + textStatus);
+                }
             });
         }
+
 
         // Show message popup
         function showMessage(type, message) {
