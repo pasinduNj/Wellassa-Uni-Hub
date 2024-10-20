@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 20, 2024 at 01:02 PM
+-- Generation Time: Oct 20, 2024 at 05:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -76,15 +76,17 @@ CREATE TABLE `payment` (
   `quantity` int(11) NOT NULL,
   `total` double NOT NULL,
   `date_time` datetime NOT NULL DEFAULT current_timestamp(),
-  `status` enum('paid','pending','','') NOT NULL
+  `status` enum('paid','pending','','') NOT NULL,
+  `process_status` enum('pending','shipped','delivered','finished','reserved') NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `payment`
 --
 
-INSERT INTO `payment` (`payment_id`, `customer_id`, `provider_id`, `product_id`, `reservation_id`, `price`, `quantity`, `total`, `date_time`, `status`) VALUES
-(1, 'SP-009', 'SP-006', '', 'RES-0016', 100, 1, 100, '2024-10-20 11:15:07', 'paid');
+INSERT INTO `payment` (`payment_id`, `customer_id`, `provider_id`, `product_id`, `reservation_id`, `price`, `quantity`, `total`, `date_time`, `status`, `process_status`) VALUES
+(1, 'SP-009', 'SP-006', '', 'RES-0016', 100, 1, 100, '2024-10-20 11:15:07', 'paid', 'pending'),
+(12, 'SP-009', 'SP-006', '1', '', 200, 1, 200, '2024-10-20 18:29:31', 'paid', 'pending');
 
 -- --------------------------------------------------------
 
@@ -108,7 +110,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `name`, `price`, `quantity`, `description`, `category`, `provider_id`, `image_path`) VALUES
-(1, 'Rice', 200, 3, 'Red Rice', 'others', 'SP-006', '/assets/img/products/prod_img_ROG.jpeg'),
+(1, 'Rice', 200, 2, 'Red Rice', 'others', 'SP-006', '/assets/img/products/prod_img_ROG.jpeg'),
 (2, 'Acer', 1235689, 5, 'ROG', 'electronics', 'SP-006', '/assets/img/products/prod_img_ROG.jpeg'),
 (3, 'camping tent', 1200, 2, 'good quality', 'camping', 'SP-006', '/assets/img/products/prod_img_tent.jpg'),
 (4, 'Test Product', 254, 5, 'Testing', 'camping', 'SP-006', '/assets/img/products/prod_img_acer.jpg'),
@@ -149,7 +151,8 @@ INSERT INTO `reservations` (`reservation_id`, `cus_id`, `timeslot_id`, `payment_
 ('RES-0014', 'CUS-001', 'TS-00043', 'pending', '2024-08-04'),
 ('RES-0015', 'CUS-001', 'TS-00002', 'pending', '2024-08-05'),
 ('RES-0016', 'SP-009', 'TS-00023', 'paid', '2024-10-20'),
-('RES-0017', 'SP-009', 'TS-00024', 'pending', '2024-10-20');
+('RES-0017', 'SP-009', 'TS-00024', 'pending', '2024-10-20'),
+('RES-0018', 'SP-009', 'TS-00025', 'pending', '2024-10-20');
 
 -- --------------------------------------------------------
 
@@ -182,7 +185,11 @@ INSERT INTO `review_table` (`review_id`, `customer_id`, `product_id`, `provider_
 (24, 'SP-006', '2', '', 'Geeth', 4, 'Good Product', '2024-10-10 10:55:18'),
 (25, 'SP-006', '1', '', 'Geeth', 4, 'Good Rice', '2024-10-10 10:56:26'),
 (28, 'SP-006', '', 'SP-008', 'Geeth', 4, 'Wow supereb', '2024-10-10 19:09:04'),
-(29, 'SP-009', '', 'SP-001', 'Raees', 3, 'nice', '2024-10-20 05:00:49');
+(29, 'SP-009', '', 'SP-001', 'Raees', 3, 'nice', '2024-10-20 05:00:49'),
+(30, 'SP-009', '', 'SP-007', 'Raees', 3, 'nice', '2024-10-20 18:31:19'),
+(31, 'CUS-0001', '', 'SP-002', 'Saajith', 3, 'good service', '2024-10-20 18:55:22'),
+(32, 'CUS-0001', '', 'SP-007', 'Saajith', 3, 'Good', '2024-10-20 18:59:12'),
+(33, 'CUS-0001', '2', '', 'Saajith', 3, 'Good Product', '2024-10-20 19:14:49');
 
 -- --------------------------------------------------------
 
@@ -228,7 +235,7 @@ INSERT INTO `timeslots` (`timeslot_id`, `sp_id`, `date`, `start_time`, `end_time
 ('TS-00022', 'SP-006', '2024-10-21', '08:00:00', '08:30:00', 'free'),
 ('TS-00023', 'SP-006', '2024-10-21', '08:30:00', '09:00:00', 'booked'),
 ('TS-00024', 'SP-006', '2024-10-21', '09:00:00', '09:30:00', 'booked'),
-('TS-00025', 'SP-006', '2024-10-21', '09:30:00', '10:00:00', 'free'),
+('TS-00025', 'SP-006', '2024-10-21', '09:30:00', '10:00:00', 'booked'),
 ('TS-00026', 'SP-006', '2024-10-21', '10:00:00', '10:30:00', 'free'),
 ('TS-00027', 'SP-006', '2024-10-21', '10:30:00', '11:00:00', 'free');
 
@@ -269,8 +276,8 @@ INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `email`, `contact_numb
 ('SP-001', 'Mohammed', 'Sajith', 'sajith@gmail.com', '0760784568', 'sp_freelance', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-08-03', '/assets/img/profile_photo/SP-001.jpg', 'Bayers', '200023202970', '0760784568', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', 'I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.', 200),
 ('SP-002', 'Mohammed', 'SajithAli', 'sajithali@gmail.com', '0750784568', 'sp_freelance', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-08-03', '/assets/img/profile_photo/SP-002.jpg', 'Techers', '200023202974', '0750784568', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', 'I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable.', 300),
 ('SP-003', 'Mohammed', 'SajithAli', 'sajitha@gmail.com', '0770784568', 'sp_freelance', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-08-03', '/assets/img/profile_photo/SP-003.jpg', 'Hechers', '200023202975', '0770784568', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', 'I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.', 250),
-('SP-004', 'Mohammed', 'SajithAli', 'sajit@gmail.com', '0770784569', 'sp_freelance', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-08-03', '/assets/img/profile_photo/SP-004.jpg', 'Rechers', '200023202985', '0770784569', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', 'I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.\nI am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.', NULL),
-('SP-005', NULL, NULL, 'saji@gmail.com', '0770784565', 'sp_freelance', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-08-03', '/assets/img/profile_photo/SP-005.jpg', 'Slechers', '200023202984', '0770784565', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', NULL, NULL),
+('SP-004', 'Mohammed', 'SajithAli', 'sajit@gmail.com', '0770784569', 'sp_freelance', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-08-03', '/assets/img/profile_photo/SP-004.jpg', 'Rechers', '200023202985', '0770784569', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', 'I am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.\nI am a very passionate person with my work and with everything that I propose, that is why I am sure that working with your team we will be able to carry out any project, I am responsible, reliable, punctual and I work and learn quickly.', 50),
+('SP-005', NULL, NULL, 'saji@gmail.com', '0770784565', 'sp_freelance', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-08-03', '/assets/img/profile_photo/SP-005.jpg', 'Slechers', '200023202984', '0770784565', 'No.335/3 Aliyar Road, Kalmunaikudy - 12, Kalmunai', NULL, NULL, 'active', NULL, 50),
 ('SP-006', 'Geeth', 'hashan', 'ghashan54@gmail.com', '0704416022', 'sp_reservation', '$2y$10$jetqBoWLvTRCJfqsJNDa3OhpwEIHjqZ8qsYa5PlbnpDg2VW8m1IMi', '2024-08-04', '/assets/img/profile_photo/SP-002.jpg', 'A2Z Saloon', '200119602896', '0704416022', 'F107 Amara Niwasa, Ranawana, Dewalegama', 'c404061103e812a8b4880849eb8f7164', '2024-09-04 09:00:38', 'active', 'Reserve me and get all the services you need!', 200),
 ('SP-007', 'Tharushi', 'sewwandi', 'tharusew@gmail.com', '0775645345', 'sp_reservation', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-08-04', '/assets/img/profile_photo/SP-003.jpg', 'Repeat Exam Sign', '199919602898', '0789657345', 'Admin Building', NULL, NULL, 'active', NULL, 100),
 ('SP-008', 'Sarath', 'Kumar', 'sarak@gmail.com', '0887867456', 'sp_reservation', '$2y$10$SkrSRW8wAYHWX4CAoQEGdObDaOECAZB6J33TI1mTMYFRuVzNuQEk6', '2024-08-04', '/assets/img/profile_photo/sarath.jpg', 'Bpot', '200019602896', '0789657340', '2nd post mile', NULL, NULL, 'active', NULL, 500),
@@ -376,7 +383,7 @@ ALTER TABLE `advertisements`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -388,7 +395,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `review_table`
 --
 ALTER TABLE `review_table`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
