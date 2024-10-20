@@ -110,24 +110,24 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span>  <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</span></a></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-whatsapp mr-2" style="color: #25D366;"></i></span>  <a href="https://wa.me/94' . $user->getWphone() . '">' . $user->getWphone() . '</span></a></p>';
-                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>  '. $user->getAddress() . '</p>';
+                    echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>  ' . $user->getAddress() . '</p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>  ' . $user->getDescription() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>  Reserve advance <b>Rs.' . $user->getAmountPer() . '</b></span></p>';
-                    
+
                     //Display reviews
                     echo '<div class="mb-4">';
                     echo '<h3>Reviews</h3>';
                     echo '<div class="star-rating mb-2">';
-                            for ($i = 1; $i <= 5; $i++) {
-                                if ($i <= $averageRating) {
-                                    echo '<i class="bi bi-star-fill text-warning"></i>';
-                                } elseif ($i - 0.5 <= $averageRating) {
-                                    echo '<i class="bi bi-star-half text-warning"></i>';
-                                } else {
-                                    echo '<i class="bi bi-star text-warning"></i>';
-                                }
-                            }
-                    echo '<span class="ml-2">'.number_format($averageRating, 1).'</span>';
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($i <= $averageRating) {
+                            echo '<i class="bi bi-star-fill text-warning"></i>';
+                        } elseif ($i - 0.5 <= $averageRating) {
+                            echo '<i class="bi bi-star-half text-warning"></i>';
+                        } else {
+                            echo '<i class="bi bi-star text-warning"></i>';
+                        }
+                    }
+                    echo '<span class="ml-2">' . number_format($averageRating, 1) . '</span>';
                     echo '</div>';
 
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
@@ -144,16 +144,16 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '<div class="mb-4">';
                     echo '<h3>Reviews</h3>';
                     echo '<div class="star-rating mb-2">';
-                            for ($i = 1; $i <= 5; $i++) {
-                                if ($i <= $averageRating) {
-                                    echo '<i class="bi bi-star-fill text-warning"></i>';
-                                } elseif ($i - 0.5 <= $averageRating) {
-                                    echo '<i class="bi bi-star-half text-warning"></i>';
-                                } else {
-                                    echo '<i class="bi bi-star text-warning"></i>';
-                                }
-                            }
-                    echo '<span class="ml-2">'.number_format($averageRating, 1).'</span>';
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($i <= $averageRating) {
+                            echo '<i class="bi bi-star-fill text-warning"></i>';
+                        } elseif ($i - 0.5 <= $averageRating) {
+                            echo '<i class="bi bi-star-half text-warning"></i>';
+                        } else {
+                            echo '<i class="bi bi-star text-warning"></i>';
+                        }
+                    }
+                    echo '<span class="ml-2">' . number_format($averageRating, 1) . '</span>';
                     echo '</div>';
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                 } else {
@@ -168,23 +168,23 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '<div class="mb-4">';
                     echo '<h3>Reviews</h3>';
                     echo '<div class="star-rating mb-2">';
-                            for ($i = 1; $i <= 5; $i++) {
-                                if ($i <= $averageRating) {
-                                    echo '<i class="bi bi-star-fill text-warning"></i>';
-                                } elseif ($i - 0.5 <= $averageRating) {
-                                    echo '<i class="bi bi-star-half text-warning"></i>';
-                                } else {
-                                    echo '<i class="bi bi-star text-warning"></i>';
-                                }
-                            }
-                    echo '<span class="ml-2">'.number_format($averageRating, 1).'</span>';
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($i <= $averageRating) {
+                            echo '<i class="bi bi-star-fill text-warning"></i>';
+                        } elseif ($i - 0.5 <= $averageRating) {
+                            echo '<i class="bi bi-star-half text-warning"></i>';
+                        } else {
+                            echo '<i class="bi bi-star text-warning"></i>';
+                        }
+                    }
+                    echo '<span class="ml-2">' . number_format($averageRating, 1) . '</span>';
                     echo '</div>';
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                     echo '<a href="./add_product.php"><button class="btn btn-primary mt-auto mb-3">Add Product</button></a>';
                 }
                 echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
                 ?>
-                
+
             </div>
         </div>
     </div>
@@ -196,25 +196,25 @@ $reviews = $review->getReviewsByProviderId($userId);
         echo '<div class="col-12">';
         echo '<h2>Photos</h2>';
         echo '<div class="d-flex flex-wrap">';
-                // SQL query to select data
-                $dbconnector = new DbConnection();
-                $conn = $dbconnector->getConnection();
+        // SQL query to select data
+        $dbconnector = new DbConnection();
+        $conn = $dbconnector->getConnection();
 
-                //sql query for getting data
-                $sql = "SELECT image_path,image_name FROM image where user_id= '".$userId."' ";
+        //sql query for getting data
+        $sql = "SELECT image_path,image_name FROM image where user_id= '" . $userId . "' ";
 
-                $result = $conn->query($sql);
-                if ($result->num_rows > 0) {
-                    // Output data of each row
-                    while ($row = $result->fetch_assoc()) {
-                    echo '<div class="card m-2" style="align-items:center;border: none;">';
-                    echo '<img src="' . $row['image_path'] . '" class="card-img-top" alt="Image of ' . $row['image_name'] . '" style="width: 250px;height: 250px;">';
-                    echo '<button class="btn btn-danger" style="margin-top: 10px;">Delete</button>';
-                    echo '</div>';
-                    }
-                }
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while ($row = $result->fetch_assoc()) {
+                echo '<div class="card m-2" style="align-items:center;border: none;">';
+                echo '<img src="' . $row['image_path'] . '" class="card-img-top" alt="Image of ' . $row['image_name'] . '" style="width: 250px;height: 250px;">';
+                echo '<button class="btn btn-danger" style="margin-top: 10px;">Delete</button>';
+                echo '</div>';
+            }
+        }
         echo '</div>';
-        
+
         echo '<br>';
         include './footer.php';
 
@@ -227,91 +227,89 @@ $reviews = $review->getReviewsByProviderId($userId);
         echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
         echo '</div>';
         echo '<div class="modal-body">';
-            echo '<form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'?>" method="post" enctype="multipart/form-data" style="border:none;">';
-            echo '<div class="mb-3">';
-            echo '<label for="image" class="form-label">Select image to upload:</label>';
-            echo '<input type="file" name="image" id="image" class="form-control" required>';
-            echo '</div>';
-            echo '<div class="modal-footer" style="border:none;">';
-            echo '<button type="submit" class="btn btn-primary" name="submit">Upload</button>';
-            echo '<div>';
-            echo '</form>';
+        echo '<form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '?>" method="post" enctype="multipart/form-data" style="border:none;">';
+        echo '<div class="mb-3">';
+        echo '<label for="image" class="form-label">Select image to upload:</label>';
+        echo '<input type="file" name="image" id="image" class="form-control" required>';
+        echo '</div>';
+        echo '<div class="modal-footer" style="border:none;">';
+        echo '<button type="submit" class="btn btn-primary" name="submit">Upload</button>';
+        echo '<div>';
+        echo '</form>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
-        
     }
 
-// Check if the form was submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
-    // Directory to save the uploaded image
-    $targetDir = "C:/xampp/htdocs/GitHub/Wellassa-Uni-Hub/WellassaUniHub/assets/img/works_image/";
+    // Check if the form was submitted
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
+        // Directory to save the uploaded image
+        $targetDir = "C:/xampp/htdocs/GitHub/Wellassa-Uni-Hub/WellassaUniHub/assets/img/works_image/";
 
-    // Create the directory if it doesn't exist
-    if (!is_dir($targetDir)) {
-        mkdir($targetDir, 0755, true);
-    }
+        // Create the directory if it doesn't exist
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
 
-    // Get file information
-    $fileTmpPath = $_FILES['image']['tmp_name'];
-    $fileName = $_FILES['image']['name'];
-    $fileSize = $_FILES['image']['size'];
-    $fileType = $_FILES['image']['type'];
-    $fileError = $_FILES['image']['error'];
+        // Get file information
+        $fileTmpPath = $_FILES['image']['tmp_name'];
+        $fileName = $_FILES['image']['name'];
+        $fileSize = $_FILES['image']['size'];
+        $fileType = $_FILES['image']['type'];
+        $fileError = $_FILES['image']['error'];
 
-    // Allowed file types (you can add more types here)
-    $allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        // Allowed file types (you can add more types here)
+        $allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
-    // Check if file type is valid
-    if (in_array($fileType, $allowedFileTypes)) {
-        // Generate a unique file name (to prevent overwriting)
-        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-        $newFileName = uniqid('img_') . '.' . $fileExtension;
+        // Check if file type is valid
+        if (in_array($fileType, $allowedFileTypes)) {
+            // Generate a unique file name (to prevent overwriting)
+            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $newFileName = uniqid('img_') . '.' . $fileExtension;
 
-        // Full path to save the image
-        $targetFilePath = $targetDir . $newFileName;
+            // Full path to save the image
+            $targetFilePath = $targetDir . $newFileName;
 
-        // Check for upload errors
-        if ($fileError === UPLOAD_ERR_OK) {
-            // Move the uploaded file to the target directory
-            if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
-                // Save the path to the image in a format like ./assets/img/works_image/example.jpg
-                $savedFilePath = './assets/img/works_image/' . $newFileName;
+            // Check for upload errors
+            if ($fileError === UPLOAD_ERR_OK) {
+                // Move the uploaded file to the target directory
+                if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
+                    // Save the path to the image in a format like ./assets/img/works_image/example.jpg
+                    $savedFilePath = './assets/img/works_image/' . $newFileName;
 
-                echo "File uploaded successfully!<br>";
-                echo "Image Path: " . $savedFilePath;
+                    echo "File uploaded successfully!<br>";
+                    echo "Image Path: " . $savedFilePath;
 
-                // Saving the file to database
-                $stmt = $dbconn->prepare("INSERT INTO image (user_id, image_path, image_name) VALUES (?, ?, ?)");
-                $userId = 1; // Replace with actual user ID
-                $imageName = $newFileName;
+                    // Saving the file to database
+                    $stmt = $dbconn->prepare("INSERT INTO image (user_id, image_path, image_name) VALUES (?, ?, ?)");
+                    $userId = 1; // Replace with actual user ID
+                    $imageName = $newFileName;
 
-                $stmt->bind_param("iss", $userId, $savedFilePath, $imageName);
+                    $stmt->bind_param("iss", $userId, $savedFilePath, $imageName);
 
-                if ($stmt->execute()) {
-                    echo "Image path saved to database!";
+                    if ($stmt->execute()) {
+                        echo "Image path saved to database!";
+                    } else {
+                        echo "Failed to save image path: " . $stmt->error;
+                    }
+
+                    $stmt->close();
                 } else {
-                    echo "Failed to save image path: " . $stmt->error;
+                    echo "Error moving the uploaded file.";
                 }
-
-                $stmt->close();
-                
             } else {
-                echo "Error moving the uploaded file.";
+                echo "File upload error: " . $fileError;
             }
         } else {
-            echo "File upload error: " . $fileError;
+            echo "Invalid file type. Only JPG, PNG, and GIF are allowed.";
         }
     } else {
-        echo "Invalid file type. Only JPG, PNG, and GIF are allowed.";
+        echo "No file uploaded.";
     }
-} else {
-    echo "No file uploaded.";
-}
 
-        
+
     ?>
 
 </body>
@@ -336,6 +334,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
                         break;
                     case 'success_no_image':
                         messageElement.textContent = 'Profile updated successfully without changing the image.';
+                        messageElement.classList.add('success');
+                        break;
+                    case 'success_product_added':
+                        messageElement.textContent = 'Product added successfully.';
                         messageElement.classList.add('success');
                         break;
                     default:

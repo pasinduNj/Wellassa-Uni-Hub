@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $image_name = $userId . "_" . time() . "_" . basename($_FILES['profileImage']['name']);
-        $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/GitHub/Wellassa-Uni-Hub/WellassaUniHub/assets/img/profile_photo/";
+        $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/GitHub_Projects/Project1/WellassaUniHub//assets/img/profile_photo/";
         $target_file = $target_dir . $image_name;
 
         if (!is_dir($target_dir)) {

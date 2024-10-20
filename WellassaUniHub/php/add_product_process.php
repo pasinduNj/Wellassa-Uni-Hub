@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_FILES['image']['name'])) {
         $image_name = "prod_img_" . basename($_FILES['image']['name']);
         // Use __DIR__ to get the absolute path to the current PHP file
-        $target_dir = "/Users/pasinduj/Sites/Wellassa-Uni-Hub/WellassaUniHub/assets/img/products/";
+        $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/GitHub_Projects/Project1/WellassaUniHub//assets/img/products/";
 
         $target_file = $target_dir . $image_name;
 
@@ -44,19 +44,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Save the relative path to the database (for display in HTML)
             $image_path = "/assets/img/products/" . $image_name;
         } else {
-            echo "Sorry, there was an error uploading your file.";
+            header("Location: ../user_profile.php?userId=" . $userId . "&error=file_move_failed");
             exit();
         }
     }
 
     if ($product->addProduct($name, $price, $quantity, $description, $category, $provider_id, $image_path)) {
-        header("Location: ../shop.php");
+        header("Location: ../user_profile.php?userId=" . $userId . "&status=success_product_added");
         exit();
     } else {
-        echo "Error adding product.";
+        header("Location: ../user_profile.php?userId=" . $userId . "&error=database_update_failed");
     }
 } else {
-    echo "Invalid request method: " . $_SERVER["REQUEST_METHOD"]; // Debug statement
+    header("Location: ../user_profile.php?userId=" . $userId . "&status=0");
     http_response_code(405);
     echo "Method Not Allowed";
 }

@@ -73,11 +73,31 @@ $products = $product->getProducts($category, $min_price, $max_price);
                         <label for="category" class="form-label">Category</label>
                         <select class="form-select" id="category" name="category">
                             <option value="">All</option>
-                            <option value="camping" <?php echo $category == 'camping' ? 'selected' : ''; ?>>Camping</option>
-                            <option value="gift" <?php echo $category == 'gift' ? 'selected' : ''; ?>>Gift</option>
-                            <option value="electronics" <?php echo $category == 'electronics' ? 'selected' : ''; ?>>Electronics</option>
+                            <option value="electronics" <?php echo $category == 'electronics' ? 'selected' : ''; ?>>Electronics & Gadgets</option>
+                            <option value="stationery" <?php echo $category == 'stationery' ? 'selected' : ''; ?>>Stationery & Office Supplies</option>
+                            <option value="textbooks" <?php echo $category == 'textbooks' ? 'selected' : ''; ?>>Textbooks & Study Materials</option>
+                            <option value="laptops-accessories" <?php echo $category == 'laptops-accessories' ? 'selected' : ''; ?>>Laptops & Accessories</option>
+                            <option value="clothing" <?php echo $category == 'clothing' ? 'selected' : ''; ?>>Clothing & Apparel</option>
+                            <option value="footwear" <?php echo $category == 'footwear' ? 'selected' : ''; ?>>Footwear</option>
+                            <option value="backpacks" <?php echo $category == 'backpacks' ? 'selected' : ''; ?>>Bags & Backpacks</option>
+                            <option value="fitness" <?php echo $category == 'fitness' ? 'selected' : ''; ?>>Fitness & Sports Gear</option>
+                            <option value="food" <?php echo $category == 'food' ? 'selected' : ''; ?>>Food & Snacks</option>
+                            <option value="drinks" <?php echo $category == 'drinks' ? 'selected' : ''; ?>>Beverages & Drinks</option>
+                            <option value="gifts" <?php echo $category == 'gifts' ? 'selected' : ''; ?>>Gifts & Personalized Items</option>
+                            <option value="health-beauty" <?php echo $category == 'health-beauty' ? 'selected' : ''; ?>>Health & Beauty Products</option>
+                            <option value="home-appliances" <?php echo $category == 'home-appliances' ? 'selected' : ''; ?>>Home & Kitchen Appliances</option>
+                            <option value="furniture" <?php echo $category == 'furniture' ? 'selected' : ''; ?>>Furniture & Dorm Essentials</option>
+                            <option value="gaming" <?php echo $category == 'gaming' ? 'selected' : ''; ?>>Gaming & Entertainment</option>
+                            <option value="events-tickets" <?php echo $category == 'events-tickets' ? 'selected' : ''; ?>>Event Tickets & Activities</option>
+                            <option value="camping" <?php echo $category == 'camping' ? 'selected' : ''; ?>>Camping & Outdoor Gear</option>
+                            <option value="art-crafts" <?php echo $category == 'art-crafts' ? 'selected' : ''; ?>>Art & Crafts</option>
+                            <option value="mobile-accessories" <?php echo $category == 'mobile-accessories' ? 'selected' : ''; ?>>Mobile & Accessories</option>
+                            <option value="subscription-services" <?php echo $category == 'subscription-services' ? 'selected' : ''; ?>>Subscription Services</option>
+                            <option value="travel" <?php echo $category == 'travel' ? 'selected' : ''; ?>>Travel Accessories</option>
+                            <option value="bike-accessories" <?php echo $category == 'bike-accessories' ? 'selected' : ''; ?>>Bikes & Accessories</option>
                             <option value="others" <?php echo $category == 'others' ? 'selected' : ''; ?>>Others</option>
                         </select>
+
                     </div>
                     <div class="mb-3">
                         <label for="min_price" class="form-label">Min Price</label>
