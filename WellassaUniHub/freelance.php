@@ -52,7 +52,7 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <form class="d-flex" method="GET" style="border: none;">
-                        <input id="searchInput" class="form-control" type="search" name="search" placeholder="Search for freelancers by business name" aria-label="Search" value="<?php echo htmlspecialchars($search_query); ?>" style="flex: 7;">
+                        <input id="searchInput" class="form-control" type="search" name="search" placeholder="Search for Freelancers" aria-label="Search" value="<?php echo htmlspecialchars($search_query); ?>" style="flex: 7;">
                         <button class="btn btn-outline-success ms-2" type="submit" style="flex: 3;">Search</button>
                     </form>
                 </div>
