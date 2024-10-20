@@ -254,7 +254,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
                 data: {
                     customer_id: '<?php echo $customer_id; ?>',
                     provider_id: '<?php echo $provider_id; ?>',
-                    product_id: '<?php echo $productDetails['product_id']; ?>', // Make sure this matches your product table's primary key
+                    product_id: '<?php echo $productDetails['product_id']; ?>',
                     price: <?php echo $amount; ?>
                 },
                 dataType: 'json',
@@ -279,6 +279,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
                             address: "No.1, Galle Road",
                             city: "Colombo",
                             country: "Sri Lanka"
+
                         });
                     } else {
                         showMessage('alert-danger', 'Failed to process payment: ' + (response.message || 'Unknown error'));
@@ -286,18 +287,17 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error('AJAX error:', textStatus, errorThrown);
+                    console.log('Response Text:', jqXHR.responseText); // Log the full response
                     showMessage('alert-danger', 'An error occurred: ' + textStatus);
                 }
             });
         }
 
-
-        // Show message popup
         function showMessage(type, message) {
             $('#messagePopup').removeClass('alert-success alert-danger').addClass(type).text(message).fadeIn();
             setTimeout(function() {
                 $('#messagePopup').fadeOut();
-            }, 3000);
+            }, 5000);
         }
     </script>
 </body>
