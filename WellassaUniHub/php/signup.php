@@ -43,6 +43,7 @@ if (isset($_POST['userType'])) {
     $serviceType = $_POST['serviceType'];
     $joined_date = date('Y-m-d');
     $hashPassword = password_hash($password, PASSWORD_DEFAULT);
+    $amount_per = 50.00;
 
     // Check if email or contact number already exist for users
     $checkQuery = "SELECT * FROM user WHERE email = '$email' OR contact_number = '$contactNumber'";
@@ -78,9 +79,9 @@ if (isset($_POST['userType'])) {
         if ($run) {
             $userId = $id->generateServiceProviderId($conn);
             $query = "INSERT INTO user (user_id, first_name, last_name, email, contact_number, user_type, password, joined_date, 
-            business_name, nic_number, whatsapp_number, service_address, status) 
+            business_name, nic_number, whatsapp_number, service_address, status, amount_per) 
             VALUES ('$userId', '$firstName', '$lastName', '$email', '$contactNumber', '$serviceType', '$hashPassword', '$joined_date' ,
-             '$businessName', '$nicNumber', '$whatsappNumber', '$serviceAddress', 'active')";
+             '$businessName', '$nicNumber', '$whatsappNumber', '$serviceAddress', 'active', '$amount_per')";
 
             if ($conn->query($query) === TRUE) {
                 echo "<script>alert('Registration successful. Please log in.'); window.location.href = '../login.php';</script>";
