@@ -214,7 +214,7 @@ $reviews = $review->getReviewsByProviderId($providerId);
                                         <label for="review" class="form-label">Your Review</label>
                                         <textarea class="form-control" id="review" name="review" rows="3" required></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                                    <button type="submit" class="btn btn-primary" style="width: 95%;">Submit Review</button>
                                 </form>
                             </div>
                         </div>

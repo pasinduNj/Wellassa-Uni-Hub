@@ -204,7 +204,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
                             <label for="review" class="form-label">Your Review</label>
                             <textarea class="form-control" id="review" name="review" rows="3" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                        <button type="submit" class="btn btn-primary" style="width: 95%;">Submit Review</button>
                     </form>
                 </div>
             </div>
@@ -232,7 +232,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
             $('#reviewForm').on('submit', function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-                $.post('submit_review.php', formData, function(response) {
+                $.post('feedback.php', formData, function(response) {
                     showMessage(response.success ? 'alert-success' : 'alert-danger', response.message);
                     if (response.success) {
                         $('#reviewModal').modal('hide');

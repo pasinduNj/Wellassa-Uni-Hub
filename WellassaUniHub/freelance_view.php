@@ -125,35 +125,35 @@ $reviews = $review->getReviewsByProviderId($providerId);
                     <p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span><?= $user->getDescription() ?></p>
                     <p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>Reserve an advance with <b>Rs. <?= $user->getAmountPer() ?></b></p>
                     <br>
-                
+
                     <!--Display photos-->
-                <div class="row">
-                    <div class="col-12">
-                        <h2>Photos</h2>
-                        <div class="d-flex flex-wrap">
-                            <?php
+                    <div class="row">
+                        <div class="col-12">
+                            <h2>Photos</h2>
+                            <div class="d-flex flex-wrap">
+                                <?php
                                 // SQL query to select data
                                 $dbconnector = new DbConnection();
                                 $conn = $dbconnector->getConnection();
 
                                 //sql query for getting data
-                                $sql = "SELECT image_path,image_name FROM image where user_id= '".$providerId."' ";
+                                $sql = "SELECT image_path,image_name FROM image where user_id= '" . $providerId . "' ";
 
                                 $result = $conn->query($sql);
                                 if ($result->num_rows > 0) {
                                     // Output data of each row
                                     while ($row = $result->fetch_assoc()) {
-                                    echo '<div class="card m-2" style="">';
-                                    echo '<img src="' . $row['image_path'] . '" class="card-img-top" alt="Image of ' . $row['image_name'] . '" style="width: 250px;height: 250px;">';
-                                    echo '</div>';
+                                        echo '<div class="card m-2" style="">';
+                                        echo '<img src="' . $row['image_path'] . '" class="card-img-top" alt="Image of ' . $row['image_name'] . '" style="width: 250px;height: 250px;">';
+                                        echo '</div>';
                                     }
-                            }
-                            ?>
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <br>
-                
+                    <br>
+
                     <!--display the reviews -->
                     <div class="mb-4">
                         <h3>Reviews</h3>
@@ -227,7 +227,7 @@ $reviews = $review->getReviewsByProviderId($providerId);
                                             <label for="review" class="form-label">Your Review</label>
                                             <textarea class="form-control" id="review" name="review" rows="3" required></textarea>
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                                        <button type="submit" class="btn btn-primary" style="width: 95%;">Submit Review</button>
                                     </form>
                                 </div>
                             </div>
