@@ -48,7 +48,7 @@ if ($userType == "customer") {
                 <label for="email">Email</label>
                 <input type="email" class="form-control"  name="email" value="' . $user->getEmail() . '" readonly>
             </div>';
-                echo '<div class="form-group"></div>
+                echo '<div class="form-group">
                 <label for="phone">Phone</label>
                 <input type="text" class="form-control"  name="phone" value="' . $user->getPhone() . '">
             </div>';
@@ -109,7 +109,7 @@ if ($userType == "customer") {
                 <input type="file" class="form-control-file" name="profileImage">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button> &nbsp;
-            <a href="./user_profile.php" class="btn btn-success">Return to Profile</a>
+            <a href="../Reservation_view.php?userId=<?= $userId ?>" class="btn btn-success">Return to Home</a>
 
         </form>
     </div>
