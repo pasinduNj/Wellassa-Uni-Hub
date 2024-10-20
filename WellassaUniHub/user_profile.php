@@ -6,6 +6,7 @@ session_start();
 
 $db = new DBConnection();
 $userId = $_SESSION['user_id'];
+
 if (!empty($_GET['productId'])) {
     $productId = $_GET['productId'];
 }
@@ -83,6 +84,7 @@ $reviews = $review->getReviewsByProviderId($userId);
 
 <body>
     <?php
+    //nav bar according login & not login
     if (isset($_SESSION['user_name'])) {
         include './navbar2.php';
     } else {
@@ -105,6 +107,7 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span>  <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</span></a></p>';
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
+                
                 } elseif ($_SESSION['user_type'] == "sp_reservation") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
@@ -114,7 +117,7 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>  ' . $user->getDescription() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>  Reserve advance <b>Rs.' . $user->getAmountPer() . '</b></span></p>';
 
-                    //Display reviews
+                    //Display reviews sp_reservation type user
                     echo '<div class="mb-4">';
                     echo '<h3>Reviews</h3>';
                     echo '<div class="star-rating mb-2">';
@@ -129,68 +132,10 @@ $reviews = $review->getReviewsByProviderId($userId);
                     }
                     echo '<span class="ml-2">' . number_format($averageRating, 1) . '</span>';
                     echo '</div>';
-
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                     echo '<a href="./add_timeslot.php"><button class="btn btn-primary mt-auto mb-3">Add Time Slot</button></a>';
-<<<<<<< Updated upstream
                     echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
-=======
-                    //display timeslots booked
-                    // Fetch booked timeslots
-                    $query = "SELECT p.payment_id, u.first_name, u.last_name, u.email, u.contact_number, 
-    t.start_time, t.end_time, p.date_time, p.process_status
-FROM payment p
-JOIN user u ON p.customer_id = u.user_id
-JOIN timeslots t ON p.timeslot_id = t.timeslot_id
-WHERE p.provider_id = ?
-ORDER BY p.date_time DESC";
-
-                    $stmt = $dbconn->prepare($query);
-                    $stmt->bind_param("s", $userId);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-
-                    if ($result->num_rows > 0) {
-                        echo '<h2>Booked Timeslots</h2>';
-                        echo '<div class="table-responsive">';
-                        echo '<table class="table table-striped">';
-                        echo '<thead>';
-                        echo '<tr>';
-                        echo '<th>Customer Name</th>';
-                        echo '<th>Customer Email</th>';
-                        echo '<th>Phone Number</th>';
-                        echo '<th>Timeslot</th>';
-                        echo '<th>Paid Date</th>';
-                        echo '<th>Status</th>';
-                        echo '</tr>';
-                        echo '</thead>';
-                        echo '<tbody>';
-
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<tr>';
-                            echo '<td>' . htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) . '</td>';
-                            echo '<td>' . htmlspecialchars($row['email']) . '</td>';
-                            echo '<td>' . htmlspecialchars($row['contact_number']) . '</td>';
-                            echo '<td>' . htmlspecialchars($row['start_time'] . ' - ' . $row['end_time']) . '</td>';
-                            echo '<td>' . htmlspecialchars($row['date_time']) . '</td>';
-                            echo '<td>';
-                            echo '<select class="form-select status-select" data-payment-id="' . $row['payment_id'] . '">';
-                            echo '<option value="pending"' . ($row['process_status'] == 'pending' ? ' selected' : '') . '>Pending</option>';
-                            echo '<option value="reserved"' . ($row['process_status'] == 'reserved' ? ' selected' : '') . '>Reserved</option>';
-                            echo '</select>';
-                            echo '</td>';
-                            echo '</tr>';
-                        }
-
-                        echo '</tbody>';
-                        echo '</table>';
-                        echo '</div>';
-                    } else {
-                        echo '<p>No booked timeslots found.</p>';
-                    }
-
-                    $stmt->close();
->>>>>>> Stashed changes
+                    
                 } elseif ($_SESSION['user_type'] == "sp_freelance") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
@@ -199,7 +144,8 @@ ORDER BY p.date_time DESC";
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>  ' . $user->getAddress() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>  ' . $user->getDescription() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>  Reserve advance <b>Rs.' . $user->getAmountPer() . '</b></span></p>';
-                    //Display reviews
+                    
+                    //Display reviews sp_freelance type user
                     echo '<div class="mb-4">';
                     echo '<h3>Reviews</h3>';
                     echo '<div class="star-rating mb-2">';
@@ -216,6 +162,7 @@ ORDER BY p.date_time DESC";
                     echo '</div>';
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                     echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
+                
                 } elseif ($_SESSION['user_type'] == "sp_products") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
@@ -224,7 +171,8 @@ ORDER BY p.date_time DESC";
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-geo-alt mr-2"></i></span>  ' . $user->getAddress() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-info-circle mr-2"></i></span>  ' . $user->getDescription() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-currency-dollar mr-2"></i></span>  Reserve advance <b>Rs.' . $user->getAmountPer() . '</b></p>';
-                    //Display reviews
+                    
+                    //Display reviews sp_products type user
                     echo '<div class="mb-4">';
                     echo '<h3>Reviews</h3>';
                     echo '<div class="star-rating mb-2">';
@@ -241,7 +189,7 @@ ORDER BY p.date_time DESC";
                     echo '</div>';
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                     echo '<a href="./add_product.php"><button class="btn btn-primary mt-auto mb-3">Add Product</button></a>';
-                    echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
+                    //echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
                 }
 
                 ?>
@@ -251,8 +199,8 @@ ORDER BY p.date_time DESC";
     </div>
     <hr>
 
-    <?php
-    if ($_SESSION['user_type'] !== "customer") {
+    <?php // This for enable image delete option
+    if ($_SESSION['user_type'] == "sp_freelance" || $_SESSION['user_type'] == "sp_reservation") {
         echo '<div class="row">';
         echo '<div class="col-12" >';
         echo '<h2>Photos</h2>';
@@ -263,8 +211,8 @@ ORDER BY p.date_time DESC";
 
         //sql query for getting data
         $sql = "SELECT image_path,image_name FROM image where user_id= '" . $userId . "' ";
-
         $result = $conn->query($sql);
+
         if ($result->num_rows > 0) {
             // Output data of each row
             while ($row = $result->fetch_assoc()) {
@@ -299,10 +247,261 @@ ORDER BY p.date_time DESC";
 
     }
     echo '<br>';
+
+    // Order table for sp_freelance type user by 108
+    if($_SESSION['user_type'] == "sp_freelance"){
+
+        $dbconnector = new DbConnection();
+        $conn = $dbconnector->getConnection();
+        $sql = "SELECT CONCAT(user.first_name, ' ', user.last_name) AS customer_name,user.email AS customer_email,user.contact_number AS contact_number,payment.payment_id AS payment_id,payment.provider_id AS provider_id,payment.price AS amount,payment.date_time AS payment_date,payment.status AS status FROM payment JOIN user ON payment.customer_id = user.user_id WHERE payment.provider_id = '" . $userId . "' ";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0){
+        echo '<div class="container mt-5">';
+        echo '<h2>Orders</h2>';
+        echo '<table class="table table-bordered">';
+        echo '<thead>';
+        echo '<tr>';
+        echo '<th>Customer Name</th>';
+        echo '<th>Customer Email</th>';
+        echo '<th>Customer Phone</th>';
+        echo '<th>Amount</th>';
+        echo '<th>Payment Date</th>';
+        echo '<th>Status</th>';
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
+
+        while ($order = $result->fetch_assoc()) {
+            echo '<tr>';
+            echo '<td>' . htmlspecialchars($order['customer_name']) . '</td>';
+            echo '<td>' . htmlspecialchars($order['customer_email']) . '</td>';
+            echo '<td>' . htmlspecialchars($order['contact_number']) . '</td>';
+            echo '<td>' . htmlspecialchars($order['amount']) . '</td>';
+            echo '<td>' . htmlspecialchars($order['payment_date']) . '</td>';
+            echo '<td>';
+            echo '<form action="update_status.php" method="POST" style="border:none;">';
+            echo '<input type="hidden" name="payment_id" value="' . htmlspecialchars($order['payment_id']) . '">';
+            echo '<div style="display: flex-column; gap: 10px; align-items: center;">'; 
+            echo '<select name="status" class="form-control" style="width: 100%;">'; 
+            echo '<option value="pending"' . ($order['status'] == 'pending' ? ' selected' : '') . '>Pending</option>';
+            echo '<option value="shipped"' . ($order['status'] == 'shipped' ? ' selected' : '') . '>Shipped</option>';
+            echo '<option value="delivered"' . ($order['status'] == 'delivered' ? ' selected' : '') . '>Delivered</option>';
+            echo '</select>';
+            echo '<button type="submit" class="btn btn-primary" style="margin: 5px 0px 0px 0px;">Update</button>'; 
+            echo '</div>'; 
+            echo '</form>';
+            echo '</td>';
+            echo '</tr>';
+        }
+
+        echo '</tbody>';
+        echo '</table>';
+        echo '</div>';
+
+        }
+
+    //display timeslots booked by 109    
+    }elseif ($_SESSION['user_type'] == "sp_reservation"){
+        
+        // Fetch booked timeslots
+        $query = "SELECT p.payment_id, u.first_name, u.last_name, u.email, u.contact_number, t.start_time, t.end_time, p.date_time, p.process_status FROM payment p JOIN user u ON p.customer_id = u.user_id JOIN timeslots t ON p.timeslot_id = t.timeslot_id WHERE p.provider_id = ? ORDER BY p.date_time DESC";
+        $stmt = $dbconn->prepare($query);
+        $stmt->bind_param("s", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            echo '<h2>Booked Timeslots</h2>';
+            echo '<div class="table-responsive">';
+            echo '<table class="table table-striped">';
+            echo '<thead>';
+            echo '<tr>';
+            echo '<th>Customer Name</th>';
+            echo '<th>Customer Email</th>';
+            echo '<th>Phone Number</th>';
+            echo '<th>Timeslot</th>';
+            echo '<th>Paid Date</th>';
+            echo '<th>Status</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
+
+            while ($row = $result->fetch_assoc()) {
+                echo '<tr>';
+                echo '<td>' . htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['email']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['contact_number']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['start_time'] . ' - ' . $row['end_time']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['date_time']) . '</td>';
+                echo '<td>';
+                echo '<select class="form-select status-select" data-payment-id="' . $row['payment_id'] . '">';
+                echo '<option value="pending"' . ($row['process_status'] == 'pending' ? ' selected' : '') . '>Pending</option>';
+                echo '<option value="reserved"' . ($row['process_status'] == 'reserved' ? ' selected' : '') . '>Reserved</option>';
+                echo '</select>';
+                echo '</td>';
+                echo '</tr>';
+            }
+
+            echo '</tbody>';
+            echo '</table>';
+            echo '</div>';
+        } else {
+            echo '<p>No booked timeslots found.</p>';
+        }
+
+        $stmt->close();
+
+    // Order table for sp_products type user by 108
+    }else if($_SESSION['user_type'] == "sp_products"){
+
+        $dbconnector = new DbConnection();
+        $conn = $dbconnector->getConnection();
+        $sql = "SELECT CONCAT(user.first_name, ' ', user.last_name) AS customer_name,user.email AS customer_email,user.contact_number AS contact_number,product.name AS product_name,payment.payment_id AS payment_id,payment.provider_id AS provider_id,payment.price AS amount,payment.quantity AS quantity,payment.date_time AS payment_date,payment.status AS status FROM payment JOIN user ON payment.customerid = user.customerid JOIN product  ON payment.productid = product.productid WHERE payment.provider_id = '" . $userId . "' ";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0){
+        echo '<div class="container mt-5">';
+        echo '<h2>Orders</h2>';
+        echo '<table class="table table-bordered">';
+        echo '<thead>';
+        echo '<tr>';
+        echo '<th>Customer Name</th>';
+        echo '<th>Customer Email</th>';
+        echo '<th>Customer Phone</th>';
+        echo '<th>Product Name</th>';
+        echo '<th>Amount</th>';
+        echo '<th>Quantity</th>';
+        echo '<th>Payment Date</th>';
+        echo '<th>Status</th>';
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
+            while ($order = $result->fetch_assoc()) {
+                echo '<tr>';
+                echo '<td>' . htmlspecialchars($order['customer_name']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['customer_email']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['contact_number']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['product_name']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['amount']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['quantity']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['payment_date']) . '</td>';
+                echo '<td>';
+                echo '<form action="update_status.php" method="POST" style="border:none;">';
+                echo '<input type="hidden" name="payment_id" value="' . htmlspecialchars($order['payment_id']) . '">';
+                echo '<div style="display: flex-column; gap: 10px; align-items: center;">'; 
+                echo '<select name="status" class="form-control" style="width: 100%;">';  
+                echo '<option value="pending"' . ($order['status'] == 'pending' ? ' selected' : '') . '>Pending</option>';
+                echo '<option value="shipped"' . ($order['status'] == 'shipped' ? ' selected' : '') . '>Shipped</option>';
+                echo '<option value="delivered"' . ($order['status'] == 'delivered' ? ' selected' : '') . '>Delivered</option>';
+                echo '</select>';
+                echo '<button type="submit" class="btn btn-primary" style="margin: 5px 0px 0px 0px;">Update</button>'; 
+                echo '</div>'; 
+                echo '</form>';
+                echo '</td>';
+                echo '</tr>';
+            }
+
+        echo '</tbody>';
+        echo '</table>';
+        echo '</div>';
+
+        }
+    }else if($_SESSION['user_type'] == "customer"){
+        $dbconnector = new DbConnection();
+        $conn = $dbconnector->getConnection();
+        $sql = "SELECT";
+        $result = $conn->query($sql);
+
+        //My orders table for products type user by 108
+        echo '<div class="container mt-5">';
+        echo '<h2>My orders for products</h2>';
+        echo '<table class="table table-bordered">';
+        echo '<thead>';
+        echo '<tr>';
+        echo '<th>Provider Name</th>';
+        echo '<th>Provider Email</th>';
+        echo '<th>Provider Phone</th>';
+        echo '<th>Product Name</th>';
+        echo '<th>Amount</th>';
+        echo '<th>Quantity</th>';
+        echo '<th>Payment Date</th>';
+        echo '<th>Status</th>';
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
+            while ($order = $result->fetch_assoc()) {
+                echo '<tr>';
+                echo '<td>' . htmlspecialchars($order['customer_name']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['customer_email']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['contact_number']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['product_name']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['amount']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['quantity']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['payment_date']) . '</td>';
+                echo '<td>';
+                echo '<form action="update_status.php" method="POST" style="border:none;">';
+                echo '<input type="hidden" name="payment_id" value="' . htmlspecialchars($order['payment_id']) . '">';
+                echo '<div style="display: flex-column; gap: 10px; align-items: center;">'; 
+                echo '<select name="status" class="form-control" style="width: 100%;">';  
+                echo '<option value="pending"' . ($order['status'] == 'pending' ? ' selected' : '') . '>Pending</option>';
+                echo '<option value="shipped"' . ($order['status'] == 'shipped' ? ' selected' : '') . '>Shipped</option>';
+                echo '<option value="delivered"' . ($order['status'] == 'delivered' ? ' selected' : '') . '>Delivered</option>';
+                echo '</select>';
+                echo '<button type="submit" class="btn btn-primary" style="margin: 5px 0px 0px 0px;">Update</button>'; 
+                echo '</div>'; 
+                echo '</form>';
+                echo '</td>';
+                echo '</tr>';
+            }
+
+        echo '</tbody>';
+        echo '</table>';
+        echo '</div>';
+
+        $sql2 = "SELECT";
+        $result2 = $conn->query($sql2);
+        //My booking table for timeslot type user by 108
+        echo '<h2>My booking for Timeslots</h2>';
+        echo '<div class="table-responsive">';
+        echo '<table class="table table-striped">';
+        echo '<thead>';
+        echo '<tr>';
+        echo '<th>Provider Name</th>';
+        echo '<th>Provider Email</th>';
+        echo '<th>Provider Phone</th>';
+        echo '<th>Timeslot</th>';
+        echo '<th>Paid Date</th>';
+        echo '<th>Status</th>';
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
+        while ($row = $result2->fetch_assoc()) {
+            echo '<tr>';
+            echo '<td>' . htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) . '</td>';
+            echo '<td>' . htmlspecialchars($row['email']) . '</td>';
+            echo '<td>' . htmlspecialchars($row['contact_number']) . '</td>';
+            echo '<td>' . htmlspecialchars($row['start_time'] . ' - ' . $row['end_time']) . '</td>';
+            echo '<td>' . htmlspecialchars($row['date_time']) . '</td>';
+            echo '<td>';
+            echo '<select class="form-select status-select" data-payment-id="' . $row['payment_id'] . '">';
+            echo '<option value="pending"' . ($row['process_status'] == 'pending' ? ' selected' : '') . '>Pending</option>';
+            echo '<option value="reserved"' . ($row['process_status'] == 'reserved' ? ' selected' : '') . '>Reserved</option>';
+            echo '</select>';
+            echo '</td>';
+            echo '</tr>';
+        }
+
+        echo '</tbody>';
+        echo '</table>';
+        echo '</div>';
+    }
+
     include './footer.php'; 
     ?>
-    
-<?php 
+
+<?php // image upload modal
+
     //The popup prompt for upload image
     echo '<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">';
     echo '<div class="modal-dialog">';
@@ -313,8 +512,7 @@ ORDER BY p.date_time DESC";
     echo '</div>';
     echo '<div class="modal-body">';
     echo '<form action="./user_profile_upload_image.php" method="post" enctype="multipart/form-data" style="border:none;">';
-    echo '<div class="mb-3">';
-    echo '<label for="image" class="form-label">Select image to upload:</label>';
+    echo '<label for="image" class="form-label">Select an image to upload:</label>';
     echo '<input type="file" name="image" id="image" class="form-control" required>';
     echo '</div>';
     echo '<div class="modal-footer" style="border:none;">';
@@ -361,6 +559,10 @@ ORDER BY p.date_time DESC";
                         messageElement.textContent = 'The image deleted successfully.';
                         messageElement.classList.add('success');
                         break;
+                    case 'status_updated':
+                        messageElement.textContent = 'Order status updated successfully.';
+                        messageElement.classList.add('success');
+                        break;
                     default:
                         messageElement.textContent = 'An unknown status occurred. Please try again.';
                         messageElement.classList.add('error');
@@ -392,6 +594,9 @@ ORDER BY p.date_time DESC";
                     case 'image_not_found':
                         messageElement.textContent = 'The image not found in the directory. Please try again or contact support.';
                         break;
+                    case 'missing_data':
+                        messageElement.textContent = 'The specified data not found in the directory. Please try again or contact support.';
+                        break; 
                     default:
                         messageElement.textContent = 'An unknown error occurred. Please try again or contact support.';
                 }
@@ -410,7 +615,7 @@ ORDER BY p.date_time DESC";
 
 
     function deleteImage(imagePath) {
-        // Confirmation dialog
+        // Confirmation dialog by sajith 
         if (confirm("Are you sure you want to delete this image?")) {
             // Create an AJAX request
             var xhr = new XMLHttpRequest();
@@ -433,6 +638,7 @@ ORDER BY p.date_time DESC";
     }
 </script>
 <script>
+    //Geeth added
     document.addEventListener('DOMContentLoaded', function() {
         const statusSelects = document.querySelectorAll('.status-select');
         statusSelects.forEach(select => {
@@ -442,28 +648,28 @@ ORDER BY p.date_time DESC";
 
                 // Send AJAX request to update status
                 fetch('update_status.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `payment_id=${paymentId}&status=${newStatus}`
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Status updated successfully');
-                        } else {
-                            alert('Failed to update status');
-                            // Reset the select to its previous value
-                            this.value = this.getAttribute('data-original-value');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while updating the status');
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `payment_id=${paymentId}&status=${newStatus}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Status updated successfully');
+                    } else {
+                        alert('Failed to update status');
                         // Reset the select to its previous value
                         this.value = this.getAttribute('data-original-value');
-                    });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating the status');
+                    // Reset the select to its previous value
+                    this.value = this.getAttribute('data-original-value');
+                });
             });
 
             // Store the original value
