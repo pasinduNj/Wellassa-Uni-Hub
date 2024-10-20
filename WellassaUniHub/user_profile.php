@@ -215,6 +215,8 @@ $reviews = $review->getReviewsByProviderId($userId);
                 }
         echo '</div>';
         
+        echo '<br>';
+        include './footer.php';
 
         //The popup prompt for upload image
         echo '<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">';
@@ -241,12 +243,77 @@ $reviews = $review->getReviewsByProviderId($userId);
         echo '</div>';
         
     }
+
+// Check if the form was submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
+    // Directory to save the uploaded image
+    $targetDir = "C:/xampp/htdocs/GitHub/Wellassa-Uni-Hub/WellassaUniHub/assets/img/works_image/";
+
+    // Create the directory if it doesn't exist
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0755, true);
+    }
+
+    // Get file information
+    $fileTmpPath = $_FILES['image']['tmp_name'];
+    $fileName = $_FILES['image']['name'];
+    $fileSize = $_FILES['image']['size'];
+    $fileType = $_FILES['image']['type'];
+    $fileError = $_FILES['image']['error'];
+
+    // Allowed file types (you can add more types here)
+    $allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+    // Check if file type is valid
+    if (in_array($fileType, $allowedFileTypes)) {
+        // Generate a unique file name (to prevent overwriting)
+        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $newFileName = uniqid('img_') . '.' . $fileExtension;
+
+        // Full path to save the image
+        $targetFilePath = $targetDir . $newFileName;
+
+        // Check for upload errors
+        if ($fileError === UPLOAD_ERR_OK) {
+            // Move the uploaded file to the target directory
+            if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
+                // Save the path to the image in a format like ./assets/img/works_image/example.jpg
+                $savedFilePath = './assets/img/works_image/' . $newFileName;
+
+                echo "File uploaded successfully!<br>";
+                echo "Image Path: " . $savedFilePath;
+
+                // Saving the file to database
+                $stmt = $dbconn->prepare("INSERT INTO image (user_id, image_path, image_name) VALUES (?, ?, ?)");
+                $userId = 1; // Replace with actual user ID
+                $imageName = $newFileName;
+
+                $stmt->bind_param("iss", $userId, $savedFilePath, $imageName);
+
+                if ($stmt->execute()) {
+                    echo "Image path saved to database!";
+                } else {
+                    echo "Failed to save image path: " . $stmt->error;
+                }
+
+                $stmt->close();
+                
+            } else {
+                echo "Error moving the uploaded file.";
+            }
+        } else {
+            echo "File upload error: " . $fileError;
+        }
+    } else {
+        echo "Invalid file type. Only JPG, PNG, and GIF are allowed.";
+    }
+} else {
+    echo "No file uploaded.";
+}
+
         
     ?>
-    <br>
-    <?php
-    include './footer.php';
-    ?>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
