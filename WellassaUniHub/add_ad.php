@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo" />
@@ -14,7 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <!-- Custom CSS -->
     <style>
         body {
             background-color: #f8f9fa;
@@ -62,7 +60,7 @@
                 <div class="form-container p-4">
                     <h2 class="text-center mb-4">Add New Advertisement</h2>
                     <?php
-                    if (isset($_GET['S'])) {
+                    if (isset($_GET['S']) ) {
                         if ($_GET['S'] == 1) {
                             echo '<div class="alert alert-success" role="alert">Advertisement Added Successfully</div>';
                         } else {
@@ -100,7 +98,8 @@
         <div class="row">
             <div class="col-md-12">
                 <h2 class="text-center mb-4">Registered Users</h2>
-                <table class="table table-bordered">
+                
+                <table class="table table-bordered" id="userTable"> 
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -114,8 +113,7 @@
                         </tr>
                     </thead>
                     <tbody id="userTableBody">
-                        <!-- User rows will be appended here by JavaScript -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
@@ -125,7 +123,8 @@
         <div class="row">
             <div class="col-md-12">
                 <h2 class="text-center mb-4">Payment Details</h2>
-                <table class="table table-bordered">
+                <button class="btn btn-success mb-2" onclick="downloadTableAsPDF('paymentTable')">Download as PDF</button>
+                <table class="table table-bordered" id="paymentTable">
                     <thead>
                         <tr>
                             <th>Payment ID</th>
@@ -137,8 +136,7 @@
                         </tr>
                     </thead>
                     <tbody id="paymentTableBody">
-                        <!-- Payment rows will be appended here by JavaScript -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
@@ -146,28 +144,27 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="text-center mb-4">Product Details</h2>
-                <table class="table table-bordered">
+                <h2 class="text-center mb-4">Product  Details</h2>
+                <button class="btn btn-success mb-2" onclick="downloadTableAsPDF('productTable')">Download as PDF</button>
+                <table class="table table-bordered" id="productTable">
                     <thead>
                         <tr>
                             <th>Product ID</th>
                             <th>Product Name</th>
                             <th>Provider ID</th>
                             <th>Price</th>
-                            <th>Qty</th>
+                            <th>Availeble Quanty</th>
 
                         </tr>
                     </thead>
                     <tbody id="productTableBody">
-                        <!-- Payment rows will be appended here by JavaScript -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
     </div>
 
 
-    <!-- Bootstrap JS (optional, for certain Bootstrap features) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -194,45 +191,60 @@
                 })
                 .catch(error => console.error('Error fetching user data:', error));
         });
-
-        fetch('./php/fetch_payments.php')
-            .then(response => response.json())
-            .then(data => {
-                const paymentTableBody = document.getElementById('paymentTableBody');
-                data.forEach(payment => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
+            
+            // Fetch payment details
+            fetch('./php/fetch_payments.php')
+                .then(response => response.json())
+                .then(data => {
+                    const paymentTableBody = document.getElementById('paymentTableBody');
+                    data.forEach(payment => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
                             <td>${payment.payment_id}</td>
                             <td>${payment.customer_id}</td>
-                           
                             <td>${payment.price}</td>
                             <td>${payment.date_time}</td>
                             <td>${payment.status}</td>
                         `;
-                    paymentTableBody.appendChild(row);
-                });
-            })
-            .catch(error => console.error('Error fetching payment data:', error));
-        fetch('./php/fetch_products.php')
-            .then(response => response.json())
-            .then(data => {
-                console.log('Fetched product data:', data); // Debugging output
-                const productTableBody = document.getElementById('productTableBody');
-                data.forEach(product => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                <td>${product.product_id}</td>
-                <td>${product.name}</td>
-                <td>${product.provider_id}</td>
-                <td>${product.price}</td>
-                <td>${product.quantity}</td>
-            `;
-                    productTableBody.appendChild(row);
-                });
-            })
-            .catch(error => console.error('Error fetching product data:', error));
+                        paymentTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching payment data:', error));
+            
+            // Fetch product details
+            fetch('./php/fetch_products.php')
+                .then(response => response.json())
+                .then(data => {
+                    const productTableBody = document.getElementById('productTableBody');
+                    data.forEach(product => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${product.product_id}</td>
+                            <td>${product.name}</td>
+                            <td>${product.provider_id}</td>
+                            <td>${product.price}</td>
+                            <td>${product.quantity}</td>
+                        `;
+                        productTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching product data:', error));
+      
+        
 
+        function downloadTableAsPDF(tableId) {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'pt', 'a4');
+            const table = document.getElementById(tableId);
 
+            html2canvas(table).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 210;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.save(`${tableId}.pdf`);
+            });
+        }
         function disableUser(userId) {
             if (confirm('Are you sure you want to disable this user?')) {
                 fetch('./php/disable_user.php', {
