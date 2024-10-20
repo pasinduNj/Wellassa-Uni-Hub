@@ -48,7 +48,7 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
     <!-- Search Bar Section -->
     <section class="search-section py-5 bg-light">
         <div class="container">
-            <h2 class="text-center mb-4">Search for Freelancers</h2>
+            <h2 class="text-center mb-4">Freelancers</h2>
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <form class="d-flex" method="GET" style="border: none;">
