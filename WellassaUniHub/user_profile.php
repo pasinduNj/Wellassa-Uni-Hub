@@ -156,7 +156,7 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '<span class="ml-2">' . number_format($averageRating, 1) . '</span>';
                     echo '</div>';
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
-                } else {
+                } elseif ($_SESSION['user_type'] == "sp_products") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span>  <a href="tel:+94' . $user->getPhone() . '">'  . $user->getPhone() . '</span></a></p>';
