@@ -16,6 +16,7 @@ $conn = $db->getConnection();
 $category = isset($_GET['category']) ? $_GET['category'] : null;
 $min_price = isset($_GET['min_price']) ? $_GET['min_price'] : null;
 $max_price = isset($_GET['max_price']) ? $_GET['max_price'] : null;
+$search_query = isset($_GET['search']) ? $_GET['search'] : '';
 
 $product = new Product($conn);
 $products = $product->getProducts($category, $min_price, $max_price);
@@ -48,6 +49,14 @@ $products = $product->getProducts($category, $min_price, $max_price);
         .filter-form {
             margin-bottom: 30px;
         }
+
+        #searchInput {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -69,6 +78,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
             <div class="col-md-3" style="position: sticky; top: 15%; z-index: 1000; align-self: flex-start;">
                 <h4>Filters</h4>
                 <form action="" method="GET" class="filter-form" style="padding: 5px;">
+                    <input type="text" id="searchInput" name="search" placeholder="Search products..." value="<?php echo htmlspecialchars($search_query); ?>">
                     <div class="mb-3">
                         <label for="category" class="form-label">Category</label>
                         <select class="form-select" id="category" name="category">
@@ -112,12 +122,12 @@ $products = $product->getProducts($category, $min_price, $max_price);
             </div>
             <div class="col-md-8 offset-md-1">
                 <h2 class="mb-4">Shop</h2>
-                <div class="row">
+                <div id="productContainer" class="row">
                     <?php if (empty($products)) : ?>
                         <p>No products found.</p>
                     <?php else : ?>
                         <?php foreach ($products as $product) : ?>
-                            <div class="col-md-4 mb-4">
+                            <div class="col-md-4 mb-4 product-item">
                                 <div class="card h-100">
                                     <img src=".<?php echo htmlspecialchars($product['image_path']); ?>" class="card-img-top" alt="Product Image">
                                     <div class="card-body">
@@ -125,8 +135,6 @@ $products = $product->getProducts($category, $min_price, $max_price);
                                         <p class="card-text"><?php echo htmlspecialchars($product['description']); ?></p>
                                         <p class="card-text"><strong>Price:</strong> LKR <?php echo htmlspecialchars($product['price']); ?></p>
                                         <p class="card-text"><strong>Category:</strong> <?php echo htmlspecialchars($product['category']); ?></p>
-
-
                                         <?php
                                         if ($utype == "") {
                                             echo '<a href="./signup.php" class="btn btn-primary">Login to View</a>';
@@ -140,7 +148,6 @@ $products = $product->getProducts($category, $min_price, $max_price);
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
-
             </div>
         </div>
     </div>
@@ -154,6 +161,28 @@ $products = $product->getProducts($category, $min_price, $max_price);
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="assets/js/script.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const productContainer = document.getElementById('productContainer');
+            const products = document.querySelectorAll('.product-item');
+
+            searchInput.addEventListener('input', function() {
+                const searchQuery = this.value.toLowerCase();
+
+                products.forEach(product => {
+                    const productName = product.querySelector('.card-title').textContent.toLowerCase();
+                    const productDescription = product.querySelector('.card-text').textContent.toLowerCase();
+
+                    if (productName.includes(searchQuery) || productDescription.includes(searchQuery)) {
+                        product.style.display = 'block';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
