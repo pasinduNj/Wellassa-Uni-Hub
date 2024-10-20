@@ -27,6 +27,7 @@ $merchant_secret = "NjY3MjAxNzYzNDE0NjczMDA5OTQwNDk4MTA0NTEzNTU2MDI4NDA2";
 $currency = "LKR";
 $order_id = 1228450;
 $amount = $productDetails['price']; // Ensure amount is defined
+$provider_id = $productDetails['provider_id']; // Ensure provider ID is defined
 
 // Generate hash for PayHere
 $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.', '') . $currency . strtoupper(md5($merchant_secret))));
@@ -136,7 +137,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
                     <h2><?php echo htmlspecialchars($productDetails['name']); ?></h2>
                     <p><?php echo htmlspecialchars($productDetails['description']); ?></p>
                     <p><strong>Price:</strong> LKR <?php echo htmlspecialchars($productDetails['price']); ?></p>
-                    <p><strong>Category:</strong> <?php echo htmlspecialchars($productDetails['category']); ?></p>
+                    <p><strong>Stock:</strong> <?php echo htmlspecialchars($productDetails['quantity']); ?></p>
                     <form action="add_cart.php" method="POST" style="border: none;">
                         <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($id); ?>">
                         <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
