@@ -72,7 +72,7 @@ $products = $product->getProducts($category, $min_price, $max_price);
         <!-- Search Bar Section -->
         <section class="search-section py-5 bg-light">
             <div class="container">
-                <h2 class="text-center mb-4">Wellassa UniHub Products</h2>
+                <h2 class="text-center mb-4">Our Products</h2>
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <form class="d-flex" method="GET" style="border: none;">

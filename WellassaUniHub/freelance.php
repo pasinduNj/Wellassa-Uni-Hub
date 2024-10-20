@@ -48,7 +48,7 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
     <!-- Search Bar Section -->
     <section class="search-section py-5 bg-light">
         <div class="container">
-            <h2 class="text-center mb-4">Freelancers</h2>
+            <h2 class="text-center mb-4">Our Freelancers</h2>
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <form class="d-flex" method="GET" style="border: none;">
@@ -63,7 +63,6 @@ $search_query = isset($_GET['search']) ? $_GET['search'] : '';
     <!--Display freelancers as cards-->
     <section class="store-section py-5">
         <div class="container">
-            <h2 class="text-center mb-5">Our Freelancers</h2>
 
             <div class="container mt-5">
                 <div id="freelancerContainer" class="row justify-content-center">
