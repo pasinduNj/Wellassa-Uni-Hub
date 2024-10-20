@@ -104,7 +104,8 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '<h1 class="col-md-3 mb-3">' . $user->getFirstName() . ' ' . $user->getLastName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span>  <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</span></a></p>';
-                    echo '<a href="/php/edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
+                    echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
+
                 } elseif ($_SESSION['user_type'] == "sp_reservation") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
@@ -132,6 +133,7 @@ $reviews = $review->getReviewsByProviderId($userId);
 
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                     echo '<a href="./add_timeslot.php"><button class="btn btn-primary mt-auto mb-3">Add Time Slot</button></a>';
+
                 } elseif ($_SESSION['user_type'] == "sp_freelance") {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
@@ -156,7 +158,7 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '<span class="ml-2">' . number_format($averageRating, 1) . '</span>';
                     echo '</div>';
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
-                } elseif ($_SESSION['user_type'] == "sp_products") {
+                } else {
                     echo '<h1 class="col-md-6 mb-3">' . $user->getBusinessName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span>  <a href="tel:+94' . $user->getPhone() . '">'  . $user->getPhone() . '</span></a></p>';
@@ -182,7 +184,7 @@ $reviews = $review->getReviewsByProviderId($userId);
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
                     echo '<a href="./add_product.php"><button class="btn btn-primary mt-auto mb-3">Add Product</button></a>';
                 }
-                echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Image</button>';
+                
                 ?>
 
             </div>
@@ -191,11 +193,12 @@ $reviews = $review->getReviewsByProviderId($userId);
     <hr>
 
     <?php
-    if ($_SESSION['user_type'] !== "customer") {
+    if ($_SESSION['user_type'] !== "customer" && $_SESSION['user_type'] !== "admin") {
+        echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload an Image</button>';
         echo '<div class="row">';
-        echo '<div class="col-12">';
+        echo '<div class="col-12" >';
         echo '<h2>Photos</h2>';
-        echo '<div class="d-flex flex-wrap">';
+        echo '<div class="d-flex flex-wrap" style="align-items:center;justify-content:center;">';
         // SQL query to select data
         $dbconnector = new DbConnection();
         $conn = $dbconnector->getConnection();
@@ -209,8 +212,32 @@ $reviews = $review->getReviewsByProviderId($userId);
             while ($row = $result->fetch_assoc()) {
                 echo '<div class="card m-2" style="align-items:center;border: none;">';
                 echo '<img src="' . $row['image_path'] . '" class="card-img-top" alt="Image of ' . $row['image_name'] . '" style="width: 250px;height: 250px;">';
-                echo '<button class="btn btn-danger" style="margin-top: 10px;">Delete</button>';
+                echo '<button type="button" class="btn btn-danger" style="margin-top: 10px;" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Image</button>';
                 echo '</div>';
+                echo '
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete this image?
+                                    </div>
+                                    <div class="modal-footer" style="display: flex; justify-content: center; gap: 10px; border-top: none;">
+                                        <form method="POST" action="delete_upload_image.php" style="border: none; margin: 0; display: flex; gap: 10px;">
+                                            <input type="hidden" name="imagePath" value="' . $row['image_path'] . '">
+                                            <button type="submit" class="btn btn-danger" style="border: none;">Delete</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border: none;">Cancel</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+
+
             }
         }
         echo '</div>';
@@ -227,7 +254,7 @@ $reviews = $review->getReviewsByProviderId($userId);
         echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
         echo '</div>';
         echo '<div class="modal-body">';
-        echo '<form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '?>" method="post" enctype="multipart/form-data" style="border:none;">';
+        echo '<form action="./user_profile_upload_image.php" method="post" enctype="multipart/form-data" style="border:none;">';
         echo '<div class="mb-3">';
         echo '<label for="image" class="form-label">Select image to upload:</label>';
         echo '<input type="file" name="image" id="image" class="form-control" required>';
@@ -241,72 +268,6 @@ $reviews = $review->getReviewsByProviderId($userId);
         echo '</div>';
         echo '</div>';
         echo '</div>';
-    }
-
-    // Check if the form was submitted
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
-        // Directory to save the uploaded image
-        $targetDir = "C:/xampp/htdocs/GitHub/Wellassa-Uni-Hub/WellassaUniHub/assets/img/works_image/";
-
-        // Create the directory if it doesn't exist
-        if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0755, true);
-        }
-
-        // Get file information
-        $fileTmpPath = $_FILES['image']['tmp_name'];
-        $fileName = $_FILES['image']['name'];
-        $fileSize = $_FILES['image']['size'];
-        $fileType = $_FILES['image']['type'];
-        $fileError = $_FILES['image']['error'];
-
-        // Allowed file types (you can add more types here)
-        $allowedFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
-
-        // Check if file type is valid
-        if (in_array($fileType, $allowedFileTypes)) {
-            // Generate a unique file name (to prevent overwriting)
-            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-            $newFileName = uniqid('img_') . '.' . $fileExtension;
-
-            // Full path to save the image
-            $targetFilePath = $targetDir . $newFileName;
-
-            // Check for upload errors
-            if ($fileError === UPLOAD_ERR_OK) {
-                // Move the uploaded file to the target directory
-                if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
-                    // Save the path to the image in a format like ./assets/img/works_image/example.jpg
-                    $savedFilePath = './assets/img/works_image/' . $newFileName;
-
-                    echo "File uploaded successfully!<br>";
-                    echo "Image Path: " . $savedFilePath;
-
-                    // Saving the file to database
-                    $stmt = $dbconn->prepare("INSERT INTO image (user_id, image_path, image_name) VALUES (?, ?, ?)");
-                    $userId = 1; // Replace with actual user ID
-                    $imageName = $newFileName;
-
-                    $stmt->bind_param("iss", $userId, $savedFilePath, $imageName);
-
-                    if ($stmt->execute()) {
-                        echo "Image path saved to database!";
-                    } else {
-                        echo "Failed to save image path: " . $stmt->error;
-                    }
-
-                    $stmt->close();
-                } else {
-                    echo "Error moving the uploaded file.";
-                }
-            } else {
-                echo "File upload error: " . $fileError;
-            }
-        } else {
-            echo "Invalid file type. Only JPG, PNG, and GIF are allowed.";
-        }
-    } else {
-        echo "No file uploaded.";
     }
 
 
@@ -323,6 +284,7 @@ $reviews = $review->getReviewsByProviderId($userId);
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
         const error = urlParams.get('error');
+
         const messageElement = document.getElementById('statusMessage');
 
         if (status || error) {
@@ -336,8 +298,12 @@ $reviews = $review->getReviewsByProviderId($userId);
                         messageElement.textContent = 'Profile updated successfully without changing the image.';
                         messageElement.classList.add('success');
                         break;
-                    case 'success_product_added':
-                        messageElement.textContent = 'Product added successfully.';
+                    case 'uploaded':
+                        messageElement.textContent = 'New image inserted successfully.';
+                        messageElement.classList.add('success');
+                        break;
+                    case 'deleted':
+                        messageElement.textContent = 'The image deleted successfully.';
                         messageElement.classList.add('success');
                         break;
                     default:
@@ -362,10 +328,14 @@ $reviews = $review->getReviewsByProviderId($userId);
                         messageElement.textContent = 'Database prepare statement failed. Please try again or contact support.';
                         break;
                     case 'database_update_failed':
+                    case 'exec_error':
                         messageElement.textContent = 'Database update failed. Please try again or contact support.';
                         break;
                     case 'file_move_failed':
                         messageElement.textContent = 'Failed to move uploaded file. Please try again or contact support.';
+                        break;
+                    case 'image_not_found':
+                        messageElement.textContent = 'The image not found in the directory. Please try again or contact support.';
                         break;
                     default:
                         messageElement.textContent = 'An unknown error occurred. Please try again or contact support.';
@@ -382,6 +352,30 @@ $reviews = $review->getReviewsByProviderId($userId);
             }, 5000);
         }
     });
+
+
+    function deleteImage(imagePath) {
+        // Confirmation dialog
+        if (confirm("Are you sure you want to delete this image?")) {
+            // Create an AJAX request
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "delete_upload_image.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            // Handle response
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Check if the response indicates success
+                    if (xhr.responseText.includes("Image deleted successfully")) {
+                        location.reload(); // Reloads the page
+                    }
+                }
+            };
+
+            // Send the image path to the server
+            xhr.send("imagePath=" + encodeURIComponent(imagePath));
+        }
+    }
 </script>
 
 </html>

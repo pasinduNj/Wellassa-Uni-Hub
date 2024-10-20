@@ -109,7 +109,7 @@ if ($userType == "customer") {
                 <input type="file" class="form-control-file" name="profileImage">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button> &nbsp;
-            <a href="./user_profile.php" class="btn btn-success">Return to Profile</a>
+            <a href="../Reservation_view.php?userId=<?= $userId ?>" class="btn btn-success">Return to Home</a>
 
         </form>
     </div>
