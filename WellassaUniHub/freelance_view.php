@@ -26,6 +26,18 @@ $review = new Review($dbconn);
 $averageRating = $review->getAverageRatingByProvider($providerId);
 $reviews = $review->getReviewsByProviderId($providerId);
 
+// PayHere integration
+$merchant_id = '1228450'; // Replace with your PayHere Merchant ID
+$merchant_secret = "NjY3MjAxNzYzNDE0NjczMDA5OTQwNDk4MTA0NTEzNTU2MDI4NDA2";
+$currency = "LKR";
+$order_id = uniqid(); // Generate a unique order ID
+$amount = $user->getAmountPer(); // Get the amount from the user object
+
+// Generate hash for PayHere
+$hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.', '') . $currency . strtoupper(md5($merchant_secret))));
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -174,7 +186,8 @@ $reviews = $review->getReviewsByProviderId($providerId);
 
                         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $providerId): ?>
 
-                            <a href="./cart.php"><button class="btn btn-primary" onclick="">Pay now</button></a>
+                            <button class="btn btn-success btn-custom" onclick="paymentGateWay()">Pay Now</button>
+                    <script src="https://www.payhere.lk/lib/payhere.js"></script>
 
                             <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#reviewModal">
                                 Write a Review
@@ -378,6 +391,29 @@ $reviews = $review->getReviewsByProviderId($providerId);
                 });
             });
         });
+
+
+        function paymentGateWay() {
+            payhere.startPayment({
+                sandbox: true,
+                merchant_id: "<?php echo $merchant_id; ?>",
+                return_url: "http://localhost/notify.php",
+                cancel_url: "http://localhost/notify.php",
+                notify_url: "http://localhost/notify.php",
+                order_id: "<?php echo $order_id; ?>",
+                items: "Service Booking",
+                amount: <?php echo $amount; ?>,
+                currency: "<?php echo $currency; ?>",
+                hash: "<?php echo $hash; ?>",
+                first_name: "<?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Customer'; ?>",
+                last_name: "",
+                email: "<?php echo isset($_SESSION['user_email']) ? $_SESSION['user_email'] : 'customer@example.com'; ?>",
+                phone: "<?php echo isset($_SESSION['user_phone']) ? $_SESSION['user_phone'] : '0000000000'; ?>",
+                address: "<?php echo isset($_SESSION['user_address']) ? $_SESSION['user_address'] : 'Customer Address'; ?>",
+                city: "<?php echo isset($_SESSION['user_city']) ? $_SESSION['user_city'] : 'City'; ?>",
+                country: "Sri Lanka"
+            });
+        }
     </script>
 
 
