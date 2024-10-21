@@ -9,7 +9,7 @@ $userId = $_SESSION['user_id'];
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     // Directory to save the uploaded image
-    $targetDir = "C:/xampp/htdocs/GitHub/Wellassa-Uni-Hub/WellassaUniHub/assets/img/works_image/";
+    $targetDir = "C:/xampp/htdocs/GitHub_Projects/Project1/WellassaUniHub/assets/img/works_image/";
 
     // Create the directory if it doesn't exist
     if (!is_dir($targetDir)) {
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
         // Generate a unique file name (to prevent overwriting)
         $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
         $uniqnum = time();
-        $newFileName = $userId.'_'.$uniqnum . '.' . $fileExtension;
+        $newFileName = $userId . '_' . $uniqnum . '.' . $fileExtension;
 
         // Full path to save the image
         $targetFilePath = $targetDir . $newFileName;
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
 
                 //echo "image uploaded successfully!<br>";
                 //echo "Image Path: " . $savedFilePath;
-                
+
 
                 // Saving the file to database
                 $stmt = $conn->prepare("INSERT INTO image (user_id, image_path, image_name,modified_date) VALUES (?, ?, ?,NOW())");
@@ -54,36 +54,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
                 $stmt->bind_param("sss", $userId, $savedFilePath, $userId);
 
                 if ($stmt->execute()) {
-            
+
                     header("Location: ./user_profile.php?status=uploaded");
                     exit();
                 } else {
-                    
+
                     header("Location: ./user_profile.php?error=exec_error");
                     exit();
                 }
 
                 $stmt->close();
-                
             } else {
-                
+
                 header("Location: ./user_profile.php?&error=file_move_failed");
                 exit();
             }
         } else {
-            
+
             header("Location: ./user_profile.php?error=0");
             exit();
-            
         }
     } else {
-        
+
         header("Location: ./user_profile.php?error=invalid_file_type");
         exit();
     }
 } else {
-    
+
     header("Location: ./user_profile.php?error=0");
     exit();
 }
-

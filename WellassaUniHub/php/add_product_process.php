@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_FILES['image']['name'])) {
         $image_name = "prod_img_" . basename($_FILES['image']['name']);
         // Use __DIR__ to get the absolute path to the current PHP file
-        $target_dir =  "Applications/XAMPP/xamppfiles/htdocs/Wellassa-Uni-Hub/WellassaUniHub/assets/img/products";
+        $target_dir =  "C:/xampp/htdocs/GitHub_Projects/Project1/WellassaUniHub/assets/img/products/";
 
         $target_file = $target_dir . $image_name;
 

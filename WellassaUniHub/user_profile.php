@@ -262,9 +262,10 @@ $reviews = $review->getReviewsByProviderId($userId);
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-            
+
+
+            echo '<div class="table-responsive col-11">';
             echo '<h2>Orders</h2>';
-            echo '<div class="table-responsive">';
             echo '<table class="table table-striped">';
             echo '<thead>';
             echo '<tr>';
@@ -365,7 +366,7 @@ $reviews = $review->getReviewsByProviderId($userId);
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-            
+
             echo '<h2>Orders</h2>';
             echo '<div class="table-responsive">';
             echo '<table class="table table-striped">';
@@ -417,8 +418,9 @@ $reviews = $review->getReviewsByProviderId($userId);
         $result = $conn->query($sql);
 
         //My orders table for products type user by 108
+
+        echo '<div class="table-responsive col-11" style="margin-left: 4%;">';
         echo '<h2>My orders for products</h2>';
-        echo '<div class="table-responsive">';
         echo '<table class="table table-striped">';
         echo '<thead>';
         echo '<tr>';
@@ -469,7 +471,7 @@ $reviews = $review->getReviewsByProviderId($userId);
         $stmt->execute();
         $result2 = $stmt->get_result();
 
-        
+
         echo '<h2>My booking for Timeslots</h2>';
         echo '<div class="table-responsive">';
         echo '<table class="table table-striped">';
@@ -511,7 +513,7 @@ $reviews = $review->getReviewsByProviderId($userId);
         $result3 = $conn->query($sql3);
 
         if ($result3->num_rows > 0) {
-            
+
             echo '<h2>My placements for freelancers</h2>';
             echo '<div class="table-responsive">';
             echo '<table class="table table-striped">';
@@ -553,7 +555,6 @@ $reviews = $review->getReviewsByProviderId($userId);
             echo '</tbody>';
             echo '</table>';
             echo '</div>';
-
         }
     }
 
@@ -621,6 +622,10 @@ $reviews = $review->getReviewsByProviderId($userId);
                         break;
                     case 'status_updated':
                         messageElement.textContent = 'Order status updated successfully.';
+                        messageElement.classList.add('success');
+                        break;
+                    case 'success_product_added':
+                        messageElement.textContent = 'Product Added successfully.';
                         messageElement.classList.add('success');
                         break;
                     default:

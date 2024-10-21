@@ -10,6 +10,7 @@ $conn = $db->getConnection();
 $timeslot_id = $_POST['timeslot_id'];
 //provider_id
 $userId = $_POST['cus_id'];
+
 // Function to generate new reservation ID
 function generateReservationID($conn)
 {
@@ -63,6 +64,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = "Reservation created! Please proceed to payment.";
         $_SESSION['reservation_id'] = $reservation_id;
         $_SESSION['timeslot_id'] = $timeslot_id;
+
+        // Set up PayHere payment details
+        $_SESSION['payhere'] = [
+            'merchant_id' => '1228450', // Your PayHere Merchant ID
+            'merchant_secret' => 'NjY3MjAxNzYzNDE0NjczMDA5OTQwNDk4MTA0NTEzNTU2MDI4NDA2', // Your PayHere Merchant Secret
+            'currency' => 'LKR',
+            'order_id' => $reservation_id, // Use reservation ID as order ID
+            'amount' => 500.00, // Set the appropriate amount for your reservation
+        ];
+
+        // Generate hash for PayHere
+        $hash = strtoupper(md5(
+            $_SESSION['payhere']['merchant_id'] .
+                $_SESSION['payhere']['order_id'] .
+                number_format($_SESSION['payhere']['amount'], 2, '.', '') .
+                $_SESSION['payhere']['currency'] .
+                strtoupper(md5($_SESSION['payhere']['merchant_secret']))
+        ));
+        $_SESSION['payhere']['hash'] = $hash;
     } else {
         $message = "Error: " . $stmt->error;
     }
@@ -161,11 +181,6 @@ if (!$timeslot_details && isset($_SESSION['timeslot_id'])) {
 </head>
 
 <body>
-    <?php
-    //current_id
-    $user = $_SESSION['user_id'];
-
-    ?>
     <div class="container">
         <h1>Reserve Timeslot</h1>
         <?php
@@ -192,17 +207,35 @@ if (!$timeslot_details && isset($_SESSION['timeslot_id'])) {
         <div class="button-group">
             <a href="cancel_reservation.php<?php echo $returnUserId ? '?userId=' . $returnUserId : ''; ?>" class="btn back-btn">Back to Available Timeslots</a>
             <?php if (isset($_SESSION['reservation_id'])) : ?>
-                <form action="process_payment.php" method="post" style="display: inline;">
-                    <input type="hidden" name="reservation_id" value="<?php echo $_SESSION['reservation_id']; ?>">
-                    <input type="hidden" name="user_id" value="<?php echo $returnUserId; ?>">
-                    <input type="hidden" name="cus_id" value="<?php echo $userId; ?>">
-                    <input type="hidden" name="current_id" value="<?php echo $user; ?>">
-                    <input type="hidden" name="timeslot_id" value="<?php echo $timeslot_id; ?>">
-                    <button type="submit" class="btn payment-btn">Proceed to Payment</button>
-                </form>
+                <button class="btn payment-btn" onclick="paymentGateWay()">Proceed to Payment</button>
             <?php endif; ?>
         </div>
     </div>
+
+    <script src="https://www.payhere.lk/lib/payhere.js"></script>
+    <script>
+        function paymentGateWay() {
+            payhere.startPayment({
+                sandbox: true,
+                merchant_id: "<?php echo $_SESSION['payhere']['merchant_id']; ?>",
+                return_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.php",
+                cancel_url: "http://localhost/Wellassa-Uni-Hub/WellassaUniHub/shop.php",
+                notify_url: "http://localhost/notify.php",
+                order_id: "<?php echo $_SESSION['payhere']['order_id']; ?>",
+                items: "Timeslot Reservation",
+                amount: <?php echo $_SESSION['payhere']['amount']; ?>,
+                currency: "<?php echo $_SESSION['payhere']['currency']; ?>",
+                hash: "<?php echo $_SESSION['payhere']['hash']; ?>",
+                first_name: "John", // You can replace this with actual user's first name
+                last_name: "Doe", // You can replace this with actual user's last name
+                email: "john.doe@example.com", // You can replace with actual user's email
+                phone: "0771234567", // You can replace with actual user's phone
+                address: "No 123, Main Street, City", // You can replace with actual address
+                city: "City", // You can replace with actual city
+                country: "Sri Lanka", // You can replace with actual country
+            });
+        }
+    </script>
 </body>
 
 </html>

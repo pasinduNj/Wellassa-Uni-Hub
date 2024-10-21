@@ -99,6 +99,8 @@
                 <input type="number" id="interval_duration" name="interval_duration" required min="1" value="30">
 
                 <input type="submit" value="Add Timeslots">
+                <input type="button" class="btn btn-primary mt-2" onclick="window.location.href = './user_profile.php';" value="Return to Profile" style="margin-left: 0;">
+
             </form>
         </div>
     </div>
