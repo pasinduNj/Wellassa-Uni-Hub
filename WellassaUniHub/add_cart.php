@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once './php/classes/db_connection.php';
+require_once './php/classes/Product.php';
 
 // Initialize cart if not already set
 if (!isset($_SESSION['cart'])) {
@@ -11,18 +12,25 @@ if (!isset($_SESSION['cart'])) {
 $db = new DbConnection();
 $conn = $db->getConnection();
 
+// Initialize Product class
+$product = new Product($conn);
+
 // Add product to the cart
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     $product_id = (int)$_POST['product_id'];
     $product_name = $_POST['product_name'];
     $product_price = (float)$_POST['product_price'];
     $product_image = $_POST['product_image'];
+    $available_stock = (int)$_POST['available_stock'];
 
     // Check if the product is already in the cart
     $found = false;
     foreach ($_SESSION['cart'] as $key => $item) {
         if ($item['id'] == $product_id) {
-            // If product is already in cart, we won't increase the quantity automatically
+            // If product is already in cart, increment quantity if stock allows
+            if ($item['quantity'] < $available_stock) {
+                $_SESSION['cart'][$key]['quantity']++;
+            }
             $found = true;
             break;
         }
@@ -35,7 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
             'name' => $product_name,
             'price' => $product_price,
             'quantity' => 1,
-            'image_path' => $product_image
+            'image_path' => $product_image,
+            'available_stock' => $available_stock
         ];
     }
 }
@@ -47,7 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $quantity = (int)$_POST['quantity'];
 
         if (isset($_SESSION['cart'][$key])) {
-            $_SESSION['cart'][$key]['quantity'] = $quantity;
+            $product_id = $_SESSION['cart'][$key]['id'];
+            $productDetails = $product->getProductById($product_id);
+            $available_stock = $productDetails['quantity'];
+
+            // Limit quantity to available stock
+            $_SESSION['cart'][$key]['quantity'] = min($quantity, $available_stock);
         }
 
         // Recalculate item total and cart total
@@ -60,7 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         // Return the updated totals as JSON response
         echo json_encode([
             'item_total' => number_format($item_total, 2),
-            'cart_total' => number_format($cart_total, 2)
+            'cart_total' => number_format($cart_total, 2),
+            'quantity' => $_SESSION['cart'][$key]['quantity'],
+            'available_stock' => $available_stock
         ]);
         exit;
     } elseif ($_POST['action'] === 'remove_item') {
@@ -88,7 +104,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 // Regular PHP logic for displaying the cart
 $cart = $_SESSION['cart'];
 $total = 0;
-foreach ($cart as $item) {
+foreach ($cart as $key => $item) {
+    // Update available stock for each item
+    $productDetails = $product->getProductById($item['id']);
+    $_SESSION['cart'][$key]['available_stock'] = $productDetails['quantity'];
     $total += $item['price'] * $item['quantity'];
 }
 
@@ -105,12 +124,10 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cardo|Cinzel|Poppins:200,300,400,500,600,700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -122,25 +139,20 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
             max-width: 100px;
             height: auto;
         }
-
         .cart-item {
             margin-bottom: 20px;
         }
-
         .back-to-shop {
             position: absolute;
             top: 80px;
-            /* Adjust based on navbar height */
             left: 20px;
             z-index: 1000;
         }
-
         .btn-custom {
             width: 60%;
         }
     </style>
 </head>
-
 <body>
     <?php
     if (isset($_SESSION['user_name'])) {
@@ -150,7 +162,6 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
     }
     ?>
 
-    <!-- Back to Shop Button -->
     <a href="shop.php" class="btn btn-primary back-to-shop">Back to Shop</a>
 
     <div class="container mt-5">
@@ -178,7 +189,12 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
                                     <td><?php echo htmlspecialchars($item['name']); ?></td>
                                     <td>LKR <?php echo htmlspecialchars($item['price']); ?></td>
                                     <td>
-                                        <input type="number" class="form-control quantity" data-key="<?php echo $key; ?>" value="<?php echo htmlspecialchars($item['quantity']); ?>" min="1">
+                                        <input type="number" class="form-control quantity" 
+                                               data-key="<?php echo $key; ?>" 
+                                               value="<?php echo htmlspecialchars($item['quantity']); ?>" 
+                                               min="1" 
+                                               max="<?php echo htmlspecialchars($item['available_stock']); ?>">
+                                        <small class="text-muted">Available: <?php echo htmlspecialchars($item['available_stock']); ?></small>
                                     </td>
                                     <td>LKR <span class="item-total"><?php echo number_format($item['price'] * $item['quantity'], 2); ?></span></td>
                                     <td>
@@ -191,132 +207,141 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
                     <div class="text-center">
                         <h4>Total: LKR <span id="cart-total"><?php echo number_format($total, 2); ?></span></h4>
                         <button class="btn btn-success btn-custom" onclick="paymentGateWay()">Buy Now</button>
-                        <script src="https://www.payhere.lk/lib/payhere.js"></script>
-
                     </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
-    <?php
-    include './footer.php';
-    ?>
-    <!-- jQuery -->
+    <?php include './footer.php'; ?>
+    
     <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.payhere.lk/lib/payhere.js"></script>
 
     <script>
-     $(document).ready(function() {
-    // Update total when quantity changes using AJAX
-    $('.quantity').on('input', function() {
-        const key = $(this).data('key');
-        const quantity = parseInt($(this).val(), 10);
+    $(document).ready(function() {
+        // Update total when quantity changes using AJAX
+        $('.quantity').on('input', function() {
+            const key = $(this).data('key');
+            const quantity = parseInt($(this).val(), 10);
+            const max = parseInt($(this).attr('max'), 10);
 
-        $.ajax({
-            url: '', // Current PHP file
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                action: 'update_quantity',
-                key: key,
-                quantity: quantity
-            },
-            success: function(response) {
-                // Update the item total and cart total in the UI
-                $(`tr[data-key="${key}"]`).find('.item-total').text(response.item_total);
-                $('#cart-total').text(response.cart_total);
-                // Update the total for the payment gateway
-                window.cartTotal = parseFloat(response.cart_total.replace(',', ''));
-                // Update the hash for PayHere
-                updatePayHereHash(window.cartTotal);
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
+            // Ensure quantity doesn't exceed max
+            if (quantity > max) {
+                $(this).val(max);
             }
+
+            $.ajax({
+                url: '', // Current PHP file
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    action: 'update_quantity',
+                    key: key,
+                    quantity: Math.min(quantity, max)
+                },
+                success: function(response) {
+                    // Update the item total and cart total in the UI
+                    $(`tr[data-key="${key}"]`).find('.item-total').text(response.item_total);
+                    $('#cart-total').text(response.cart_total);
+                    // Update the quantity input
+                    $(`tr[data-key="${key}"]`).find('.quantity').val(response.quantity);
+                    // Update the available stock display
+                    $(`tr[data-key="${key}"]`).find('small').text(`Available: ${response.available_stock}`);
+                    // Update the total for the payment gateway
+                    window.cartTotal = parseFloat(response.cart_total.replace(',', ''));
+                    // Update the hash for PayHere
+                    updatePayHereHash(window.cartTotal);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        // Remove item using AJAX
+        $('.remove-item').click(function(event) {
+            event.preventDefault();
+            const key = $(this).data('key');
+
+            $.ajax({
+                url: '',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    action: 'remove_item',
+                    key: key
+                },
+                success: function(response) {
+                    // Update the cart total in the UI
+                    $('#cart-total').text(response.cart_total);
+                    // Remove the item from the table
+                    $(`tr[data-key="${key}"]`).remove();
+                    // Update the total for the payment gateway
+                    window.cartTotal = parseFloat(response.cart_total.replace(',', ''));
+                    // Update the hash for PayHere
+                    updatePayHereHash(window.cartTotal);
+                    
+                    // If cart is empty, reload the page to show empty cart message
+                    if ($('.cart-item').length === 0) {
+                        location.reload();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
         });
     });
 
-    // Remove item using AJAX
-    $('.remove-item').click(function(event) {
-        event.preventDefault();
-        const key = $(this).data('key');
+    function updatePayHereHash(total) {
+        const merchantId = '<?php echo $merchant_id; ?>';
+        const merchantSecret = '<?php echo $merchant_secret; ?>';
+        const orderId = '<?php echo $order_id; ?>';
+        const currency = '<?php echo $currency; ?>';
 
-        $.ajax({
-            url: '', // Current PHP file
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                action: 'remove_item',
-                key: key
-            },
-            success: function(response) {
-                // Update the cart total in the UI
-                $('#cart-total').text(response.cart_total);
-                // Remove the item from the table
-                $(`tr[data-key="${key}"]`).remove();
-                // Update the total for the payment gateway
-                window.cartTotal = parseFloat(response.cart_total.replace(',', ''));
-                // Update the hash for PayHere
-                updatePayHereHash(window.cartTotal);
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
-        });
-    });
-});
+        // Format total to two decimal places
+        const formattedTotal = parseFloat(total).toFixed(2);
 
-function updatePayHereHash(total) {
-    const merchantId = '<?php echo $merchant_id; ?>';
-    const merchantSecret = '<?php echo $merchant_secret; ?>';
-    const orderId = '<?php echo $order_id; ?>';
-    const currency = '<?php echo $currency; ?>';
+        // Generate new hash
+        const hashString = merchantId + orderId + formattedTotal + currency + CryptoJS.MD5(merchantSecret).toString().toUpperCase();
+        const newHash = CryptoJS.MD5(hashString).toString().toUpperCase();
 
-    // Format total to two decimal places
-    const formattedTotal = parseFloat(total).toFixed(2);
+        // Update global hash variable
+        window.payHereHash = newHash;
+    }
 
-    // Generate new hash
-    const hashString = merchantId + orderId + formattedTotal + currency + CryptoJS.MD5(merchantSecret).toString().toUpperCase();
-    const newHash = CryptoJS.MD5(hashString).toString().toUpperCase();
+    function paymentGateWay() {
+        const orderId = '<?php echo $order_id; ?>';
+        const total = window.cartTotal || <?php echo number_format($total, 2, '.', ''); ?>;
 
-    // Update global hash variable
-    window.payHereHash = newHash;
-}
+        // Ensure the amount is formatted correctly (two decimal places)
+        const formattedTotal = parseFloat(total).toFixed(2);
 
-function paymentGateWay() {
-    const orderId = '<?php echo $order_id; ?>';
-    const total = window.cartTotal || <?php echo number_format($total, 2, '.', ''); ?>;
+        const payment = {
+            "sandbox": true,
+            "merchant_id": "<?php echo $merchant_id; ?>",
+            "return_url": "http://localhost/notify.php",
+            "cancel_url": "http://localhost/notify.php",
+            "notify_url": "http://localhost/notify.php",
+            "order_id": orderId,
+            "items": "Your Order",
+            "currency": "<?php echo $currency; ?>",
+            "amount": formattedTotal,
+            "first_name": "<?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : ''; ?>",
+            "last_name": "",
+            "email": "<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>",
+            "phone": "",
+            "address": "",
+            "city": "",
+            "country": "",
+            "hash": window.payHereHash || "<?php echo $hash; ?>"
+        };
 
-    // Ensure the amount is formatted correctly (two decimal places)
-    const formattedTotal = parseFloat(total).toFixed(2);
+        console.log("Payment object:", payment);  // Ensure values are correct
 
-    const payment = {
-        "sandbox": true,
-        "merchant_id": "<?php echo $merchant_id; ?>",
-        "return_url": "http://localhost/notify.php",
-        "cancel_url": "http://localhost/notify.php",
-        "notify_url": "http://localhost/notify.php",
-        "order_id": orderId,
-        "items": "Your Order",
-        "currency": "<?php echo $currency; ?>",
-        "amount": formattedTotal,
-        "first_name": "<?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : ''; ?>",
-        "last_name": "",
-        "email": "<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>",
-        "phone": "",
-        "address": "",
-        "city": "",
-        "country": "",
-        "hash": window.payHereHash || "<?php echo $hash; ?>"
-    };
-
-    console.log("Payment object:", payment);  // Ensure values are correct
-
-    payhere.startPayment(payment);
-}
-
+        payhere.startPayment(payment);
+    }
     </script>
 </body>
-
 </html>
