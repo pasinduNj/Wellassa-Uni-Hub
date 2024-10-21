@@ -104,7 +104,7 @@ $reviews = $review->getReviewsByProviderId($userId);
             <div class="col-md-9">
                 <?php
                 if ($_SESSION['user_type'] == "customer") {
-                    echo '<h1 class="col-md-3 mb-3">' . $user->getFirstName() . ' ' . $user->getLastName() . '</h1>';
+                    echo '<h1 class="col-md-6 mb-3">' . $user->getFirstName() . ' ' . $user->getLastName() . '</h1>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-envelope mr-2"></i></span>  ' . $user->getEmail() . '</span></p>';
                     echo '<p class="mb-2"><span class="mr-2"><i class="bi bi-telephone mr-2"></i></span>  <a href="tel:+94' . $user->getPhone() . '">' . $user->getPhone() . '</span></a></p>';
                     echo '<a href="./edit_user_profile.php"><button class="btn btn-primary mt-auto mb-3">Edit Profile</button></a>';
@@ -258,13 +258,14 @@ $reviews = $review->getReviewsByProviderId($userId);
 
         $dbconnector = new DbConnection();
         $conn = $dbconnector->getConnection();
-        $sql = "SELECT CONCAT(user.first_name, ' ', user.last_name) AS customer_name,user.email AS customer_email,user.contact_number AS contact_number,payment.payment_id AS payment_id,payment.provider_id AS provider_id,payment.price AS amount,payment.date_time AS payment_date,payment.status AS status FROM payment JOIN user ON payment.customer_id = user.user_id WHERE payment.provider_id = '" . $userId . "' ";
+        $sql = "SELECT CONCAT(user.first_name, ' ', user.last_name) AS customer_name,user.email AS customer_email,user.contact_number AS contact_number,payment.payment_id AS payment_id,payment.provider_id AS provider_id,payment.price AS amount,payment.date_time AS payment_date,payment.process_status AS status FROM payment JOIN user ON payment.customer_id = user.user_id WHERE payment.provider_id = '" . $userId . "' ";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-            echo '<div class="container mt-5">';
+            
             echo '<h2>Orders</h2>';
-            echo '<table class="table table-bordered">';
+            echo '<div class="table-responsive">';
+            echo '<table class="table table-striped">';
             echo '<thead>';
             echo '<tr>';
             echo '<th>Customer Name</th>';
@@ -285,13 +286,12 @@ $reviews = $review->getReviewsByProviderId($userId);
                 echo '<td>' . htmlspecialchars($order['amount']) . '</td>';
                 echo '<td>' . htmlspecialchars($order['payment_date']) . '</td>';
                 echo '<td>';
-                echo '<form action="update_status.php" method="POST" style="border:none;">';
+                echo '<form action="update_order_status.php" method="POST" style="border:none;">';
                 echo '<input type="hidden" name="payment_id" value="' . htmlspecialchars($order['payment_id']) . '">';
                 echo '<div style="display: flex-column; gap: 10px; align-items: center;">';
                 echo '<select name="status" class="form-control" style="width: 100%;">';
                 echo '<option value="pending"' . ($order['status'] == 'pending' ? ' selected' : '') . '>Pending</option>';
                 echo '<option value="shipped"' . ($order['status'] == 'shipped' ? ' selected' : '') . '>Shipped</option>';
-                echo '<option value="delivered"' . ($order['status'] == 'delivered' ? ' selected' : '') . '>Delivered</option>';
                 echo '</select>';
                 echo '<button type="submit" class="btn btn-primary" style="margin: 5px 0px 0px 0px;">Update</button>';
                 echo '</div>';
@@ -361,13 +361,14 @@ $reviews = $review->getReviewsByProviderId($userId);
 
         $dbconnector = new DbConnection();
         $conn = $dbconnector->getConnection();
-        $sql = "SELECT CONCAT(user.first_name, ' ', user.last_name) AS customer_name,user.email AS customer_email,user.contact_number AS contact_number,product.name AS product_name,payment.payment_id AS payment_id,payment.provider_id AS provider_id,payment.price AS amount,payment.quantity AS quantity,payment.date_time AS payment_date,payment.status AS status FROM payment JOIN user ON payment.customerid = user.customerid JOIN product  ON payment.productid = product.productid WHERE payment.provider_id = '" . $userId . "' ";
+        $sql = "SELECT CONCAT(user.first_name, ' ', user.last_name) AS customer_name,user.email AS customer_email,user.contact_number AS contact_number,product.name AS product_name,payment.payment_id AS payment_id,payment.provider_id AS provider_id,payment.price AS amount,payment.quantity AS quantity,payment.date_time AS payment_date,payment.process_status AS status FROM payment JOIN user ON payment.customer_id = user.user_id JOIN product  ON payment.product_id = product.product_id WHERE payment.provider_id = '" . $userId . "' ";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-            echo '<div class="container mt-5">';
+            
             echo '<h2>Orders</h2>';
-            echo '<table class="table table-bordered">';
+            echo '<div class="table-responsive">';
+            echo '<table class="table table-striped">';
             echo '<thead>';
             echo '<tr>';
             echo '<th>Customer Name</th>';
@@ -391,13 +392,12 @@ $reviews = $review->getReviewsByProviderId($userId);
                 echo '<td>' . htmlspecialchars($order['quantity']) . '</td>';
                 echo '<td>' . htmlspecialchars($order['payment_date']) . '</td>';
                 echo '<td>';
-                echo '<form action="update_status.php" method="POST" style="border:none;">';
+                echo '<form action="update_order_status.php" method="POST" style="border:none;">';
                 echo '<input type="hidden" name="payment_id" value="' . htmlspecialchars($order['payment_id']) . '">';
                 echo '<div style="display: flex-column; gap: 10px; align-items: center;">';
                 echo '<select name="status" class="form-control" style="width: 100%;">';
                 echo '<option value="pending"' . ($order['status'] == 'pending' ? ' selected' : '') . '>Pending</option>';
                 echo '<option value="shipped"' . ($order['status'] == 'shipped' ? ' selected' : '') . '>Shipped</option>';
-                echo '<option value="delivered"' . ($order['status'] == 'delivered' ? ' selected' : '') . '>Delivered</option>';
                 echo '</select>';
                 echo '<button type="submit" class="btn btn-primary" style="margin: 5px 0px 0px 0px;">Update</button>';
                 echo '</div>';
@@ -413,13 +413,13 @@ $reviews = $review->getReviewsByProviderId($userId);
     } else if ($_SESSION['user_type'] == "customer") {
         $dbconnector = new DbConnection();
         $conn = $dbconnector->getConnection();
-        $sql = "SELECT";
+        $sql = "SELECT CONCAT(user.first_name, ' ', user.last_name) AS provider_name,user.email AS provider_email,user.contact_number AS provider_phone,product.name AS product_name,payment.payment_id AS payment_id,payment.price AS amount,payment.quantity AS quantity,payment.date_time AS payment_date,payment.process_status AS status FROM payment JOIN user ON payment.provider_id = user.user_id JOIN product  ON payment.product_id = product.product_id WHERE payment.customer_id = '" . $userId . "' ";
         $result = $conn->query($sql);
 
         //My orders table for products type user by 108
-        echo '<div class="container mt-5">';
         echo '<h2>My orders for products</h2>';
-        echo '<table class="table table-bordered">';
+        echo '<div class="table-responsive">';
+        echo '<table class="table table-striped">';
         echo '<thead>';
         echo '<tr>';
         echo '<th>Provider Name</th>';
@@ -435,20 +435,20 @@ $reviews = $review->getReviewsByProviderId($userId);
         echo '<tbody>';
         while ($order = $result->fetch_assoc()) {
             echo '<tr>';
-            echo '<td>' . htmlspecialchars($order['customer_name']) . '</td>';
-            echo '<td>' . htmlspecialchars($order['customer_email']) . '</td>';
-            echo '<td>' . htmlspecialchars($order['contact_number']) . '</td>';
+            echo '<td>' . htmlspecialchars($order['provider_name']) . '</td>';
+            echo '<td>' . htmlspecialchars($order['provider_email']) . '</td>';
+            echo '<td>' . htmlspecialchars($order['provider_phone']) . '</td>';
             echo '<td>' . htmlspecialchars($order['product_name']) . '</td>';
             echo '<td>' . htmlspecialchars($order['amount']) . '</td>';
             echo '<td>' . htmlspecialchars($order['quantity']) . '</td>';
             echo '<td>' . htmlspecialchars($order['payment_date']) . '</td>';
             echo '<td>';
-            echo '<form action="update_status.php" method="POST" style="border:none;">';
+            echo '<form action="update_order_status.php" method="POST" style="border:none;">';
             echo '<input type="hidden" name="payment_id" value="' . htmlspecialchars($order['payment_id']) . '">';
             echo '<div style="display: flex-column; gap: 10px; align-items: center;">';
             echo '<select name="status" class="form-control" style="width: 100%;">';
-            echo '<option value="pending"' . ($order['status'] == 'pending' ? ' selected' : '') . '>Pending</option>';
-            echo '<option value="shipped"' . ($order['status'] == 'shipped' ? ' selected' : '') . '>Shipped</option>';
+            echo '<option value="pending"' . ($order['status'] == 'pending' ? ' selected' : '') . 'hidden >Pending</option>';
+            echo '<option value="shipped"' . ($order['status'] == 'shipped' ? ' selected' : '') . 'hidden >Shipped</option>';
             echo '<option value="delivered"' . ($order['status'] == 'delivered' ? ' selected' : '') . '>Delivered</option>';
             echo '</select>';
             echo '<button type="submit" class="btn btn-primary" style="margin: 5px 0px 0px 0px;">Update</button>';
@@ -462,9 +462,14 @@ $reviews = $review->getReviewsByProviderId($userId);
         echo '</table>';
         echo '</div>';
 
-        $sql2 = "SELECT";
-        $result2 = $conn->query($sql2);
         //My booking table for timeslot type user by 108
+        $query = "SELECT p.payment_id, u.first_name, u.last_name, u.email, u.contact_number, t.start_time, t.end_time, p.date_time, p.process_status FROM payment p JOIN user u ON p.provider_id = u.user_id JOIN timeslots t ON p.timeslot_id = t.timeslot_id WHERE p.customer_id = ? ORDER BY p.date_time DESC";
+        $stmt = $dbconn->prepare($query);
+        $stmt->bind_param("s", $userId);
+        $stmt->execute();
+        $result2 = $stmt->get_result();
+
+        
         echo '<h2>My booking for Timeslots</h2>';
         echo '<div class="table-responsive">';
         echo '<table class="table table-striped">';
@@ -479,6 +484,7 @@ $reviews = $review->getReviewsByProviderId($userId);
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
+
         while ($row = $result2->fetch_assoc()) {
             echo '<tr>';
             echo '<td>' . htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) . '</td>';
@@ -488,8 +494,8 @@ $reviews = $review->getReviewsByProviderId($userId);
             echo '<td>' . htmlspecialchars($row['date_time']) . '</td>';
             echo '<td>';
             echo '<select class="form-select status-select" data-payment-id="' . $row['payment_id'] . '">';
-            echo '<option value="pending"' . ($row['process_status'] == 'pending' ? ' selected' : '') . '>Pending</option>';
-            echo '<option value="reserved"' . ($row['process_status'] == 'reserved' ? ' selected' : '') . '>Reserved</option>';
+            echo '<option value="pending"' . ($row['process_status'] == 'pending' ? ' selected' : '') . 'hidden >Pending</option>';
+            echo '<option value="reserved"' . ($row['process_status'] == 'reserved' ? ' selected' : '') . 'hidden >Reserved</option>';
             echo '</select>';
             echo '</td>';
             echo '</tr>';
@@ -497,7 +503,58 @@ $reviews = $review->getReviewsByProviderId($userId);
 
         echo '</tbody>';
         echo '</table>';
+
         echo '</div>';
+
+        //My orders in freelance
+        $sql3 = "SELECT CONCAT(user.first_name, ' ', user.last_name) AS provider_name,user.email AS provider_email,user.contact_number AS provider_phone,payment.payment_id AS payment_id,payment.provider_id AS provider_id,payment.price AS amount,payment.date_time AS payment_date,payment.process_status AS status FROM payment JOIN user ON payment.provider_id = user.user_id WHERE user.user_type = 'sp_freelance' AND payment.customer_id = '" . $userId . "' ";
+        $result3 = $conn->query($sql3);
+
+        if ($result3->num_rows > 0) {
+            
+            echo '<h2>My placements for freelancers</h2>';
+            echo '<div class="table-responsive">';
+            echo '<table class="table table-striped">';
+            echo '<thead>';
+            echo '<tr>';
+            echo '<th>Provider Name</th>';
+            echo '<th>Provider Email</th>';
+            echo '<th>Provider Phone</th>';
+            echo '<th>Amount</th>';
+            echo '<th>Payment Date</th>';
+            echo '<th>Status</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
+
+            while ($order = $result3->fetch_assoc()) {
+                echo '<tr>';
+                echo '<td>' . htmlspecialchars($order['provider_name']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['provider_email']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['provider_phone']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['amount']) . '</td>';
+                echo '<td>' . htmlspecialchars($order['payment_date']) . '</td>';
+                echo '<td>';
+                echo '<form action="update_order_status.php" method="POST" style="border:none;">';
+                echo '<input type="hidden" name="payment_id" value="' . htmlspecialchars($order['payment_id']) . '">';
+                echo '<div style="display: flex-column; gap: 10px; align-items: center;">';
+                echo '<select name="status" class="form-control" style="width: 100%;">';
+                echo '<option value="pending"' . ($order['status'] == 'pending' ? ' selected' : '') . 'hidden>Pending</option>';
+                echo '<option value="shipped"' . ($order['status'] == 'shipped' ? ' selected' : '') . 'hidden>Shipped</option>';
+                echo '<option value="delivered"' . ($order['status'] == 'delivered' ? ' selected' : '') . '>Delivered</option>';
+                echo '</select>';
+                echo '<button type="submit" class="btn btn-primary" style="margin: 5px 0px 0px 0px;">Update</button>';
+                echo '</div>';
+                echo '</form>';
+                echo '</td>';
+                echo '</tr>';
+            }
+
+            echo '</tbody>';
+            echo '</table>';
+            echo '</div>';
+
+        }
     }
 
     include './footer.php';
