@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
         if (isset($_SESSION['cart'][$key])) {
             unset($_SESSION['cart'][$key]);
-            $_SESSION['cart'] = array_values($_SESSION['cart']);
+            $_SESSION['cart'] = array_values($_SESSION['cart']); // Re-index the array
         }
 
         // Recalculate cart total
@@ -93,9 +93,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $cart_total += $item['price'] * $item['quantity'];
         }
 
-        // Return the updated cart total as JSON response
+        // Return the updated cart total and remaining items as JSON response
         echo json_encode([
-            'cart_total' => number_format($cart_total, 2)
+            'cart_total' => number_format($cart_total, 2),
+            'remaining_items' => count($_SESSION['cart'])
         ]);
         exit;
     }
@@ -182,7 +183,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="cart-items">
                             <?php foreach ($cart as $key => $item) : ?>
                                 <tr class="cart-item" data-key="<?php echo $key; ?>">
                                     <td><img src="<?php echo '.' . htmlspecialchars($item['image_path']); ?>" alt="Product Image"></td>
@@ -198,7 +199,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
                                     </td>
                                     <td>LKR <span class="item-total"><?php echo number_format($item['price'] * $item['quantity'], 2); ?></span></td>
                                     <td>
-                                        <a href="#" class="btn btn-danger btn-custom remove-item" data-key="<?php echo $key; ?>">Remove</a>
+                                        <button class="btn btn-danger btn-custom remove-item" data-key="<?php echo $key; ?>">Remove</button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -221,7 +222,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
     <script>
     $(document).ready(function() {
         // Update total when quantity changes using AJAX
-        $('.quantity').on('input', function() {
+        $(document).on('input', '.quantity', function() {
             const key = $(this).data('key');
             const quantity = parseInt($(this).val(), 10);
             const max = parseInt($(this).attr('max'), 10);
@@ -260,9 +261,10 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
         });
 
         // Remove item using AJAX
-        $('.remove-item').click(function(event) {
+        $(document).on('click', '.remove-item', function(event) {
             event.preventDefault();
             const key = $(this).data('key');
+            const row = $(this).closest('tr');
 
             $.ajax({
                 url: '',
@@ -276,15 +278,23 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
                     // Update the cart total in the UI
                     $('#cart-total').text(response.cart_total);
                     // Remove the item from the table
-                    $(`tr[data-key="${key}"]`).remove();
+                    row.remove();
                     // Update the total for the payment gateway
                     window.cartTotal = parseFloat(response.cart_total.replace(',', ''));
                     // Update the hash for PayHere
                     updatePayHereHash(window.cartTotal);
                     
-                    // If cart is empty, reload the page to show empty cart message
-                    if ($('.cart-item').length === 0) {
-                        location.reload();
+                    // If cart is empty, show empty cart message
+                    if (response.remaining_items === 0) {
+                        $('#cart-items').html('<tr><td colspan="6"><p>Your cart is empty.</p></td></tr>');
+                        $('.btn-success').prop('disabled', true);
+                    } else {
+                        // Re-index the data-key attributes
+                        $('.cart-item').each(function(index) {
+                            $(this).attr('data-key', index);
+                            $(this).find('.quantity').attr('data-key', index);
+                            $(this).find('.remove-item').attr('data-key', index);
+                        });
                     }
                 },
                 error: function(xhr, status, error) {
