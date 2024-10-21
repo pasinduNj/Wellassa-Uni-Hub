@@ -75,7 +75,7 @@ function sendEmail($customer_email, $provider_email, $product_id, $price)
         // Content
         $mail->isHTML(true);
         $mail->Subject = 'Payment Successful';
-        $mail->Body    = 'Product with ID ' . $product_id . ' Payment of ' . $price . ' was successful';
+        $mail->Body    = 'Product with ID ' . $product_id . ' Payment of ' . $price . ' was successful. This confirms that weve just received your online payment. Thank you for shopping with us';
 
         $mail->send();
         return true;

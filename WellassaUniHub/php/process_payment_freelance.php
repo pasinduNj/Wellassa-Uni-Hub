@@ -1,18 +1,17 @@
 <?php
-ini_set('display_errors', 0);
-ini_set('log_errors', 1);
-ini_set('error_log', '/path/to/error.log');  // Replace with an actual path where you have write permissions
-error_reporting(E_ALL);
-
-require_once 'classes/db_connection.php';
-require_once 'classes/UserClass.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php';
+require './PHPMailer/src/Exception.php';
+require './PHPMailer/src/PHPMailer.php';
+require './PHPMailer/src/SMTP.php';
+include './classes/db_connection.php';
+include './classes/UserClass.php';
 
-$db = new DBConnection();
+// Initialize database connection
+$db = new DbConnection();
 $conn = $db->getConnection();
 
 function processPayment($conn, $customer_id, $provider_id, $price, $quantity = 1)
@@ -20,27 +19,25 @@ function processPayment($conn, $customer_id, $provider_id, $price, $quantity = 1
     $total = $price * $quantity;
     $status = 'paid';
 
+    // Start transaction
     $conn->begin_transaction();
-
     try {
-        $sql = "INSERT INTO payment (customer_id, provider_id, price, quantity, total, status)
+        // Insert into payment table
+        $sql = "INSERT INTO payment (customer_id, provider_id, price, quantity, total, status) 
                 VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        if (!$stmt) {
-            throw new Exception("Prepare failed: " . $conn->error);
-        }
-        $stmt->bind_param("ssdiis", $customer_id, $provider_id, $price, $quantity, $total, $status);
+        $stmt->bind_param("ssdids", $customer_id, $provider_id, $price, $quantity, $total, $status);
         $paymentInserted = $stmt->execute();
 
-        if (!$paymentInserted) {
-            throw new Exception("Execute failed: " . $stmt->error);
+        if ($paymentInserted) {
+            $conn->commit();
+            return ['success' => true, 'message' => 'Payment processed successfully'];
         }
 
-        $conn->commit();
-        return ['success' => true, 'message' => 'Payment processed successfully'];
+        throw new Exception("Failed to process payment");
     } catch (Exception $e) {
+        // An error occurred, rollback the transaction
         $conn->rollback();
-        error_log("Payment processing error: " . $e->getMessage());
         return ['success' => false, 'message' => $e->getMessage()];
     }
 }
@@ -48,7 +45,6 @@ function processPayment($conn, $customer_id, $provider_id, $price, $quantity = 1
 function sendEmail($customer_email, $provider_email, $price)
 {
     $mail = new PHPMailer(true);
-
     try {
         // Server settings
         $mail->isSMTP();
@@ -67,32 +63,36 @@ function sendEmail($customer_email, $provider_email, $price)
         // Content
         $mail->isHTML(true);
         $mail->Subject = 'Payment Successful';
-        $mail->Body    = 'Customer with email ' . $customer_email . ' and Service Provider with email ' . $provider_email . ' paid for Freelance Service. Payment of ' . $price . ' was successful';
+        $mail->Body    = 'Payment of ' . $price . ' was successful for Freelance.';
 
         $mail->send();
         return true;
     } catch (Exception $e) {
-        error_log("Email sending error: " . $e->getMessage());
         return $e->getMessage();
     }
 }
 
+// Check if it's a POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $customer_id = $_POST['customer_id'] ?? '';
     $provider_id = $_POST['provider_id'] ?? '';
-    $provider_email = $_POST['provider_email'] ?? '';
     $price = $_POST['price'] ?? 0;
 
-    if (!$customer_id || !$provider_id || !$provider_email || !$price) {
+    if (!$customer_id || !$provider_id || !$price) {
         $result = ['success' => false, 'message' => 'Missing required parameters'];
     } else {
+        // Remove product_id from processPayment call since it's not needed
         $result = processPayment($conn, $customer_id, $provider_id, $price);
 
         if ($result['success']) {
+            $provider = User::constructSPWithUserId($conn, $provider_id);
             $customer = User::constructCUSWithUserId($conn, $customer_id);
             $customer_email = $customer->getEmail();
+            $provider_email = $provider->getEmail();
 
+            // Remove product_id from sendEmail call
             $emailResult = sendEmail($customer_email, $provider_email, $price);
+
             if ($emailResult !== true) {
                 $result['message'] .= '. Email sending failed: ' . $emailResult;
             }
@@ -103,5 +103,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode($result);
 } else {
     header('HTTP/1.1 405 Method Not Allowed');
-    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
+    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
 }

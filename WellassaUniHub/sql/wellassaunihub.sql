@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 20, 2024 at 05:59 PM
+-- Generation Time: Oct 21, 2024 at 05:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -72,6 +72,7 @@ CREATE TABLE `payment` (
   `provider_id` varchar(12) NOT NULL,
   `product_id` varchar(12) NOT NULL,
   `reservation_id` varchar(12) NOT NULL,
+  `timeslot_id` varchar(24) NOT NULL,
   `price` float NOT NULL,
   `quantity` int(11) NOT NULL,
   `total` double NOT NULL,
@@ -84,9 +85,20 @@ CREATE TABLE `payment` (
 -- Dumping data for table `payment`
 --
 
-INSERT INTO `payment` (`payment_id`, `customer_id`, `provider_id`, `product_id`, `reservation_id`, `price`, `quantity`, `total`, `date_time`, `status`, `process_status`) VALUES
-(1, 'SP-009', 'SP-006', '', 'RES-0016', 100, 1, 100, '2024-10-20 11:15:07', 'paid', 'pending'),
-(12, 'SP-009', 'SP-006', '1', '', 200, 1, 200, '2024-10-20 18:29:31', 'paid', 'pending');
+INSERT INTO `payment` (`payment_id`, `customer_id`, `provider_id`, `product_id`, `reservation_id`, `timeslot_id`, `price`, `quantity`, `total`, `date_time`, `status`, `process_status`) VALUES
+(1, 'SP-009', 'SP-006', '', 'RES-0016', '', 100, 1, 100, '2024-10-20 11:15:07', 'paid', 'pending'),
+(12, 'SP-009', 'SP-006', '1', '', '', 200, 1, 200, '2024-10-20 18:29:31', 'paid', 'pending'),
+(13, 'SP-009', 'SP-006', '', 'RES-0019', '', 100, 1, 100, '2024-10-20 18:36:07', 'paid', 'pending'),
+(14, 'SP-006', 'SP-009', '7', '', '', 650, 1, 650, '2024-10-20 22:35:20', 'paid', 'pending'),
+(15, 'SP-006', 'SP-009', '7', '', '', 650, 1, 650, '2024-10-20 22:35:27', 'paid', 'pending'),
+(16, 'SP-006', 'SP-009', '7', '', '', 650, 1, 650, '2024-10-20 22:35:32', 'paid', 'pending'),
+(17, 'SP-006', 'SP-009', '7', '', '', 650, 1, 650, '2024-10-20 22:47:23', 'paid', 'pending'),
+(18, 'CUS-0001', 'SP-006', '', 'RES-0020', '', 100, 1, 100, '2024-10-21 02:01:09', 'paid', 'pending'),
+(19, 'CUS-0001', 'SP-006', '2', '', '', 1235690, 1, 1235689, '2024-10-21 05:36:26', 'paid', 'pending'),
+(20, 'CUS-0001', 'SP-006', '', 'RES-0023', 'TS-00029', 100, 1, 100, '2024-10-21 03:03:22', 'paid', 'reserved'),
+(21, 'CUS-0001', 'SP-009', '7', '', '', 650, 1, 650, '2024-10-21 07:29:29', 'paid', 'pending'),
+(22, 'CUS-0001', 'SP-009', '7', '', '', 650, 1, 650, '2024-10-21 07:29:33', 'paid', 'pending'),
+(23, 'CUS-0001', 'SP-006', '', 'RES-0024', 'TS-00030', 100, 1, 100, '2024-10-21 05:33:55', 'paid', 'pending');
 
 -- --------------------------------------------------------
 
@@ -111,10 +123,10 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`product_id`, `name`, `price`, `quantity`, `description`, `category`, `provider_id`, `image_path`) VALUES
 (1, 'Rice', 200, 2, 'Red Rice', 'others', 'SP-006', '/assets/img/products/prod_img_ROG.jpeg'),
-(2, 'Acer', 1235689, 5, 'ROG', 'electronics', 'SP-006', '/assets/img/products/prod_img_ROG.jpeg'),
+(2, 'Acer', 1235689, 4, 'ROG', 'electronics', 'SP-006', '/assets/img/products/prod_img_ROG.jpeg'),
 (3, 'camping tent', 1200, 2, 'good quality', 'camping', 'SP-006', '/assets/img/products/prod_img_tent.jpg'),
 (4, 'Test Product', 254, 5, 'Testing', 'camping', 'SP-006', '/assets/img/products/prod_img_acer.jpg'),
-(7, 'Burger', 650, 15, 'Chicken Burger', 'others', 'SP-009', '/assets/img/products/prod_img_add3.jpeg');
+(7, 'Burger', 650, 9, 'Chicken Burger', 'others', 'SP-009', '/assets/img/products/prod_img_add3.jpeg');
 
 -- --------------------------------------------------------
 
@@ -152,7 +164,13 @@ INSERT INTO `reservations` (`reservation_id`, `cus_id`, `timeslot_id`, `payment_
 ('RES-0015', 'CUS-001', 'TS-00002', 'pending', '2024-08-05'),
 ('RES-0016', 'SP-009', 'TS-00023', 'paid', '2024-10-20'),
 ('RES-0017', 'SP-009', 'TS-00024', 'pending', '2024-10-20'),
-('RES-0018', 'SP-009', 'TS-00025', 'pending', '2024-10-20');
+('RES-0018', 'SP-009', 'TS-00025', 'pending', '2024-10-20'),
+('RES-0019', 'SP-009', 'TS-00022', 'paid', '2024-10-20'),
+('RES-0020', 'CUS-0001', 'TS-00026', 'paid', '2024-10-21'),
+('RES-0021', 'CUS-0001', 'TS-00027', 'pending', '2024-10-21'),
+('RES-0022', 'CUS-0001', 'TS-00028', 'pending', '2024-10-21'),
+('RES-0023', 'CUS-0001', 'TS-00029', 'paid', '2024-10-21'),
+('RES-0024', 'CUS-0001', 'TS-00030', 'paid', '2024-10-21');
 
 -- --------------------------------------------------------
 
@@ -189,7 +207,8 @@ INSERT INTO `review_table` (`review_id`, `customer_id`, `product_id`, `provider_
 (30, 'SP-009', '', 'SP-007', 'Raees', 3, 'nice', '2024-10-20 18:31:19'),
 (31, 'CUS-0001', '', 'SP-002', 'Saajith', 3, 'good service', '2024-10-20 18:55:22'),
 (32, 'CUS-0001', '', 'SP-007', 'Saajith', 3, 'Good', '2024-10-20 18:59:12'),
-(33, 'CUS-0001', '2', '', 'Saajith', 3, 'Good Product', '2024-10-20 19:14:49');
+(33, 'CUS-0001', '2', '', 'Saajith', 3, 'Good Product', '2024-10-20 19:14:49'),
+(34, 'CUS-0001', '', 'SP-005', 'Saajith', 3, 'nice', '2024-10-21 08:31:42');
 
 -- --------------------------------------------------------
 
@@ -232,12 +251,18 @@ INSERT INTO `timeslots` (`timeslot_id`, `sp_id`, `date`, `start_time`, `end_time
 ('TS-00019', 'SP-006', '2024-10-18', '10:00:00', '10:30:00', 'free'),
 ('TS-00020', 'SP-006', '2024-10-18', '10:30:00', '11:00:00', 'free'),
 ('TS-00021', 'SP-006', '2024-10-18', '11:00:00', '11:30:00', 'free'),
-('TS-00022', 'SP-006', '2024-10-21', '08:00:00', '08:30:00', 'free'),
+('TS-00022', 'SP-006', '2024-10-21', '08:00:00', '08:30:00', 'booked'),
 ('TS-00023', 'SP-006', '2024-10-21', '08:30:00', '09:00:00', 'booked'),
 ('TS-00024', 'SP-006', '2024-10-21', '09:00:00', '09:30:00', 'booked'),
 ('TS-00025', 'SP-006', '2024-10-21', '09:30:00', '10:00:00', 'booked'),
-('TS-00026', 'SP-006', '2024-10-21', '10:00:00', '10:30:00', 'free'),
-('TS-00027', 'SP-006', '2024-10-21', '10:30:00', '11:00:00', 'free');
+('TS-00026', 'SP-006', '2024-10-21', '10:00:00', '10:30:00', 'booked'),
+('TS-00027', 'SP-006', '2024-10-21', '10:30:00', '11:00:00', 'booked'),
+('TS-00028', 'SP-006', '2024-10-23', '09:00:00', '09:30:00', 'booked'),
+('TS-00029', 'SP-006', '2024-10-23', '09:30:00', '10:00:00', 'booked'),
+('TS-00030', 'SP-006', '2024-10-23', '10:00:00', '10:30:00', 'booked'),
+('TS-00031', 'SP-006', '2024-10-23', '10:30:00', '11:00:00', 'free'),
+('TS-00032', 'SP-006', '2024-10-23', '11:00:00', '11:30:00', 'free'),
+('TS-00033', 'SP-006', '2024-10-23', '11:30:00', '12:00:00', 'free');
 
 -- --------------------------------------------------------
 
@@ -383,7 +408,7 @@ ALTER TABLE `advertisements`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -395,7 +420,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `review_table`
 --
 ALTER TABLE `review_table`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
