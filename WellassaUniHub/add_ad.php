@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="assets/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <!-- Add these new library imports -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
             background-color: #f8f9fa;
@@ -64,7 +68,7 @@
                         if ($_GET['S'] == 1) {
                             echo '<div class="alert alert-success" role="alert">Advertisement Added Successfully</div>';
                         } else {
-                            echo '<div class="alert alert-danger" role="alert">Error Occurred. Try Again.</div>';
+                            echo '<div class="alert alert-danger" role="alert">Error Occured Try Again</div>';
                         }
                     }
                     ?>
@@ -98,8 +102,8 @@
         <div class="row">
             <div class="col-md-12">
                 <h2 class="text-center mb-4">Registered Users</h2>
-                
-                <table class="table table-bordered" id="userTable"> 
+
+                <table class="table table-bordered" id="userTable">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -113,7 +117,7 @@
                         </tr>
                     </thead>
                     <tbody id="userTableBody">
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -129,13 +133,14 @@
                         <tr>
                             <th>Payment ID</th>
                             <th>User ID</th>
+
                             <th>Amount</th>
                             <th>Date</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody id="paymentTableBody">
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -152,20 +157,19 @@
                             <th>Product Name</th>
                             <th>Provider ID</th>
                             <th>Price</th>
-                            <th>Available Quantity</th>
+                            <th>Availeble Quanty</th>
+
                         </tr>
                     </thead>
                     <tbody id="productTableBody">
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             fetch('./php/fetch_users.php')
@@ -190,68 +194,116 @@
                     });
                 })
                 .catch(error => console.error('Error fetching user data:', error));
-            
-            fetch('./php/fetch_payments.php')
-                .then(response => response.json())
-                .then(data => {
-                    const paymentTableBody = document.getElementById('paymentTableBody');
-                    data.forEach(payment => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
+        });
+
+        // Fetch payment details
+        fetch('./php/fetch_payments.php')
+            .then(response => response.json())
+            .then(data => {
+                const paymentTableBody = document.getElementById('paymentTableBody');
+                data.forEach(payment => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
                             <td>${payment.payment_id}</td>
                             <td>${payment.customer_id}</td>
                             <td>${payment.price}</td>
                             <td>${payment.date_time}</td>
                             <td>${payment.status}</td>
                         `;
-                        paymentTableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Error fetching payment data:', error));
-            
-            fetch('./php/fetch_products.php')
-                .then(response => response.json())
-                .then(data => {
-                    const productTableBody = document.getElementById('productTableBody');
-                    data.forEach(product => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
+                    paymentTableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching payment data:', error));
+
+        // Fetch product details
+        fetch('./php/fetch_products.php')
+            .then(response => response.json())
+            .then(data => {
+                const productTableBody = document.getElementById('productTableBody');
+                data.forEach(product => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
                             <td>${product.product_id}</td>
                             <td>${product.name}</td>
                             <td>${product.provider_id}</td>
                             <td>${product.price}</td>
                             <td>${product.quantity}</td>
                         `;
-                        productTableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Error fetching product data:', error));
-        });
+                    productTableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching product data:', error));
+
+
 
         function downloadTableAsPDF(tableId) {
-            const { jsPDF } = window.jspdf;
+            // Get the specific table
             const table = document.getElementById(tableId);
-            const pdf = new jsPDF('p', 'pt', 'a4');
-            html2canvas(table).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgWidth = 190;
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
-                pdf.save(`${tableId}.pdf`);
+
+            // Create a clone of the table to modify for PDF
+            const clonedTable = table.cloneNode(true);
+
+            // Apply some styling to the cloned table for better PDF output
+            clonedTable.style.width = '100%';
+            clonedTable.style.borderCollapse = 'collapse';
+            clonedTable.style.margin = '0';
+            clonedTable.style.fontSize = '12px';
+
+            // Create a temporary container
+            const temp = document.createElement('div');
+            temp.style.position = 'absolute';
+            temp.style.left = '-10000px';
+            temp.style.top = '-10000px';
+            temp.appendChild(clonedTable);
+            document.body.appendChild(temp);
+
+            // Use html2canvas to convert the table to an image
+            html2canvas(clonedTable, {
+                scale: 2, // Increase quality
+                logging: false,
+                useCORS: true
+            }).then(canvas => {
+                // Remove temporary element
+                document.body.removeChild(temp);
+
+                // Convert canvas to image
+                const imgData = canvas.toDataURL('image/jpeg', 1.0);
+
+                // Initialize PDF
+                const {
+                    jsPDF
+                } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+
+                // Calculate dimensions
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                // Add image to PDF
+                pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+
+                // Download PDF
+                pdf.save('$ {tableId}.pdf');
+            }).catch(error => {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF. Please try again.');
             });
         }
 
         function disableUser(userId) {
             if (confirm('Are you sure you want to disable this user?')) {
-                fetch(`./php/update_user_status.php?user_id=${userId}&status=disabled`)
-                    .then(response => response.json())
+                fetch('./php/disable_user.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `user_id=${userId}`
+                    })
+                    .then(response => response.text())
                     .then(data => {
-                        if (data.success) {
-                            alert('User disabled successfully.');
-                            location.reload();
-                        } else {
-                            alert('Error disabling user.');
-                        }
+                        alert(data);
+                        location.reload();
                     })
                     .catch(error => console.error('Error disabling user:', error));
             }
@@ -259,15 +311,17 @@
 
         function enableUser(userId) {
             if (confirm('Are you sure you want to enable this user?')) {
-                fetch(`./php/update_user_status.php?user_id=${userId}&status=active`)
-                    .then(response => response.json())
+                fetch('./php/enable_user.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `user_id=${userId}`
+                    })
+                    .then(response => response.text())
                     .then(data => {
-                        if (data.success) {
-                            alert('User enabled successfully.');
-                            location.reload();
-                        } else {
-                            alert('Error enabling user.');
-                        }
+                        alert(data);
+                        location.reload();
                     })
                     .catch(error => console.error('Error enabling user:', error));
             }
