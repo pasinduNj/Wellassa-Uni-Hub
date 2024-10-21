@@ -60,11 +60,11 @@
                 <div class="form-container p-4">
                     <h2 class="text-center mb-4">Add New Advertisement</h2>
                     <?php
-                    if (isset($_GET['S']) ) {
+                    if (isset($_GET['S'])) {
                         if ($_GET['S'] == 1) {
                             echo '<div class="alert alert-success" role="alert">Advertisement Added Successfully</div>';
                         } else {
-                            echo '<div class="alert alert-danger" role="alert">Error Occured Try Again</div>';
+                            echo '<div class="alert alert-danger" role="alert">Error Occurred. Try Again.</div>';
                         }
                     }
                     ?>
@@ -129,7 +129,6 @@
                         <tr>
                             <th>Payment ID</th>
                             <th>User ID</th>
-
                             <th>Amount</th>
                             <th>Date</th>
                             <th>Status</th>
@@ -144,7 +143,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="text-center mb-4">Product  Details</h2>
+                <h2 class="text-center mb-4">Product Details</h2>
                 <button class="btn btn-success mb-2" onclick="downloadTableAsPDF('productTable')">Download as PDF</button>
                 <table class="table table-bordered" id="productTable">
                     <thead>
@@ -153,8 +152,7 @@
                             <th>Product Name</th>
                             <th>Provider ID</th>
                             <th>Price</th>
-                            <th>Availeble Quanty</th>
-
+                            <th>Available Quantity</th>
                         </tr>
                     </thead>
                     <tbody id="productTableBody">
@@ -164,8 +162,10 @@
         </div>
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             fetch('./php/fetch_users.php')
@@ -190,9 +190,7 @@
                     });
                 })
                 .catch(error => console.error('Error fetching user data:', error));
-        });
             
-            // Fetch payment details
             fetch('./php/fetch_payments.php')
                 .then(response => response.json())
                 .then(data => {
@@ -211,7 +209,6 @@
                 })
                 .catch(error => console.error('Error fetching payment data:', error));
             
-            // Fetch product details
             fetch('./php/fetch_products.php')
                 .then(response => response.json())
                 .then(data => {
@@ -229,35 +226,32 @@
                     });
                 })
                 .catch(error => console.error('Error fetching product data:', error));
-      
-        
+        });
 
         function downloadTableAsPDF(tableId) {
             const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('p', 'pt', 'a4');
             const table = document.getElementById(tableId);
-
+            const pdf = new jsPDF('p', 'pt', 'a4');
             html2canvas(table).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
-                const imgWidth = 210;
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                const imgWidth = 190;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
                 pdf.save(`${tableId}.pdf`);
             });
         }
+
         function disableUser(userId) {
             if (confirm('Are you sure you want to disable this user?')) {
-                fetch('./php/disable_user.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `user_id=${userId}`
-                    })
-                    .then(response => response.text())
+                fetch(`./php/update_user_status.php?user_id=${userId}&status=disabled`)
+                    .then(response => response.json())
                     .then(data => {
-                        alert(data);
-                        location.reload();
+                        if (data.success) {
+                            alert('User disabled successfully.');
+                            location.reload();
+                        } else {
+                            alert('Error disabling user.');
+                        }
                     })
                     .catch(error => console.error('Error disabling user:', error));
             }
@@ -265,17 +259,15 @@
 
         function enableUser(userId) {
             if (confirm('Are you sure you want to enable this user?')) {
-                fetch('./php/enable_user.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `user_id=${userId}`
-                    })
-                    .then(response => response.text())
+                fetch(`./php/update_user_status.php?user_id=${userId}&status=active`)
+                    .then(response => response.json())
                     .then(data => {
-                        alert(data);
-                        location.reload();
+                        if (data.success) {
+                            alert('User enabled successfully.');
+                            location.reload();
+                        } else {
+                            alert('Error enabling user.');
+                        }
                     })
                     .catch(error => console.error('Error enabling user:', error));
             }
