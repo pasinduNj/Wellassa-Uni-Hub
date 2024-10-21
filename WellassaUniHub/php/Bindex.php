@@ -10,7 +10,7 @@ $conn = $db->getConnection();
 // Get the current date
 $currentDate = date('Y-m-d');
 
-// Get the service provider ID from the GET parameter
+// Get the service provider ID from the session
 $userId = $_GET['userId'];
 
 // Fetch timeslots for the specific service provider from the current date and future dates
@@ -95,25 +95,21 @@ $result = $stmt->get_result();
             border-radius: 4px;
         }
     </style>
-    <script>
-        function storeTimeslotId() {
-            var selectedTimeslot = document.querySelector('input[name="timeslot_id"]:checked');
-            if (selectedTimeslot) {
-                sessionStorage.setItem('selected_timeslot_id', selectedTimeslot.value);
-            }
-            return true;
-        }
-    </script>
 </head>
 
 <body>
+
+
+
     <?php
     $user = $_SESSION['user_id'];
+
     ?>
     <div class="container">
+
         <h1>Available Timeslots from <?php echo $currentDate; ?> Onwards</h1>
         <?php if ($result->num_rows > 0) : ?>
-            <form action="reserve.php" method="post" onsubmit="return storeTimeslotId()">
+            <form action="reserve.php" method="post">
                 <input type="hidden" name="cus_id" value="<?php echo $userId; ?>">
                 <input type="hidden" name="current_id" value="<?php echo $user; ?>">
                 <table>

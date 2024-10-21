@@ -117,7 +117,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-3">
-                    <img src=".<?= $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getBusinessName() ?>"  style="width: 250px;height: 250px;border-radius: 50%;object-fit: cover;"	>
+                    <img src=".<?= $user->getProfileImage() ?>" alt="Profile Image_<?= $user->getBusinessName() ?>" style="width: 250px;height: 250px;border-radius: 50%;object-fit: cover;">
                 </div>
                 <div class="col-md-9">
                     <!-- dont forget to put other usertypes' differentdata here -->
@@ -187,7 +187,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
                         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $providerId): ?>
 
                             <button class="btn btn-success btn-custom" onclick="paymentGateWay()">Pay Now</button>
-                    <script src="https://www.payhere.lk/lib/payhere.js"></script>
+                            <script src="https://www.payhere.lk/lib/payhere.js"></script>
 
                             <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#reviewModal">
                                 Write a Review
