@@ -8,3 +8,4 @@
 >>>>>>> Stashed changes
 [2024-10-21 08:19:08] Image uploaded successfully: /assets/img/profile_photo/CUS-0001_1729491548_Screenshot 2024-10-21 114824.png
 [2024-10-21 09:09:27] Image uploaded successfully: /assets/img/profile_photo/SP-001_1729494567_1934823-e1540532501723.jpg
+[2024-10-21 10:17:20] File upload error: 4
