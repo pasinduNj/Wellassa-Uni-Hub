@@ -317,6 +317,7 @@ $reviews = $review->getReviewsByProviderId($userId);
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
+            echo '<div class="table-responsive col-11">';
             echo '<h2>Booked Timeslots</h2>';
             echo '<div class="table-responsive col-12">';
             echo '<table class="table table-striped">';

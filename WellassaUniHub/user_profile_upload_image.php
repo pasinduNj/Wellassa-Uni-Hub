@@ -9,7 +9,8 @@ $userId = $_SESSION['user_id'];
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     // Directory to save the uploaded image
-    $targetDir = "C:/xampp/htdocs/GitHub_Projects/Project1/WellassaUniHub/assets/img/works_image/";
+    //Path will change according to our local machine
+    $targetDir = "C:/xampp/htdocs/GitHub/Wellassa-Uni-Hub/WellassaUniHub/assets/img/works_image/";
 
     // Create the directory if it doesn't exist
     if (!is_dir($targetDir)) {
