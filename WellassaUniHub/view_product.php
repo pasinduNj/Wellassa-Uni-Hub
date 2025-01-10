@@ -144,6 +144,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($amount, 2, '.',
                         <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($productDetails['name']); ?>">
                         <input type="hidden" name="product_price" value="<?php echo htmlspecialchars($productDetails['price']); ?>">
                         <input type="hidden" name="product_image" value="<?php echo htmlspecialchars($productDetails['image_path']); ?>">
+                        <input type="hidden" name="available_stock" value="<?php echo htmlspecialchars($productDetails['quantity']); ?>">
                         <button type="submit" class="btn btn-warning btn-custom">Add to Cart</button>
                     </form>
                     <div class="btn-style mt-2">

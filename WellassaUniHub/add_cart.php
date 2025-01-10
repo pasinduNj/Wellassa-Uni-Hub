@@ -125,6 +125,7 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -140,20 +141,24 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
             max-width: 100px;
             height: auto;
         }
+
         .cart-item {
             margin-bottom: 20px;
         }
+
         .back-to-shop {
             position: absolute;
             top: 80px;
             left: 20px;
             z-index: 1000;
         }
+
         .btn-custom {
             width: 60%;
         }
     </style>
 </head>
+
 <body>
     <?php
     if (isset($_SESSION['user_name'])) {
@@ -190,11 +195,11 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
                                     <td><?php echo htmlspecialchars($item['name']); ?></td>
                                     <td>LKR <?php echo htmlspecialchars($item['price']); ?></td>
                                     <td>
-                                        <input type="number" class="form-control quantity" 
-                                               data-key="<?php echo $key; ?>" 
-                                               value="<?php echo htmlspecialchars($item['quantity']); ?>" 
-                                               min="1" 
-                                               max="<?php echo htmlspecialchars($item['available_stock']); ?>">
+                                        <input type="number" class="form-control quantity"
+                                            data-key="<?php echo $key; ?>"
+                                            value="<?php echo htmlspecialchars($item['quantity']); ?>"
+                                            min="1"
+                                            max="<?php echo htmlspecialchars($item['available_stock']); ?>">
                                         <small class="text-muted">Available: <?php echo htmlspecialchars($item['available_stock']); ?></small>
                                     </td>
                                     <td>LKR <span class="item-total"><?php echo number_format($item['price'] * $item['quantity'], 2); ?></span></td>
@@ -214,144 +219,145 @@ $hash = strtoupper(md5($merchant_id . $order_id . number_format($total, 2, '.', 
         </div>
     </div>
     <?php include './footer.php'; ?>
-    
+
     <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://www.payhere.lk/lib/payhere.js"></script>
 
     <script>
-    $(document).ready(function() {
-        // Update total when quantity changes using AJAX
-        $(document).on('input', '.quantity', function() {
-            const key = $(this).data('key');
-            const quantity = parseInt($(this).val(), 10);
-            const max = parseInt($(this).attr('max'), 10);
+        $(document).ready(function() {
+            // Update total when quantity changes using AJAX
+            $(document).on('input', '.quantity', function() {
+                const key = $(this).data('key');
+                const quantity = parseInt($(this).val(), 10);
+                const max = parseInt($(this).attr('max'), 10);
 
-            // Ensure quantity doesn't exceed max
-            if (quantity > max) {
-                $(this).val(max);
-            }
-
-            $.ajax({
-                url: '', // Current PHP file
-                method: 'POST',
-                dataType: 'json',
-                data: {
-                    action: 'update_quantity',
-                    key: key,
-                    quantity: Math.min(quantity, max)
-                },
-                success: function(response) {
-                    // Update the item total and cart total in the UI
-                    $(`tr[data-key="${key}"]`).find('.item-total').text(response.item_total);
-                    $('#cart-total').text(response.cart_total);
-                    // Update the quantity input
-                    $(`tr[data-key="${key}"]`).find('.quantity').val(response.quantity);
-                    // Update the available stock display
-                    $(`tr[data-key="${key}"]`).find('small').text(`Available: ${response.available_stock}`);
-                    // Update the total for the payment gateway
-                    window.cartTotal = parseFloat(response.cart_total.replace(',', ''));
-                    // Update the hash for PayHere
-                    updatePayHereHash(window.cartTotal);
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
+                // Ensure quantity doesn't exceed max
+                if (quantity > max) {
+                    $(this).val(max);
                 }
-            });
-        });
 
-        // Remove item using AJAX
-        $(document).on('click', '.remove-item', function(event) {
-            event.preventDefault();
-            const key = $(this).data('key');
-            const row = $(this).closest('tr');
-
-            $.ajax({
-                url: '',
-                method: 'POST',
-                dataType: 'json',
-                data: {
-                    action: 'remove_item',
-                    key: key
-                },
-                success: function(response) {
-                    // Update the cart total in the UI
-                    $('#cart-total').text(response.cart_total);
-                    // Remove the item from the table
-                    row.remove();
-                    // Update the total for the payment gateway
-                    window.cartTotal = parseFloat(response.cart_total.replace(',', ''));
-                    // Update the hash for PayHere
-                    updatePayHereHash(window.cartTotal);
-                    
-                    // If cart is empty, show empty cart message
-                    if (response.remaining_items === 0) {
-                        $('#cart-items').html('<tr><td colspan="6"><p>Your cart is empty.</p></td></tr>');
-                        $('.btn-success').prop('disabled', true);
-                    } else {
-                        // Re-index the data-key attributes
-                        $('.cart-item').each(function(index) {
-                            $(this).attr('data-key', index);
-                            $(this).find('.quantity').attr('data-key', index);
-                            $(this).find('.remove-item').attr('data-key', index);
-                        });
+                $.ajax({
+                    url: '', // Current PHP file
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        action: 'update_quantity',
+                        key: key,
+                        quantity: Math.min(quantity, max)
+                    },
+                    success: function(response) {
+                        // Update the item total and cart total in the UI
+                        $(`tr[data-key="${key}"]`).find('.item-total').text(response.item_total);
+                        $('#cart-total').text(response.cart_total);
+                        // Update the quantity input
+                        $(`tr[data-key="${key}"]`).find('.quantity').val(response.quantity);
+                        // Update the available stock display
+                        $(`tr[data-key="${key}"]`).find('small').text(`Available: ${response.available_stock}`);
+                        // Update the total for the payment gateway
+                        window.cartTotal = parseFloat(response.cart_total.replace(',', ''));
+                        // Update the hash for PayHere
+                        updatePayHereHash(window.cartTotal);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
+                });
+            });
+
+            // Remove item using AJAX
+            $(document).on('click', '.remove-item', function(event) {
+                event.preventDefault();
+                const key = $(this).data('key');
+                const row = $(this).closest('tr');
+
+                $.ajax({
+                    url: '',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        action: 'remove_item',
+                        key: key
+                    },
+                    success: function(response) {
+                        // Update the cart total in the UI
+                        $('#cart-total').text(response.cart_total);
+                        // Remove the item from the table
+                        row.remove();
+                        // Update the total for the payment gateway
+                        window.cartTotal = parseFloat(response.cart_total.replace(',', ''));
+                        // Update the hash for PayHere
+                        updatePayHereHash(window.cartTotal);
+
+                        // If cart is empty, show empty cart message
+                        if (response.remaining_items === 0) {
+                            $('#cart-items').html('<tr><td colspan="6"><p>Your cart is empty.</p></td></tr>');
+                            $('.btn-success').prop('disabled', true);
+                        } else {
+                            // Re-index the data-key attributes
+                            $('.cart-item').each(function(index) {
+                                $(this).attr('data-key', index);
+                                $(this).find('.quantity').attr('data-key', index);
+                                $(this).find('.remove-item').attr('data-key', index);
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
             });
         });
-    });
 
-    function updatePayHereHash(total) {
-        const merchantId = '<?php echo $merchant_id; ?>';
-        const merchantSecret = '<?php echo $merchant_secret; ?>';
-        const orderId = '<?php echo $order_id; ?>';
-        const currency = '<?php echo $currency; ?>';
+        function updatePayHereHash(total) {
+            const merchantId = '<?php echo $merchant_id; ?>';
+            const merchantSecret = '<?php echo $merchant_secret; ?>';
+            const orderId = '<?php echo $order_id; ?>';
+            const currency = '<?php echo $currency; ?>';
 
-        // Format total to two decimal places
-        const formattedTotal = parseFloat(total).toFixed(2);
+            // Format total to two decimal places
+            const formattedTotal = parseFloat(total).toFixed(2);
 
-        // Generate new hash
-        const hashString = merchantId + orderId + formattedTotal + currency + CryptoJS.MD5(merchantSecret).toString().toUpperCase();
-        const newHash = CryptoJS.MD5(hashString).toString().toUpperCase();
+            // Generate new hash
+            const hashString = merchantId + orderId + formattedTotal + currency + CryptoJS.MD5(merchantSecret).toString().toUpperCase();
+            const newHash = CryptoJS.MD5(hashString).toString().toUpperCase();
 
-        // Update global hash variable
-        window.payHereHash = newHash;
-    }
+            // Update global hash variable
+            window.payHereHash = newHash;
+        }
 
-    function paymentGateWay() {
-        const orderId = '<?php echo $order_id; ?>';
-        const total = window.cartTotal || <?php echo number_format($total, 2, '.', ''); ?>;
+        function paymentGateWay() {
+            const orderId = '<?php echo $order_id; ?>';
+            const total = window.cartTotal || <?php echo number_format($total, 2, '.', ''); ?>;
 
-        // Ensure the amount is formatted correctly (two decimal places)
-        const formattedTotal = parseFloat(total).toFixed(2);
+            // Ensure the amount is formatted correctly (two decimal places)
+            const formattedTotal = parseFloat(total).toFixed(2);
 
-        const payment = {
-            "sandbox": true,
-            "merchant_id": "<?php echo $merchant_id; ?>",
-            "return_url": "http://localhost/notify.php",
-            "cancel_url": "http://localhost/notify.php",
-            "notify_url": "http://localhost/notify.php",
-            "order_id": orderId,
-            "items": "Your Order",
-            "currency": "<?php echo $currency; ?>",
-            "amount": formattedTotal,
-            "first_name": "<?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : ''; ?>",
-            "last_name": "",
-            "email": "<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>",
-            "phone": "",
-            "address": "",
-            "city": "",
-            "country": "",
-            "hash": window.payHereHash || "<?php echo $hash; ?>"
-        };
+            const payment = {
+                "sandbox": true,
+                "merchant_id": "<?php echo $merchant_id; ?>",
+                "return_url": "http://localhost/notify.php",
+                "cancel_url": "http://localhost/notify.php",
+                "notify_url": "http://localhost/notify.php",
+                "order_id": orderId,
+                "items": "Your Order",
+                "currency": "<?php echo $currency; ?>",
+                "amount": formattedTotal,
+                "first_name": "<?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : ''; ?>",
+                "last_name": "",
+                "email": "<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>",
+                "phone": "",
+                "address": "",
+                "city": "",
+                "country": "",
+                "hash": window.payHereHash || "<?php echo $hash; ?>"
+            };
 
-        console.log("Payment object:", payment);  // Ensure values are correct
+            console.log("Payment object:", payment); // Ensure values are correct
 
-        payhere.startPayment(payment);
-    }
+            payhere.startPayment(payment);
+        }
     </script>
 </body>
+
 </html>
